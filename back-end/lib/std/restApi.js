@@ -2,9 +2,10 @@ const bodyParser = require('body-parser');
 const conf = require('./conf');
 
 const express = require('express');
+const path = require('path');
 
 exports.init = async function () {
-    return new Promise((resolve) => {
+    return new Promise((resolve, reject) => {
         exports.app = express();
         exports.app.use(bodyParser.urlencoded({ extended: true }));
 
@@ -22,8 +23,29 @@ exports.init = async function () {
         });
         const apiPort = conf.restApi.port || 8080, apiHost = conf.restApi.host || '0.0.0.0';
         exports.app.listen(apiPort, apiHost);
+        try {
+            createEndpoints();
+        } catch (err) {
+            reject(err);
+        }
         console.log(`REST API configurations done, Server is working on ip: ${apiHost} port : ${apiPort}`);
+
         resolve();
 
     })
 };
+
+
+const createEndpoints = () => {
+
+    let router = express.Router();
+    const endpoints = conf.restApi.endpoints;
+
+    try {
+        const funcs = require(path.resolve() + '/lib/routes');
+        endpoints.forEach((endpoint) => router[endpoint.method](endpoint.url, funcs[endpoint.func]));
+        exports.app.use(router);
+    } catch (err) {
+        throw new Error(err);
+    }
+}

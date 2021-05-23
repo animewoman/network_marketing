@@ -23,5 +23,15 @@ exports.createUser = async function (req, res) {
     }
 
     return status === 200 ? res.status(status).send({ message: 'Success' }) :
-        res.status(status).send({ message: 'Intertal error' });
+        res.status(status).send({ message: 'Internal error' });
+}
+
+exports.login = async function (req, res) {
+    const { login, password } = req.body;
+    const isValidUser = await collection.findOne({
+        login,
+        password
+    });
+    if (isNull(isValidUser)) return res.status(404).send({ message: 'Wrong credentials' });
+    return res.sendStatus(200);
 }

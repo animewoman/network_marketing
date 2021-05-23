@@ -12,6 +12,11 @@
             method: "post",
             url: "/api/user/create",
             func: "createUser"
+        },
+        {
+            method: "post",
+            url: "/api/auth/login",
+            func: "login"
         }
     ]
 }

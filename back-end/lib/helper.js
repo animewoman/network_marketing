@@ -1,0 +1,1 @@
+exports.isNull = (obj) => obj === null;

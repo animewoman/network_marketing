@@ -7,6 +7,11 @@
             method: "get",
             url: "/api/test/hello",
             func: "hello"
+        },
+        {
+            method: "post",
+            url: "/api/user/create",
+            func: "createUser"
         }
     ]
 }

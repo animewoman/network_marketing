@@ -1,4 +1,3 @@
-const bodyParser = require('body-parser');
 const conf = require('./conf');
 
 const express = require('express');
@@ -7,12 +6,12 @@ const path = require('path');
 exports.init = async function () {
     return new Promise((resolve, reject) => {
         exports.app = express();
-        exports.app.use(bodyParser.urlencoded({ extended: true }));
+        exports.app.use(express.json());
+        exports.app.use(express.urlencoded());
 
         exports.app.use(function (req, res, next) {
             res.setHeader('Access-Control-Allow-Origin', "*");
             res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
-            res.setHeader('Access-Control-Allow-Headers', 'x-requested-with,content-type,session-token,caller-token,content-length,reference-id,user-login');
             res.setHeader('Access-Control-Allow-Credentials', true);
             res.setHeader('Access-Control-Expose-Headers', 'reference-id');
             if (req.method === 'OPTIONS') {

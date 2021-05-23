@@ -1,4 +1,17 @@
 {
     port: 7777,
-    host: "0.0.0.0"
+    host: "0.0.0.0",
+
+    endpoints: [
+        {
+            method: "get",
+            url: "/api/test/hello",
+            func: "hello"
+        },
+        {
+            method: "post",
+            url: "/api/user/create",
+            func: "createUser"
+        }
+    ]
 }

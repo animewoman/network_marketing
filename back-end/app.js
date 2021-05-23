@@ -7,13 +7,15 @@ process.on('SIGINT', cleanup);
 process.on('SIGUSR1', cleanup);
 process.on('SIGUSR2', cleanup);
 
-(async() => {
+(async () => {
     try {
+        require('./lib/helper');
+
         await conf.init();
-        await restApi.init();
         await db.init();
+        await restApi.init();
         console.log('System ready...');
-    } catch(err) {
+    } catch (err) {
         console.error(`Ошибка при инициализации сервиса ${err.stack || err}`);
     }
 })();
@@ -23,7 +25,7 @@ process.on('SIGUSR2', cleanup);
 function cleanup() {
     try {
         console.log('\nВыполняется остановка микросервиса.....');
-    } catch(err) {
+    } catch (err) {
         console.error(err.stack || err);
     }
 

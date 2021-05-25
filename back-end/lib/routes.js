@@ -90,8 +90,6 @@ exports.refreshToken = async function (req, res) {
 
 
 exports.adminPage = async function (req, res) {
-    if (!isAdmin(req.user)) return res.sendStatus(401);
-
     try {
         const allUsers = await users.find({
             isAdmin: {

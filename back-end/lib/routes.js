@@ -1,5 +1,5 @@
 const { users, tokens } = require('./connect-db');
-const { isNull, getToken } = require('./helper');
+const { isNull, getToken, isAdmin } = require('./helper');
 const { auth } = require('./std/conf');
 const User = require('./schemas/userSchema');
 
@@ -11,7 +11,6 @@ exports.hello = async function (req, res) {
 }
 
 exports.createUser = async function (req, res) {
-    let status = 200;
     try {
         const userExists = await users.findOne({
             login: req.body.login
@@ -22,13 +21,12 @@ exports.createUser = async function (req, res) {
         const newUser = new User(req.body);
 
         await users.insertOne(newUser);
+
+        res.status(201).send('Пользователь успешно добавлен');
     } catch (err) {
         console.error(err);
-        status = 500;
+        res.sendStatus(500);
     }
-
-    return status === 200 ? res.status(status).send({ message: 'Пользователь успешно добавлен' }) :
-        res.status(status).send({ message: 'Серверная ошибка ' });
 }
 
 exports.login = async function (req, res) {
@@ -41,13 +39,13 @@ exports.login = async function (req, res) {
         });
         if (isNull(isValidUser)) return res.status(404).send({ message: 'Неправильный логин или пароль' });
 
-        const newTokens = createTokens(isValidUser.login);
+        const newTokens = isValidUser.isAdmin ? createTokens(isValidUser.login, 1) : createTokens(isValidUser.login);
         await tokens.insertOne({ refreshToken: newTokens.refreshToken });
 
         res.status(200).send({ newTokens });
     } catch (err) {
         console.log(err);
-        res.status(500).send('Серверная ошибка')
+        res.sendStatus(500);
     }
 }
 
@@ -79,7 +77,7 @@ exports.refreshToken = async function (req, res) {
         const refreshToken = getToken(req.headers.authorization);
         await tokens.deleteOne({ refreshToken });
 
-        const newTokens = createTokens(req.user.login);
+        const newTokens = req.user.isAdmin ? createTokens(req.user.login, req.user.isAdmin) : createTokens(req.user.login);
 
         await tokens.insertOne({ refreshToken: newTokens.refreshToken });
 
@@ -91,12 +89,42 @@ exports.refreshToken = async function (req, res) {
 }
 
 
-const createTokens = (login) => {
-    const accessToken = jwt.sign({ login }, auth.access, { expiresIn: auth.accessExpires });
-    const refreshToken = jwt.sign({ login }, auth.refresh, { expiresIn: auth.refreshExpires });
+exports.adminPage = async function (req, res) {
+    if (!isAdmin(req.user)) return res.sendStatus(401);
+
+    try {
+        const allUsers = await users.find({
+            isAdmin: {
+                $ne: true
+            }
+        }, {
+            projection: excludeUnnessary()
+        }).toArray();
+
+        res.status(200).send({ users: allUsers });
+    } catch (err) {
+        console.log(err);
+        res.sendStatus(500);
+    }
+
+}
+
+
+const createTokens = (login, isAdmin = false) => {
+    const accessToken = jwt.sign({ login, isAdmin }, auth.access, { expiresIn: auth.accessExpires });
+    const refreshToken = jwt.sign({ login, isAdmin }, auth.refresh, { expiresIn: auth.refreshExpires });
 
     return {
         accessToken,
         refreshToken
     }
 }
+
+const excludeUnnessary = () => {
+    return {
+        _id: 0,
+        password: 0,
+    }
+}
+
+

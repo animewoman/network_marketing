@@ -1,4 +1,5 @@
 const conf = require('./conf');
+const { authenticateJwt } = require('../middleware');
 
 const express = require('express');
 const path = require('path');
@@ -42,7 +43,10 @@ const createEndpoints = () => {
 
     try {
         const funcs = require(path.resolve() + '/lib/routes');
-        endpoints.forEach((endpoint) => router[endpoint.method](endpoint.url, funcs[endpoint.func]));
+        endpoints.forEach((endpoint) => {
+            endpoint.authenticated ? router[endpoint.method](endpoint.url, authenticateJwt, funcs[endpoint.func]) :
+                router[endpoint.method](endpoint.url, funcs[endpoint.func])
+        });
         exports.app.use(router);
     } catch (err) {
         throw new Error(err);

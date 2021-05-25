@@ -15,8 +15,10 @@ exports.init = async () => {
         await client.connect();
 
         let db = client.db(conf.db.dbName);
-        exports.collection = await db.collection(conf.db.collection);
 
+        conf.db.collections.forEach(async (coll) => {
+            exports[coll] = await db.collection(coll);
+        })
         console.log('Database is configured and connected to the server...');
     } catch (err) {
         throw new Error(err);

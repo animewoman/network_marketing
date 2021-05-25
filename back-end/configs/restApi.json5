@@ -14,9 +14,27 @@
             func: "createUser"
         },
         {
+            method: "get",
+            url: "/api/user/profile",
+            func: "getProfile",
+            authenticated: true
+        },
+        {
             method: "post",
             url: "/api/auth/login",
             func: "login"
+        },
+        {
+            method: "post",
+            url: "/api/auth/logout",
+            func: "logout",
+            authenticated: true
+        },
+        {
+            method: "post",
+            url: "/api/auth/refresh-token",
+            func: "refreshToken",
+            authenticated: true
         }
     ]
 }

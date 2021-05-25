@@ -35,6 +35,12 @@
             url: "/api/auth/refresh-token",
             func: "refreshToken",
             authenticated: true
+        },
+        {
+            method: "get",
+            url: "/api/admin/main",
+            func: "adminPage",
+            authenticated: true
         }
     ]
 }

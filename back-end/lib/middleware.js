@@ -8,7 +8,8 @@ exports.authenticateJwt = (req, res, next) => {
     if (authHeader) {
         const token = getToken(authHeader);
         let secret = '';
-        req.url !== '/api/auth/refresh-token' ? secret = conf.auth.access : secret = conf.auth.refresh;
+
+        secret = req.url !== '/api/auth/refresh-token' ? conf.auth.access : conf.auth.refresh;
 
         jwt.verify(token, secret, (err, user) => {
             if (err) {

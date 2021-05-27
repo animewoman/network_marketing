@@ -1,0 +1,104 @@
+<template>
+  <div class="q-pt-xl" style="max-width: 400px; margin: 0 auto">
+    <q-toolbar-title class="q-pb-md">Регистрация пользователя</q-toolbar-title>
+
+    <q-form ref="form">
+      <q-input label="Имя пользователя" v-model="user.userName" :rules="[requiredField]" />
+
+      <q-input label="Телефон" v-model="user.phone" mask="(###)##-##-##" :rules="[requiredField]" />
+
+      <q-input
+        ref="pass"
+        label="Пароль"
+        type="password"
+        v-model="user.password"
+        :rules="[validatePassword, requiredField]"
+      />
+
+      <q-input
+        ref="pass2"
+        label="Пароль (повторно)"
+        type="password"
+        v-model="repeatPassword"
+        :rules="[validatePassword]"
+      />
+
+      <q-btn class="q-mt-lg" label="Зарегистрировать" color="primary" no-caps @click="submit" />
+    </q-form>
+  </div>
+</template>
+
+<script lang="ts">
+import { Component, Watch, Vue, Prop } from 'vue-property-decorator';
+import { User } from '@/types/user';
+import { QForm, QInput } from 'quasar';
+
+@Component({
+  name: 'Administration',
+})
+export default class Administration extends Vue {
+  user: User = {
+    userName: '',
+    phone: '',
+    password: '',
+    rank: '',
+    registrationDate: '',
+  };
+
+  repeatPassword = '';
+
+  $refs!: {
+    form: QForm;
+    pass: QInput;
+    pass2: QInput;
+  };
+
+  @Watch('user.password')
+  onPasswordChange() {
+    if (this.user.password && this.repeatPassword) {
+      this.comparePasswords();
+    }
+  }
+
+  @Watch('repeatPassword')
+  onRepeatPasswordChange() {
+    if (this.user.password && this.repeatPassword) {
+      this.comparePasswords();
+    }
+  }
+
+  submit() {
+    this.$refs.form.validate();
+  }
+
+  comparePasswords() {
+    if (this.user.password === this.repeatPassword) {
+      this.$refs.pass.resetValidation();
+      this.$refs.pass2.resetValidation();
+
+      return;
+    }
+
+    this.$refs.pass.validate();
+    this.$refs.pass2.validate();
+  }
+
+  validatePassword(): string | boolean {
+    if (this.user.password === this.repeatPassword) {
+      return true;
+    }
+
+    return 'Пароли не совпадают!';
+  }
+
+  requiredField(value: any): string | boolean {
+    if (value) {
+      return true;
+    }
+
+    return 'Поле обязательно для заполнения';
+  }
+}
+</script>
+
+<style scoped></style>

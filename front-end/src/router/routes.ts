@@ -1,11 +1,11 @@
 import { RouteConfig } from 'vue-router';
-import Administration from '@/components/Administration.vue';
+import AdministrationPage from '@/pages/AdministrationPage.vue';
 
 const routes: RouteConfig[] = [
   {
     path: '/admin',
     name: 'Admin',
-    component: Administration,
+    component: AdministrationPage,
   },
 ];
 

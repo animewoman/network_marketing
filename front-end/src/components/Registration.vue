@@ -40,9 +40,9 @@ import { User } from '@/types/user';
 import { QForm, QInput } from 'quasar';
 
 @Component({
-  name: 'Administration',
+  name: 'Registration',
 })
-export default class Administration extends Vue {
+export default class Registration extends Vue {
   user: User = {
     userName: '',
     phone: '',

@@ -5,7 +5,13 @@
     <q-form ref="form">
       <q-input label="Имя пользователя" v-model="user.userName" :rules="[requiredField]" />
 
-      <q-input label="Телефон" v-model="user.phone" mask="(###)##-##-##" :rules="[requiredField]" />
+      <q-input
+        label="Телефон"
+        v-model="user.phone"
+        mask="(###)##-##-##"
+        unmasked-value
+        :rules="[requiredField, validatePhone]"
+      />
 
       <q-input
         ref="pass"
@@ -89,6 +95,14 @@ export default class Administration extends Vue {
     }
 
     return 'Пароли не совпадают!';
+  }
+
+  validatePhone(phone: string): string | boolean {
+    if (phone.length < 9) {
+      return 'Телефон должен содержать 9 символов';
+    }
+
+    return true;
   }
 
   requiredField(value: any): string | boolean {

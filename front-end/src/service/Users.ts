@@ -1,20 +1,14 @@
 import { User } from '@/types/user';
+import axios from 'axios';
 
-export async function getUsers(): Promise<User[]> {
-  const user: User = {
-    userName: 'Bob',
-    password: '123',
-    rank: 'Genin',
-    phone: '999003004',
-    registrationDate: '12.04.2019',
-  };
-  const user2: User = {
-    userName: 'Lee',
-    password: '123',
-    rank: 'Jounin',
-    phone: '999003004',
-    registrationDate: '18.02.2021',
-  };
+export async function getUsers(): Promise<User[] | []> {
+  const response = await axios.get('http://194.67.105.44:7777/api/admin/main');
 
-  return [user, user2];
+  return response.data.users;
+}
+
+export async function saveUser(user: User): Promise<string> {
+  const response = await axios.post('http://194.67.105.44:7777/api/user/create', user);
+
+  return response.data;
 }

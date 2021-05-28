@@ -1,7 +1,6 @@
 export interface User {
-  userName: string;
+  login: string;
   password: string;
-  rank: string;
   phone: string;
-  registrationDate: string;
+  email: string;
 }

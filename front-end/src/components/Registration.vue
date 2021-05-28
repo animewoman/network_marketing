@@ -3,7 +3,9 @@
     <q-toolbar-title class="q-pb-md">Регистрация пользователя</q-toolbar-title>
 
     <q-form ref="form">
-      <q-input label="Имя пользователя" v-model="user.userName" :rules="[requiredField]" />
+      <q-input label="Имя пользователя" v-model="user.login" :rules="[requiredField]" />
+
+      <q-input label="Почта" v-model="user.email" :rules="[requiredField]" />
 
       <q-input
         label="Телефон"
@@ -37,6 +39,7 @@
 <script lang="ts">
 import { Component, Watch, Vue, Prop } from 'vue-property-decorator';
 import { User } from '@/types/user';
+import { saveUser } from '@/service/Users';
 import { QForm, QInput } from 'quasar';
 
 @Component({
@@ -44,11 +47,10 @@ import { QForm, QInput } from 'quasar';
 })
 export default class Registration extends Vue {
   user: User = {
-    userName: '',
-    phone: '',
+    login: '',
     password: '',
-    rank: '',
-    registrationDate: '',
+    phone: '',
+    email: '',
   };
 
   repeatPassword = '';
@@ -71,10 +73,6 @@ export default class Registration extends Vue {
     if (this.user.password && this.repeatPassword) {
       this.comparePasswords();
     }
-  }
-
-  submit() {
-    this.$refs.form.validate();
   }
 
   comparePasswords() {
@@ -111,6 +109,13 @@ export default class Registration extends Vue {
     }
 
     return 'Поле обязательно для заполнения';
+  }
+
+  async submit() {
+    this.$refs.form.validate();
+
+    const test = await saveUser(this.user);
+    console.log(test);
   }
 }
 </script>

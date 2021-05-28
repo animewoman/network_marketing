@@ -8,10 +8,32 @@ exports.authenticateJwt = (req, res, next) => {
     if (authHeader) {
         const token = getToken(authHeader);
         let secret = '';
-        req.url !== '/api/auth/refresh-token' ? secret = conf.auth.access : secret = conf.auth.refresh;
+
+        secret = req.url !== '/api/auth/refresh-token' ? conf.auth.access : conf.auth.refresh;
 
         jwt.verify(token, secret, (err, user) => {
             if (err) {
+                return res.sendStatus(403);
+            }
+            req.user = user;
+            next();
+        });
+    } else {
+        res.sendStatus(401);
+    }
+}
+
+exports.authenticateAdmin = (req, res, next) => {
+    const authHeader = req.headers.authorization;
+
+    if (authHeader) {
+        const token = getToken(authHeader);
+        let secret = '';
+
+        secret = req.url !== '/api/auth/refresh-token' ? conf.auth.access : conf.auth.refresh;
+
+        jwt.verify(token, secret, (err, user) => {
+            if (err || !user.isAdmin) {
                 return res.sendStatus(403);
             }
             req.user = user;

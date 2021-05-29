@@ -1,5 +1,5 @@
 <template>
-  <div class="q-pt-xl" style="max-width: 400px; margin: 0 auto">
+  <div class="q-pt-xl q-px-lg" style="max-width: 400px">
     <q-toolbar-title class="q-pb-md">Регистрация пользователя</q-toolbar-title>
 
     <q-form ref="form">
@@ -103,7 +103,7 @@ export default class Registration extends Vue {
     return true;
   }
 
-  requiredField(value: any): string | boolean {
+  requiredField(value: string): string | boolean {
     if (value) {
       return true;
     }
@@ -111,11 +111,9 @@ export default class Registration extends Vue {
     return 'Поле обязательно для заполнения';
   }
 
-  async submit() {
+  submit() {
     this.$refs.form.validate();
-
-    const test = await saveUser(this.user);
-    console.log(test);
+    this.$emit('save-user', this.user);
   }
 }
 </script>

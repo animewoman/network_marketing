@@ -1,30 +1,88 @@
 <template>
   <div class="q-pt-xl q-px-lg">
-    <q-table style="max-width: 1200px; margin: 0 auto" :data="users" />
+    <q-table
+      style="max-width: 400px; margin: 0 auto"
+      row-key="name"
+      :data="users"
+      :columns="columns"
+      :pagination.sync="pagination"
+      :loading="loading"
+      @row-click="userToDelete"
+    >
+      <template #top>
+        <q-input v-model="search" dense color="primary" style="margin: 0 auto" label="Поиск">
+          <template #append>
+            <q-icon name="search" />
+          </template>
+        </q-input>
+      </template>
+    </q-table>
+
+    <q-dialog v-model="confirm" persistent>
+      <q-card>
+        <q-card-section class="row items-center">
+          <span class="q-ml-sm">Удалить пользователя?</span>
+        </q-card-section>
+
+        <q-card-actions align="right">
+          <q-btn label="Нет" color="primary" v-close-popup />
+          <q-btn label="Удалить" color="negative" v-close-popup @click="deleteUser" />
+        </q-card-actions>
+      </q-card>
+    </q-dialog>
   </div>
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
+import { Component, Prop, Vue } from 'vue-property-decorator';
 import { User } from '@/types/user';
-import { getUsers } from '@/service/Users';
 
 @Component({
   name: 'Users',
 })
 export default class Users extends Vue {
-  users: User[] = [];
+  @Prop({ type: Array, default: [] }) readonly users!: User[];
+  @Prop({ type: Boolean, default: false }) readonly loading!: boolean;
 
-  created() {
-    this.getUsers();
+  confirm = false;
+
+  userForDelete: User | null = null;
+
+  search = '';
+
+  columns = [
+    {
+      name: 'login',
+      label: 'Логин',
+      field: 'login',
+      align: 'left',
+      sortable: true,
+    },
+    {
+      name: 'email',
+      label: 'Почта',
+      field: 'email',
+      sortable: true,
+    },
+    {
+      name: 'phone',
+      label: 'Телефон',
+      field: 'phone',
+      sortable: true,
+    },
+  ];
+
+  pagination = {
+    rowsPerPage: 10,
+  };
+
+  userToDelete(event: never, user: User) {
+    this.userForDelete = user;
+    this.confirm = true;
   }
 
-  async getUsers() {
-    try {
-      this.users = await getUsers();
-    } catch (e) {
-      console.log(e.message);
-    }
+  deleteUser() {
+    this.$emit('delete-user', this.userForDelete);
   }
 }
 </script>

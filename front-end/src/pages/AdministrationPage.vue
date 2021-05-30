@@ -11,7 +11,7 @@ import Registration from '@/components/Administration/Registration.vue';
 import Users from '@/components/Administration/Users.vue';
 import { getUsers, deleteUser, saveUser } from '@/service/Users';
 import { User } from '@/types/user';
-import { mapUserParent } from '@/service/Formatters/UserFormatter';
+import { mapUserList, mapUserParent } from '@/service/Formatters/UserFormatter';
 
 @Component({
   name: 'AdministrationPage',
@@ -35,7 +35,8 @@ export default class AdministrationPage extends Vue {
   async getUsers() {
     try {
       this.loading = true;
-      this.users = await getUsers();
+      const users = await getUsers();
+      this.users = mapUserList(users);
     } catch (e) {
       throw new Error(e);
     } finally {

@@ -7,3 +7,11 @@ export function mapUserParent(mappedUser: User, allUsers: User[]): User {
 
   return { ...mappedUser, parent: parent?._id ?? '-' };
 }
+
+export function mapUserList(users: User[]) {
+  return users.map((user) => {
+    const foundParent = users.find((usr) => usr._id === user.parent);
+
+    return { ...user, parent: foundParent?.login ?? '-' };
+  });
+}

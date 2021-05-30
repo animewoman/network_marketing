@@ -70,6 +70,12 @@ export default class Users extends Vue {
       field: 'phone',
       sortable: true,
     },
+    {
+      name: 'parent',
+      label: 'Спонсор',
+      field: 'parent',
+      sortable: true,
+    },
   ];
 
   pagination = {

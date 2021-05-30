@@ -7,10 +7,11 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import Registration from '@/components/Registration.vue';
-import Users from '@/components/Users.vue';
+import Registration from '@/components/Administration/Registration.vue';
+import Users from '@/components/Administration/Users.vue';
 import { getUsers, deleteUser, saveUser } from '@/service/Users';
 import { User } from '@/types/user';
+import { mapUserParent } from '@/service/Formatters/UserFormatter';
 
 @Component({
   name: 'AdministrationPage',
@@ -22,6 +23,13 @@ export default class AdministrationPage extends Vue {
 
   created() {
     this.getUsers();
+  }
+
+  showNotification(login: string) {
+    this.$q.notify({
+      message: `Пользователь с таким ${login} уже существует`,
+      color: 'negative',
+    });
   }
 
   async getUsers() {
@@ -54,7 +62,15 @@ export default class AdministrationPage extends Vue {
   async saveUser(user: User) {
     try {
       this.loading = true;
-      await saveUser(user);
+      const userDuplicate = this.users.find((soughtUser) => soughtUser.login === user.login);
+
+      if (userDuplicate) {
+        this.showNotification(userDuplicate.login);
+        return;
+      }
+
+      const convertedUser = mapUserParent(user, this.users);
+      await saveUser(convertedUser);
       await this.getUsers();
     } catch (e) {
       throw new Error(e);

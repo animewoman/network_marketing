@@ -2,7 +2,7 @@ import { User } from '@/types/user';
 import { api } from '@/http';
 
 export async function getUsers(): Promise<User[] | []> {
-  const response = await api().get(`/admin/main`);
+  const response = await api().get(`/users`);
 
   return response.data.users;
 }

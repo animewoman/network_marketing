@@ -7,6 +7,8 @@
 
       <q-input label="Почта" v-model="user.email" :rules="[requiredField]" />
 
+      <q-input label="Спонсор" v-model="user.parent" :rules="[requiredField]" />
+
       <q-input
         label="Телефон"
         v-model="user.phone"
@@ -47,10 +49,12 @@ import { QForm, QInput } from 'quasar';
 })
 export default class Registration extends Vue {
   user: User = {
+    _id: '',
     login: '',
     password: '',
     phone: '',
     email: '',
+    parent: '',
   };
 
   repeatPassword = '';
@@ -114,6 +118,12 @@ export default class Registration extends Vue {
   submit() {
     this.$refs.form.validate();
     this.$emit('save-user', this.user);
+    this.clearFields();
+  }
+
+  clearFields() {
+    this.user = { _id: '', login: '', password: '', phone: '', email: '', parent: '' };
+    this.repeatPassword = '';
   }
 }
 </script>

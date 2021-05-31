@@ -1,8 +1,9 @@
 <template>
   <div class="q-pt-xl q-px-lg">
     <q-table
-      style="max-width: 800px"
+      style="width: 800px; max-height: 700px"
       row-key="name"
+      virtual-scroll
       :data="users"
       :columns="columns"
       :filter="filter"
@@ -11,11 +12,22 @@
       @row-click="userToDelete"
     >
       <template #top>
+        <q-toolbar-title class="table-title">Таблица пользователей</q-toolbar-title>
+        <q-space />
+
         <q-input v-model="filter" dense color="primary" style="margin: 0 auto" label="Поиск">
           <template #append>
             <q-icon name="search" />
           </template>
         </q-input>
+      </template>
+
+      <template #header-cell="props">
+        <q-th :props="props">
+          <span class="bold-header">
+            {{ props.col.label }}
+          </span>
+        </q-th>
       </template>
     </q-table>
 
@@ -80,11 +92,16 @@ export default class UserList extends Vue {
   ];
 
   pagination = {
-    rowsPerPage: 10,
+    rowsPerPage: 50,
   };
 
   userToDelete(event: never, user: User) {
-    this.$router.push({ name: 'user-control', query: user.login });
+    const id = user._id;
+
+    if (id) {
+      this.$router.push({ name: 'user-control', query: id });
+    }
+
     this.userForDelete = user;
     this.confirm = true;
   }
@@ -95,4 +112,8 @@ export default class UserList extends Vue {
 }
 </script>
 
-<style scoped></style>
+<style scoped>
+.bold-header {
+  font-weight: bold;
+}
+</style>

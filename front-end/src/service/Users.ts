@@ -7,8 +7,20 @@ export async function getUsers(): Promise<User[] | []> {
   return response.data.users;
 }
 
+export async function getUser(id: string): Promise<User> {
+  const response = await api().get(`/user/${id}`);
+
+  return response.data;
+}
+
 export async function saveUser(user: User): Promise<string> {
   const response = await api().post(`/user/create`, user);
+
+  return response.data;
+}
+
+export async function updateUser(user: User): Promise<string> {
+  const response = await api().post('user/update', user);
 
   return response.data;
 }
@@ -17,5 +29,5 @@ export async function deleteUser(id: string): Promise<string> {
   const data = { _id: id };
   const response = await api().post('/user/delete', data);
 
-  return response.data.data;
+  return response.data;
 }

@@ -1,7 +1,7 @@
 <template>
   <div class="q-px-xl row">
     <registration @save-user="saveUser($event)" />
-    <user-list :users="users" :loading="loading" @delete-user="deleteUser($event)" />
+    <user-list class="q-px-xl" :users="users" :loading="loading" @delete-user="deleteUser($event)" />
   </div>
 </template>
 
@@ -27,7 +27,7 @@ export default class AdministrationPage extends Vue {
 
   showNotification(login: string) {
     this.$q.notify({
-      message: `Пользователь с таким ${login} уже существует`,
+      message: `Пользователь с именем ${login} уже существует`,
       color: 'negative',
     });
   }
@@ -70,8 +70,7 @@ export default class AdministrationPage extends Vue {
         return;
       }
 
-      const convertedUser = mapUserParent(user, this.users);
-      await saveUser(convertedUser);
+      await saveUser(user);
       await this.getUsers();
     } catch (e) {
       throw new Error(e);

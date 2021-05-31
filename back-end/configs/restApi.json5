@@ -5,14 +5,39 @@
     endpoints: [
         {
             method: "get",
-            url: "/api/test/hello",
-            func: "hello"
+            url: "/api/user/get",
+            func: "getUserId"
         },
+        /*
+                    url: "/api/user/delete",
+                    body params:
+                        _id: "asdfsadfsf"
+                    
+                    response: status 500 || 200
+        */
+        {
+            method: "post", 
+            url: "/api/user/delete",
+            func: "deleteUser",
+        },
+        /*
+                    url: "/api/user/create",
+                    body params:
+                        login.
+                        password,
+                        email,
+                        phone
+                    
+                    response: status 400(user exists) ||
+                                500 (server problems) ||
+                                201 (OK, user created)
+        */
         {
             method: "post",
             url: "/api/user/create",
             func: "createUser"
         },
+        
         {
             method: "get",
             url: "/api/user/profile",
@@ -36,12 +61,23 @@
             func: "refreshToken",
             authenticated: true
         },
+        /*
+                    url: "/api/users",
+
+                    response: status 500 ||
+                            200(array of users: users[])
+        */
         {
             method: "get",
-            url: "/api/admin/main",
-            func: "adminPage",
+            url: "/api/users",
+            func: "getUsers",
             authenticated: true,
             isAdmin: true
+        },
+        {
+            method: "put",
+            url: "/api/user/update",
+            func: "updateUser"
         }
     ]
 }

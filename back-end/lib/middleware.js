@@ -7,9 +7,7 @@ exports.authenticateJwt = (req, res, next) => {
 
     if (authHeader) {
         const token = getToken(authHeader);
-        let secret = '';
-
-        secret = req.url !== '/api/auth/refresh-token' ? conf.auth.access : conf.auth.refresh;
+        const secret = whichSecret(req);
 
         jwt.verify(token, secret, (err, user) => {
             if (err) {
@@ -28,9 +26,7 @@ exports.authenticateAdmin = (req, res, next) => {
 
     if (authHeader) {
         const token = getToken(authHeader);
-        let secret = '';
-
-        secret = req.url !== '/api/auth/refresh-token' ? conf.auth.access : conf.auth.refresh;
+        const secret = whichSecret(req);
 
         jwt.verify(token, secret, (err, user) => {
             if (err || !user.isAdmin) {
@@ -43,3 +39,5 @@ exports.authenticateAdmin = (req, res, next) => {
         res.sendStatus(401);
     }
 }
+
+const whichSecret = ({ url }) => url !== '/api/auth/refresh-token' ? conf.auth.access : conf.auth.refresh;

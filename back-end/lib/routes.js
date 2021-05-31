@@ -3,26 +3,62 @@ const { isNull, getToken, isAdmin } = require('./helper');
 const { auth } = require('./std/conf');
 const User = require('./schemas/userSchema');
 
+
+const { ObjectID } = require('mongodb');
 const jwt = require('jsonwebtoken');
 
-exports.hello = async function (req, res) {
-    console.log('I am here');
-    res.send('Hello world');
+
+async function findById(collection, id) {
+    try {
+        return await collection.findOne({ _id: ObjectID(id) }, {
+            projection: excludeUnnessary()
+        });
+    } catch (err) {
+        throw new Error(err);
+    }
+}
+
+
+exports.getUserId = async function (req, res) {
+    try {
+        console.log(req.query);
+        const user = await findById(users, req.query._id);
+        res.status(200).send(user);
+    } catch (err) {
+        console.log(err);
+        res.status(500).send(err);
+    }
+}
+
+exports.deleteUser = async function (req, res) {
+    try {
+        await users.deleteOne({ _id: ObjectID(req.body._id) });
+    } catch (err) {
+        res.sendStatus(500);
+    }
+
+    res.sendStatus(200);
 }
 
 exports.createUser = async function (req, res) {
     try {
+        console.log('has requested: ', req.body);
         const userExists = await users.findOne({
             login: req.body.login
         });
 
         if (!isNull(userExists)) return res.status(400).send({ message: 'Такой пользователь уже существует' });
+        let newUser = new User(req.body);
 
-        const newUser = new User(req.body);
+        if (newUser.parent) {
+            let itBe = await newUser.getParent(users);
+            if (itBe === null) return res.status(400).send({ message: "Такого спонсора нет" });
+            newUser.parent = itBe._id;
+        }
 
-        await users.insertOne(newUser);
+        const user = await users.insertOne(newUser);
 
-        res.status(201).send('Пользователь успешно добавлен');
+        res.status(201).send(user.ops[0]);
     } catch (err) {
         console.error(err);
         res.sendStatus(500);
@@ -89,7 +125,7 @@ exports.refreshToken = async function (req, res) {
 }
 
 
-exports.adminPage = async function (req, res) {
+exports.getUsers = async function (req, res) {
     try {
         const allUsers = await users.find({
             isAdmin: {
@@ -107,6 +143,26 @@ exports.adminPage = async function (req, res) {
 
 }
 
+exports.updateUser = async function (req, res) {
+    let data = Object.assign({}, req.body);
+    delete data._id;
+
+    try {
+        users.updateOne({ _id: ObjectID(req.body._id) }, {
+            $set: {
+                score: data.score
+            }
+        }).then((obj) => {
+            obj.result.ok ? res.sendStatus(200) : res.sendStatus(400);
+        }).catch((err) => {
+            res.status(400).send(err);
+        })
+    } catch (err) {
+        console.log(err);
+        return res.sendStatus(500);
+    }
+}
+
 
 const createTokens = (login, isAdmin = false) => {
     const accessToken = jwt.sign({ login, isAdmin }, auth.access, { expiresIn: auth.accessExpires });
@@ -120,8 +176,10 @@ const createTokens = (login, isAdmin = false) => {
 
 const excludeUnnessary = () => {
     return {
-        _id: 0,
+        // _id: 0,
         password: 0,
+        isAdmin: 0,
+
     }
 }
 

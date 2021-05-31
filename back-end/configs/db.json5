@@ -1,5 +1,5 @@
 {
-    uri: "mongodb://127.0.0.1:27017",
+    uri: "mongodb://194.67.105.44:27017",
     dbName: "net_market",
     collections: [
         "users",

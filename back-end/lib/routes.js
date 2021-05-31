@@ -153,6 +153,15 @@ exports.updateUser = async function (req, res) {
     }
 }
 
+const findById = async (collection, id) => {
+    try {
+        return await collection.findOne({ _id: ObjectID(id) }, {
+            projection: excludeUnnessary()
+        });
+    } catch (err) {
+        throw new Error(err);
+    }
+}
 
 const createTokens = (login, isAdmin = false) => {
     const accessToken = jwt.sign({ login, isAdmin }, auth.access, { expiresIn: auth.accessExpires });

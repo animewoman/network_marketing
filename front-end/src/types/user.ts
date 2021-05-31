@@ -5,4 +5,5 @@ export interface User {
   phone: string;
   email: string;
   parent: string;
+  money?: number;
 }

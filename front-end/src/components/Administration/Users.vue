@@ -5,12 +5,13 @@
       row-key="name"
       :data="users"
       :columns="columns"
+      :filter="filter"
       :pagination.sync="pagination"
       :loading="loading"
       @row-click="userToDelete"
     >
       <template #top>
-        <q-input v-model="search" dense color="primary" style="margin: 0 auto" label="Поиск">
+        <q-input v-model="filter" dense color="primary" style="margin: 0 auto" label="Поиск">
           <template #append>
             <q-icon name="search" />
           </template>
@@ -48,7 +49,7 @@ export default class Users extends Vue {
 
   userForDelete: User | null = null;
 
-  search = '';
+  filter = '';
 
   columns = [
     {

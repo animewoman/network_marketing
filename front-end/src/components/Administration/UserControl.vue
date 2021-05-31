@@ -1,54 +1,89 @@
 <template>
   <div class="m-auto q-pt-xl" style="width: 600px">
-    <q-btn
-      label="На таблицу пользователей"
-      icon="arrow_back_ios"
-      class="back-btn q-my-lg"
-      flat
-      no-caps
-      @click="toAdminPage"
-    />
+    <div class="row q-my-lg">
+      <q-btn
+        label="На таблицу пользователей"
+        icon="arrow_back_ios"
+        class="back-btn"
+        flat
+        no-caps
+        @click="toAdminPage"
+      />
 
-    <q-space />
+      <q-space />
+      <q-btn
+        label="Удалить пользователя"
+        class="q-px-sm delete-btn"
+        color="negative"
+        icon="delete"
+        dense
+        flat
+        no-caps
+        @click="confirm = true"
+      />
+    </div>
 
-    <q-toolbar-title style="text-align: center">Пользователь {{ user.login }}</q-toolbar-title>
+    <q-toolbar-title class="parent-link q-px-md q-mb-md" @click="toParent">
+      <span class="small-title">Спонсор:</span>
+      {{ user.parent }}
+    </q-toolbar-title>
+
     <q-form greedy>
       <q-input label="ФИО пользователя" v-model="user.login" readonly />
       <q-input label="Регион" v-model="user.region" readonly />
       <q-input label="Телфеон" v-model="user.phone" readonly />
       <q-input label="Почта" v-model="user.email" readonly />
-      <q-input label="Спонсор" v-model="user.parent" readonly />
       <q-input label="Баллы" v-model="user.score" />
 
-      <q-btn
-        label="Сохранить изменения"
-        class="q-my-lg q-pa-sm"
-        color="primary"
-        icon="save"
-        dense
-        no-caps
-        @click="updateUser"
-      />
+      <div class="row">
+        <q-btn
+          label="Сохранить изменения"
+          class="q-my-lg q-pa-sm"
+          color="primary"
+          icon="save"
+          dense
+          no-caps
+          @click="updateUser"
+        />
+        <q-space />
+      </div>
     </q-form>
+
+    <q-dialog v-model="confirm">
+      <q-card>
+        <q-card-section>
+          <q-toolbar-title>Вы уверены что хотите удалить пользователя?</q-toolbar-title>
+        </q-card-section>
+
+        <q-card-action class="row">
+          <q-space />
+          <q-btn class="q-pa-sm" dense flat label="Удалить" color="negative" v-close-popup @click="deleteUser" />
+        </q-card-action>
+      </q-card>
+    </q-dialog>
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 import { User } from '@/types/user';
-import { getUser, updateUser } from '@/service/Users';
+import { getUser, updateUser, deleteUser } from '@/service/Users';
 
 @Component({
   name: 'UserControl',
 })
 export default class UserControl extends Vue {
+  confirm = false;
+
+  parentId = '';
+
   user: User = {
     login: '',
     phone: '',
     email: '',
     score: 0,
     region: '',
-    //не используются здесь
+    //не используются здесь но нужно для ts
     _id: '',
     password: '',
     parent: '',
@@ -58,12 +93,23 @@ export default class UserControl extends Vue {
     this.fetchUser();
   }
 
+  toParent() {
+    if (this.parentId) {
+      this.$router.replace({ name: 'user-control', query: this.parentId });
+      this.fetchUser();
+    }
+  }
+
   async fetchUser() {
     try {
       const id = String(this.$route.query);
 
       if (id) {
-        this.user = await getUser(id);
+        const user = await getUser(id);
+        this.parentId = user.parent;
+        const userParent = await getUser(user.parent);
+
+        this.user = { ...user, parent: userParent.login };
       }
     } catch (e) {
       throw new Error();
@@ -72,10 +118,20 @@ export default class UserControl extends Vue {
 
   async updateUser() {
     try {
-      const response = await updateUser(this.user);
-      console.log(response);
-
+      this.user = await updateUser(this.user);
       this.toAdminPage();
+    } catch (e) {
+      throw new Error(e);
+    }
+  }
+
+  async deleteUser() {
+    try {
+      const response = await deleteUser(this.user._id);
+
+      if (response === 'OK') {
+        this.toAdminPage();
+      }
     } catch (e) {
       throw new Error(e);
     }
@@ -90,5 +146,22 @@ export default class UserControl extends Vue {
 <style scoped>
 .back-btn {
   background-color: rgba(177, 176, 186, 0.37);
+}
+
+.delete-btn {
+  max-height: 3em;
+  background-color: rgba(177, 176, 186, 0.37);
+}
+
+.small-title {
+  font-size: medium;
+  font-weight: 600;
+  color: rgba(0, 0, 0, 0.64);
+}
+
+.parent-link {
+  cursor: pointer;
+  background-color: rgba(133, 133, 137, 0.54);
+  border-radius: 15px;
 }
 </style>

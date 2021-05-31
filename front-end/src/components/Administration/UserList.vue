@@ -9,7 +9,7 @@
       :filter="filter"
       :pagination.sync="pagination"
       :loading="loading"
-      @row-click="userToDelete"
+      @row-click="toUser"
     >
       <template #top>
         <q-toolbar-title class="table-title">Таблица пользователей</q-toolbar-title>
@@ -30,19 +30,6 @@
         </q-th>
       </template>
     </q-table>
-
-    <q-dialog v-model="confirm" persistent>
-      <q-card>
-        <q-card-section class="row items-center">
-          <span class="q-ml-sm">Удалить пользователя?</span>
-        </q-card-section>
-
-        <q-card-actions align="right">
-          <q-btn label="Нет" color="primary" v-close-popup />
-          <q-btn label="Удалить" color="negative" v-close-popup @click="deleteUser" />
-        </q-card-actions>
-      </q-card>
-    </q-dialog>
   </div>
 </template>
 
@@ -56,10 +43,6 @@ import { User } from '@/types/user';
 export default class UserList extends Vue {
   @Prop({ type: Array, default: [] }) readonly users!: User[];
   @Prop({ type: Boolean, default: false }) readonly loading!: boolean;
-
-  confirm = false;
-
-  userForDelete: User | null = null;
 
   filter = '';
 
@@ -95,19 +78,12 @@ export default class UserList extends Vue {
     rowsPerPage: 50,
   };
 
-  userToDelete(event: never, user: User) {
+  toUser(event: never, user: User) {
     const id = user._id;
 
     if (id) {
       this.$router.push({ name: 'user-control', query: id });
     }
-
-    this.userForDelete = user;
-    this.confirm = true;
-  }
-
-  deleteUser() {
-    this.$emit('delete-user', this.userForDelete);
   }
 }
 </script>

@@ -8,7 +8,8 @@ export async function getUsers(): Promise<User[] | []> {
 }
 
 export async function getUser(id: string): Promise<User> {
-  const response = await api().get(`/user/${id}`);
+  const data = `_id=${id}`;
+  const response = await api().get(`/user/get?${data}`);
 
   return response.data;
 }
@@ -19,8 +20,8 @@ export async function saveUser(user: User): Promise<string> {
   return response.data;
 }
 
-export async function updateUser(user: User): Promise<string> {
-  const response = await api().post('user/update', user);
+export async function updateUser(user: User): Promise<User> {
+  const response = await api().put('/user/update', user);
 
   return response.data;
 }

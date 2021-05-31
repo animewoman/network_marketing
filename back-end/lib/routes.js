@@ -8,17 +8,6 @@ const { ObjectID } = require('mongodb');
 const jwt = require('jsonwebtoken');
 
 
-async function findById(collection, id) {
-    try {
-        return await collection.findOne({ _id: ObjectID(id) }, {
-            projection: excludeUnnessary()
-        });
-    } catch (err) {
-        throw new Error(err);
-    }
-}
-
-
 exports.getUserId = async function (req, res) {
     try {
         console.log(req.query);
@@ -75,10 +64,11 @@ exports.login = async function (req, res) {
         });
         if (isNull(isValidUser)) return res.status(404).send({ message: 'Неправильный логин или пароль' });
 
-        const newTokens = isValidUser.isAdmin ? createTokens(isValidUser.login, 1) : createTokens(isValidUser.login);
-        await tokens.insertOne({ refreshToken: newTokens.refreshToken });
+        // const newTokens = isValidUser.isAdmin ? createTokens(isValidUser.login, 1) : createTokens(isValidUser.login);
+        // await tokens.insertOne({ refreshToken: newTokens.refreshToken });
 
-        res.status(200).send({ newTokens });
+        // res.status(200).send({ newTokens });
+        res.sendStatus(200);
     } catch (err) {
         console.log(err);
         res.sendStatus(500);

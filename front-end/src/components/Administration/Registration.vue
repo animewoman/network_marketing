@@ -5,7 +5,7 @@
     <q-form ref="form">
       <q-input label="Имя пользователя" v-model="user.login" :rules="[requiredField]" />
 
-      <q-input label="Почта" v-model="user.email" :rules="[requiredField]" />
+      <q-input label="Почта" v-model="user.email" :rules="[requiredField, validateMail]" />
 
       <q-input label="Спонсор" v-model="user.parent" :rules="[requiredField]" />
 
@@ -105,6 +105,10 @@ export default class Registration extends Vue {
     }
 
     return true;
+  }
+
+  validateMail(mail: string): string | boolean {
+    return !!mail.match(/\S+?@\S+?\.\S+$/) || 'Неверный формат электронной почты';
   }
 
   requiredField(value: string): string | boolean {

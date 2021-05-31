@@ -1,7 +1,7 @@
 <template>
   <div class="q-pt-xl q-px-lg">
     <q-table
-      style="max-width: 400px; margin: 0 auto"
+      style="max-width: 800px"
       row-key="name"
       :data="users"
       :columns="columns"
@@ -39,9 +39,9 @@ import { Component, Prop, Vue } from 'vue-property-decorator';
 import { User } from '@/types/user';
 
 @Component({
-  name: 'Users',
+  name: 'UserList',
 })
-export default class Users extends Vue {
+export default class UserList extends Vue {
   @Prop({ type: Array, default: [] }) readonly users!: User[];
   @Prop({ type: Boolean, default: false }) readonly loading!: boolean;
 
@@ -84,6 +84,7 @@ export default class Users extends Vue {
   };
 
   userToDelete(event: never, user: User) {
+    this.$router.push({ name: 'user-control', query: user.login });
     this.userForDelete = user;
     this.confirm = true;
   }

@@ -1,21 +1,21 @@
 <template>
-  <div class="row container">
+  <div class="q-px-xl row">
     <registration @save-user="saveUser($event)" />
-    <users :users="users" :loading="loading" @delete-user="deleteUser($event)" />
+    <user-list :users="users" :loading="loading" @delete-user="deleteUser($event)" />
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 import Registration from '@/components/Administration/Registration.vue';
-import Users from '@/components/Administration/Users.vue';
+import UserList from '@/components/Administration/UserList.vue';
 import { getUsers, deleteUser, saveUser } from '@/service/Users';
 import { User } from '@/types/user';
 import { mapUserList, mapUserParent } from '@/service/Formatters/UserFormatter';
 
 @Component({
   name: 'AdministrationPage',
-  components: { Users, Registration },
+  components: { UserList, Registration },
 })
 export default class AdministrationPage extends Vue {
   users: User[] = [];
@@ -82,8 +82,8 @@ export default class AdministrationPage extends Vue {
 }
 </script>
 
-<style scoped>
-.container {
-  justify-content: center;
+<style>
+.m-auto {
+  margin: 0 auto;
 }
 </style>

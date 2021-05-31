@@ -5,49 +5,43 @@ PORT: 7777
 
 ## rest-api
 
-* ```sh{
+* ```sh
       method: "get",
       url: "/api/user/get",
-},
-url params: {
-    _id: string
-}```
+      url params: {
+          _id: string
+      }
 
-* ```sh{
+* ```sh
     method: "post", 
     url: "/api/user/delete",
-}
-body params: {
-    _id :string
-}```
+    body params: {
+        _id :string
+    }
 
-* ```sh{
+* ```sh
     method: "post",
     url: "/api/user/create",
-}
-body params: {
-    login, String
-    password, String
-    email, String
-    phone, String
-    parent, String(логин партнера)
-    region String
-}```
+    body params: {
+        login, String
+        password, String
+        email, String
+        phone, String
+        parent, String(логин партнера)
+        region String
+    }
 
-* ```sh{
+* ```sh
     method: "get",
-    url: "/api/users",
-}```
+    url: "/api/users"
 
-* ```sh{
+* ```sh
     method: "put",
     url: "/api/user/update",
-}
-
-body params: {
-    login, String
-    email, String
-    phone, String
-    region, String
-    score Number(Integer)
-}```
+    body params: {
+        login, String
+        email, String
+        phone, String
+        region, String
+        score Number(Integer)
+    }

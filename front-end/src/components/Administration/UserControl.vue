@@ -94,7 +94,7 @@ export default class UserControl extends Vue {
   }
 
   toParent() {
-    if (this.parentId) {
+    if (this.parentId && this.parentId !== '-') {
       this.$router.replace({ name: 'user-control', query: this.parentId });
       this.fetchUser();
     }

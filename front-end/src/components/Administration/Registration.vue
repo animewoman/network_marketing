@@ -5,9 +5,11 @@
     <q-form ref="form">
       <q-input label="Имя пользователя" v-model="user.login" :rules="[requiredField]" />
 
-      <q-input label="Почта" v-model="user.email" :rules="[requiredField, validateMail]" />
-
       <q-input label="Спонсор" v-model="user.parent" :rules="[requiredField]" />
+
+      <q-input label="Регион" v-model="user.region" :rules="[requiredField]" />
+
+      <q-input label="Почта" v-model="user.email" :rules="[requiredField, validateMail]" />
 
       <q-input
         label="Телефон"
@@ -55,6 +57,8 @@ export default class Registration extends Vue {
     phone: '',
     email: '',
     parent: '',
+    region: '',
+    score: 0,
   };
 
   repeatPassword = '';

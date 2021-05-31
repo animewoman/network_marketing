@@ -11,7 +11,7 @@ import Registration from '@/components/Administration/Registration.vue';
 import UserList from '@/components/Administration/UserList.vue';
 import { getUsers, deleteUser, saveUser } from '@/service/Users';
 import { User } from '@/types/user';
-import { mapUserList, mapUserParent } from '@/service/Formatters/UserFormatter';
+import { mapUserList } from '@/service/Formatters/UserFormatter';
 
 @Component({
   name: 'AdministrationPage',
@@ -25,10 +25,10 @@ export default class AdministrationPage extends Vue {
     this.getUsers();
   }
 
-  showNotification(login: string) {
+  showNotification(login: string, message: string, color: string) {
     this.$q.notify({
-      message: `Пользователь с именем ${login} уже существует`,
-      color: 'negative',
+      message,
+      color,
     });
   }
 
@@ -66,7 +66,12 @@ export default class AdministrationPage extends Vue {
       const userDuplicate = this.users.find((soughtUser) => soughtUser.login === user.login);
 
       if (userDuplicate) {
-        this.showNotification(userDuplicate.login);
+        this.showNotification(
+          userDuplicate.login,
+          `Пользователь с именем ${userDuplicate.login} уже существует`,
+          'negative',
+        );
+
         return;
       }
 

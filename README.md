@@ -45,3 +45,11 @@ PORT: 7777
         region: String
         score: Number(Integer)
     }
+
+* ```sh
+    method: "post",
+    url: "/api/auth/login",
+    body params: {
+        login: String
+        password: String
+    }

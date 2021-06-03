@@ -1,5 +1,7 @@
-import { User } from '@/types/user';
+import { User, AuthUser } from '@/types/user';
 import { api } from '@/http';
+
+export let LOGINNED_USER: AuthUser | null = null;
 
 export async function getUsers(): Promise<User[] | []> {
   const response = await api().get(`/users`);
@@ -31,4 +33,16 @@ export async function deleteUser(id: string): Promise<string> {
   const response = await api().post('/user/delete', data);
 
   return response.data;
+}
+
+export async function loginUser(user: AuthUser): Promise<number> {
+  const response = await api().post('/auth/login', user);
+
+  if (response.status === 200) {
+    LOGINNED_USER = user
+  } else {
+    LOGINNED_USER = null
+  }
+
+  return response.status;
 }

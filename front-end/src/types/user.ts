@@ -9,3 +9,8 @@ export interface User {
   region?: string;
   inn?: string | number;
 }
+
+export interface AuthUser {
+  login: string;
+  password: string;
+}

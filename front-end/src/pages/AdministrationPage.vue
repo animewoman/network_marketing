@@ -1,7 +1,11 @@
 <template>
-  <div class="q-px-xl row">
-    <registration @save-user="saveUser($event)" />
-    <user-list class="q-px-xl" :users="users" :loading="loading" @delete-user="deleteUser($event)" />
+  <div>
+    <header-component @logout="logout" />
+
+    <div class="q-px-xl row">
+      <registration @save-user="saveUser($event)" />
+      <user-list class="q-px-xl" :users="users" :loading="loading" @delete-user="deleteUser($event)" />
+    </div>
   </div>
 </template>
 
@@ -9,13 +13,14 @@
 import { Component, Vue } from 'vue-property-decorator';
 import Registration from '@/components/Administration/Registration.vue';
 import UserList from '@/components/Administration/UserList.vue';
+import HeaderComponent from '@/components/Header/HeaderComponent.vue';
 import { getUsers, deleteUser, saveUser } from '@/service/Users';
 import { User } from '@/types/user';
 import { mapUserList } from '@/service/Formatters/UserFormatter';
 
 @Component({
   name: 'AdministrationPage',
-  components: { UserList, Registration },
+  components: { UserList, Registration, HeaderComponent },
 })
 export default class AdministrationPage extends Vue {
   users: User[] = [];
@@ -78,6 +83,10 @@ export default class AdministrationPage extends Vue {
     } finally {
       this.loading = false;
     }
+  }
+
+  logout() {
+    this.$router.push({ name: 'auth' });
   }
 }
 </script>

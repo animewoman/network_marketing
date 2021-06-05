@@ -25,7 +25,7 @@ export default class AdministrationPage extends Vue {
     this.getUsers();
   }
 
-  showNotification(login: string, message: string, color: string) {
+  showNotification(message: string, color: string) {
     this.$q.notify({
       message,
       color,
@@ -66,11 +66,7 @@ export default class AdministrationPage extends Vue {
       const userDuplicate = this.users.find((soughtUser) => soughtUser.login === user.login);
 
       if (userDuplicate) {
-        this.showNotification(
-          userDuplicate.login,
-          `Пользователь с именем ${userDuplicate.login} уже существует`,
-          'negative',
-        );
+        this.showNotification(`Пользователь с именем ${userDuplicate.login} уже существует`, 'negative');
 
         return;
       }

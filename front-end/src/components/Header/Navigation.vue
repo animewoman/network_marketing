@@ -72,7 +72,7 @@ export default class Navigation extends Vue {
     {
       icon: 'sync_alt',
       label: 'Внутренний перевод',
-      routeName: 'auth',
+      routeName: 'transfer',
     },
     {
       icon: 'payments',

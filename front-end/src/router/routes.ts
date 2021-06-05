@@ -3,6 +3,7 @@ import AdministrationPage from '@/pages/AdministrationPage.vue';
 import AuthPage from '@/pages/AuthPage.vue';
 import UserPage from '@/pages/UserPage.vue';
 import UserControl from '@/components/Administration/UserControl.vue';
+import Transfer from '@/components/Operations/Transfer.vue';
 
 const routes: RouteConfig[] = [
   {
@@ -21,9 +22,14 @@ const routes: RouteConfig[] = [
     component: AuthPage,
   },
   {
-    path: '/:id',
+    path: '/user:login',
     name: 'user',
     component: UserPage,
+  },
+  {
+    path: '/transfer',
+    name: 'transfer',
+    component: Transfer,
   },
 ];
 

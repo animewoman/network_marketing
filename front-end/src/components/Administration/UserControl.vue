@@ -31,7 +31,7 @@
     <q-form greedy>
       <q-input label="ФИО пользователя" v-model="user.login" readonly />
       <q-input label="Регион" v-model="user.region" readonly />
-      <q-input label="Телфеон" v-model="user.phone" readonly />
+      <q-input label="Телефон" v-model="user.phone" readonly />
       <q-input label="Почта" v-model="user.email" readonly />
       <q-input label="Баллы" v-model="user.score" />
 
@@ -89,30 +89,36 @@ export default class UserControl extends Vue {
     parent: '',
   };
 
+  get userId() {
+    return String(this.$route.query);
+  }
+
   created() {
     this.fetchUser();
   }
 
   toParent() {
     if (this.parentId && this.parentId !== '-') {
-      this.$router.replace({ name: 'user-control', query: this.parentId });
       this.fetchUser();
+      this.$router.replace({ name: 'user-control', query: this.parentId });
     }
   }
 
   async fetchUser() {
     try {
-      const id = String(this.$route.query);
+      if (this.userId) {
+        const user = await getUser(this.userId);
 
-      if (id) {
-        const user = await getUser(id);
-        this.parentId = user.parent;
-        const userParent = await getUser(user.parent);
+        if (user.parent && user.parent !== '-') {
+          this.parentId = user.parent;
+          const userParent = await getUser(user.parent);
+          this.user = { ...user, parent: userParent.login };
 
-        this.user = { ...user, parent: userParent.login };
+          return;
+        }
       }
     } catch (e) {
-      throw new Error();
+      console.log(e);
     }
   }
 

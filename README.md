@@ -15,6 +15,9 @@ PORT: 7777
 * ```sh
     method: "post", 
     url: "/api/user/delete",
+    header params: {
+        access-token: ("Bearer ${samtoken}")
+    }
     body params: {
         _id :string
     }
@@ -33,11 +36,17 @@ PORT: 7777
 
 * ```sh
     method: "get",
-    url: "/api/users"
+    url: "/api/users",
+    header params: {
+        access-token: ("Bearer ${samtoken}")
+    }
 
 * ```sh
     method: "put",
     url: "/api/user/update",
+    header params: {
+        access-token: ("Bearer ${samtoken}")
+    }
     body params: {
         login: String
         email: String
@@ -53,3 +62,18 @@ PORT: 7777
         login: String
         password: String
     }
+
+* ```sh
+    method: "post",
+    url: "/api/auth/logout",
+    header params: {
+        refresh-token: ("Bearer ${samtoken}")
+    }
+
+* ```sh
+    method: "post",
+    url: "/api/auth/refresh-token",
+    header params: {
+        refresh-token: ("Bearer ${samtoken}")
+    }
+

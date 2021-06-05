@@ -36,7 +36,7 @@ exports.createUser = async function (req, res) {
             login: req.body.login
         });
 
-        if (!isNull(userExists)) return res.status(400).send({ message: 'Такой пользователь уже существует' });
+        if (!isNull(userExists)) return res.status(400).send({ message: 'Пользователь с таким логином уже существует' });
         let newUser = new User(req.body);
 
         if (newUser.parent) {
@@ -62,13 +62,13 @@ exports.login = async function (req, res) {
             login,
             password
         });
-        if (isNull(isValidUser)) return res.status(404).send({ message: 'Неправильный логин или пароль' });
+        if (isNull(isValidUser)) return res.status(400).send({ message: 'Неправильный логин или пароль' });
 
-        // const newTokens = isValidUser.isAdmin ? createTokens(isValidUser.login, 1) : createTokens(isValidUser.login);
-        // await tokens.insertOne({ refreshToken: newTokens.refreshToken });
+        const newTokens = isValidUser.isAdmin ? createTokens(isValidUser.login, 1) : createTokens(isValidUser.login);
+        await tokens.insertOne({ refreshToken: newTokens.refreshToken });
 
-        // res.status(200).send({ newTokens });
-        res.sendStatus(200);
+        res.status(200).send({ newTokens });
+        // res.sendStatus(200);
     } catch (err) {
         console.log(err);
         res.sendStatus(500);

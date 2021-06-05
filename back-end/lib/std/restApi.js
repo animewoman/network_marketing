@@ -45,10 +45,11 @@ const createEndpoints = () => {
     try {
         const funcs = require(path.resolve() + '/lib/routes');
         endpoints.forEach((endpoint) => {
-            // const endMiddleware = endpoint.isAdmin ? authenticateAdmin : authenticateJwt;
-            // endpoint.authenticated ? router[endpoint.method](endpoint.url, endMiddleware, funcs[endpoint.func]) :
-            //     router[endpoint.method](endpoint.url, funcs[endpoint.func]);
-            router[endpoint.method](endpoint.url, funcs[endpoint.func]);
+            const endMiddleware = endpoint.isAdmin ? authenticateAdmin : authenticateJwt;
+            endpoint.authenticated ? router[endpoint.method](endpoint.url, endMiddleware, funcs[endpoint.func]) :
+                router[endpoint.method](endpoint.url, funcs[endpoint.func]);
+
+            // router[endpoint.method](endpoint.url, funcs[endpoint.func]);
 
         });
         exports.app.use(router);

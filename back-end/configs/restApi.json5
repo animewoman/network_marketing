@@ -19,6 +19,8 @@
             method: "post", 
             url: "/api/user/delete",
             func: "deleteUser",
+            authenticated: true,
+            isAdmin: true
         },
         /*
                     url: "/api/user/create",
@@ -77,7 +79,9 @@
         {
             method: "put",
             url: "/api/user/update",
-            func: "updateUser"
+            func: "updateUser",
+            authenticated: true,
+            isAdmin: true
         }
     ]
 }

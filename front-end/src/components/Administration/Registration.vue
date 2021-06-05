@@ -124,14 +124,33 @@ export default class Registration extends Vue {
   }
 
   submit() {
-    this.$refs.form.validate();
-    this.$emit('save-user', this.user);
-    this.clearFields();
+    this.validate().then((success) => {
+      if (!success) {
+        this.showNotification('Заполните все поля!', 'negative');
+
+        return;
+      }
+
+      this.$emit('save-user', this.user);
+      this.clearFields();
+    });
   }
 
   clearFields() {
     this.user = { _id: '', login: '', password: '', phone: '', email: '', parent: '' };
     this.repeatPassword = '';
+    this.$refs.form.resetValidation();
+  }
+
+  validate() {
+    return this.$refs.form.validate();
+  }
+
+  showNotification(message: string, color: string) {
+    this.$q.notify({
+      message,
+      color,
+    });
   }
 }
 </script>

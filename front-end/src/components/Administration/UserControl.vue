@@ -29,7 +29,7 @@
     </q-toolbar-title>
 
     <q-form greedy>
-      <q-input label="ФИО пользователя" v-model="user.login" readonly />
+      <q-input label="Логин" v-model="user.login" readonly />
       <q-input label="Регион" v-model="user.region" readonly />
       <q-input label="Телефон" v-model="user.phone" readonly />
       <q-input label="Почта" v-model="user.email" readonly />
@@ -87,6 +87,7 @@ export default class UserControl extends Vue {
     _id: '',
     password: '',
     parent: '',
+    fullName: '',
   };
 
   get userId() {

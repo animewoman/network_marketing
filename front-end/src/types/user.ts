@@ -8,7 +8,6 @@ export interface User {
   parent: string;
   score?: number;
   region?: string;
-  inn?: string | number;
 }
 
 export interface AuthUser {

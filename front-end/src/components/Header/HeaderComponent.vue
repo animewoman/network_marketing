@@ -11,6 +11,7 @@
 import { Component, Vue } from 'vue-property-decorator';
 import { LOGINNED_USER } from '@/service/Users';
 
+//TODO: Компонент не используется?
 @Component({
   name: 'HeaderComponent',
 })

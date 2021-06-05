@@ -3,7 +3,9 @@
     <q-toolbar-title class="q-pb-md">Регистрация пользователя</q-toolbar-title>
 
     <q-form ref="form">
-      <q-input label="Имя пользователя" v-model="user.login" :rules="[requiredField]" />
+      <q-input label="Логин" v-model="user.login" :rules="[requiredField]" />
+
+      <q-input label="ФИО пользователя" v-model="user.fullName" :rules="[requiredField]" />
 
       <q-input label="Спонсор" v-model="user.parent" />
 
@@ -53,6 +55,7 @@ export default class Registration extends Vue {
   user: User = {
     _id: '',
     login: '',
+    fullName: '',
     password: '',
     phone: '',
     email: '',

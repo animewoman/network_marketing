@@ -6,7 +6,7 @@
           <q-toolbar class="row">
             <q-space />
 
-            <p><span class="bold-text" style="color: #1d1d1d">Логин: </span></p>
+            <p style="margin: 0"><span class="bold-text" style="color: #1d1d1d">Логин: </span></p>
             <q-btn class="q-mx-md" label="Выйти" color="negative" @click="logout" />
           </q-toolbar>
         </q-header>
@@ -24,7 +24,8 @@
                     {{ item.label }}
                   </q-item-section>
                 </q-item>
-                <q-separator :key="'sep' + index" v-if="item.separator"></q-separator>
+
+                <q-separator :key="'sep' + index" v-if="item.separator" />
               </template>
             </q-list>
           </q-scroll-area>
@@ -86,11 +87,11 @@ export default class Navigation extends Vue {
     },
   ];
 
-  get showHeader() {
+  get showHeader(): boolean {
     return this.$route.name !== 'user-control' && this.$route.name !== 'admin';
   }
 
-  get authPage() {
+  get authPage(): boolean {
     return this.$route.name === 'auth';
   }
 

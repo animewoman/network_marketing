@@ -1,7 +1,5 @@
 <template>
   <div>
-    <header-component @logout="logout" />
-
     <div class="q-px-xl row">
       <registration @save-user="saveUser($event)" />
       <user-list class="q-px-xl" :users="users" :loading="loading" @delete-user="deleteUser($event)" />
@@ -79,7 +77,7 @@ export default class AdministrationPage extends Vue {
       await saveUser(user);
       await this.getUsers();
     } catch (e) {
-      throw new Error(e);
+      console.error(e);
     } finally {
       this.loading = false;
     }

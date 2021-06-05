@@ -18,7 +18,7 @@ const routes: RouteConfig[] = [
     path: '/',
     name: 'auth',
     component: AuthPage,
-  }
+  },
 ];
 
 export default routes;

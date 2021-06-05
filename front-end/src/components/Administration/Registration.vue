@@ -5,7 +5,7 @@
     <q-form ref="form">
       <q-input label="Имя пользователя" v-model="user.login" :rules="[requiredField]" />
 
-      <q-input label="Спонсор" v-model="user.parent" :rules="[requiredField]" />
+      <q-input label="Спонсор" v-model="user.parent" />
 
       <q-input label="Регион" v-model="user.region" :rules="[requiredField]" />
 

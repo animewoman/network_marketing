@@ -35,15 +35,3 @@ export async function deleteUser(id: string): Promise<string> {
 
   return response.data;
 }
-
-export async function loginUser(user: AuthUser): Promise<number> {
-  const response = await api().post('/auth/login', user);
-
-  if (response.status === 200) {
-    LOGINNED_USER = user
-  } else {
-    LOGINNED_USER = null
-  }
-
-  return response.status;
-}

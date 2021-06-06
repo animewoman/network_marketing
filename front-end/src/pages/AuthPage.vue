@@ -1,11 +1,11 @@
 <template>
   <div class="m-auto q-pt-xl" style="max-width: 600px">
-    <q-form>
+    <q-form @reset="clearFields" @submit="authorize">
       <q-toolbar-title> Авторизация</q-toolbar-title>
       <q-input label="Логин" v-model="user.login" />
       <q-input label="Пароль" v-model="user.password" type="password" />
 
-      <q-btn label="Войти" class="q-my-md" color="primary" @click="authorize" />
+      <q-btn label="Войти" class="q-my-md" color="primary" type="submit" />
     </q-form>
   </div>
 </template>

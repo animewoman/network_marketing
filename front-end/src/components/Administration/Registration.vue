@@ -5,7 +5,7 @@
     <q-form ref="form" @submit="submit">
       <q-input label="Логин" v-model="user.login" :rules="[requiredField]" />
 
-      <q-input label="ФИО пользователя" v-model="user.fullName" :rules="[requiredField]" />
+      <q-input label="ФИО пользователя" v-model="user.fullName" :rules="[requiredField, validateName]" />
 
       <q-input label="Спонсор" v-model="user.parent" />
 
@@ -116,6 +116,10 @@ export default class Registration extends Vue {
 
   validateMail(mail: string): string | boolean {
     return !!mail.match(/\S+?@\S+?\.\S+$/) || 'Неверный формат электронной почты';
+  }
+
+  validateName(name: string): string | boolean {
+    return !name.match(/[^- .а-яА-Яa-zA-ZёЁ\s]/g) || 'Разрешенные символы: -, пробел, буквы';
   }
 
   requiredField(value: string): string | boolean {

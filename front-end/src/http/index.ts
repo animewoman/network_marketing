@@ -11,12 +11,12 @@ function auth() {
 export async function loginUser(user: AuthUser) {
   const response = await auth().post('/login', user);
 
-  if (!response.data.newTokens) {
+  if (!response.data.tokens) {
     return response.data.message;
   }
 
-  const accessToken = response.data.newTokens.accessToken;
-  const refreshToken = response.data.newTokens.refreshToken;
+  const accessToken = response.data.tokens.accessToken;
+  const refreshToken = response.data.tokens.refreshToken;
 
   localStorage.setItem('accessToken', `${accessToken}`);
   localStorage.setItem('refreshToken', `${refreshToken}`);

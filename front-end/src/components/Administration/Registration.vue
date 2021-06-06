@@ -140,7 +140,7 @@ export default class Registration extends Vue {
   }
 
   clearFields() {
-    this.user = { _id: '', login: '', password: '', phone: '', email: '', parent: '' };
+    this.user = { _id: '', login: '', password: '', phone: '', email: '', parent: '', fullName: '' };
     this.repeatPassword = '';
     this.$refs.form.resetValidation();
   }

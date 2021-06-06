@@ -79,10 +79,10 @@ export default class UserList extends Vue {
   };
 
   toUser(event: never, user: User) {
-    const id = user._id;
+    const login = user.login;
 
-    if (id) {
-      this.$router.push({ name: 'user-control', query: id });
+    if (login) {
+      this.$router.push({ name: 'user-control', query: login });
     }
   }
 }

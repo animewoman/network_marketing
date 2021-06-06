@@ -59,9 +59,9 @@ import { Component, Vue } from 'vue-property-decorator';
 export default class Navigation extends Vue {
   menuList = [
     {
-      icon: 'build',
-      label: 'Администрирование',
-      routeName: 'admin',
+      icon: 'portrait',
+      label: 'Личный Кабинет',
+      routeName: '',
       separator: true,
     },
     {

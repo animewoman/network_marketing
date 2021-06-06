@@ -1,16 +1,14 @@
-import { User } from '@/types/user';
+import { User, UserDTO } from '@/types/user';
 
-export function mapUserParent(mappedUser: User, allUsers: User[]): User {
-  const parent: User | undefined = allUsers.find(
-    (user) => user.login.toLowerCase() === mappedUser.parent.toLowerCase(),
-  );
+export function formatUser(user: UserDTO): User {
+  const parent = user.parent.login;
 
-  return { ...mappedUser, parent: parent?._id ?? '-' };
+  return { ...user, parent };
 }
 
-export function mapUserList(users: User[]) {
+export function formatUserList(users: UserDTO[]): User[] {
   return users.map((user) => {
-    const foundParent = users.find((usr) => usr._id === user.parent);
+    const foundParent = users.find((usr) => usr.login === user.parent.login);
 
     return { ...user, parent: foundParent?.login ?? '-' };
   });

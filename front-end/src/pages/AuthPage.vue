@@ -22,15 +22,22 @@ export default class AuthPage extends Vue {
   user: AuthUser = {
     login: '',
     password: '',
+    isAdmin: false,
   };
 
   async authorize() {
     const response = await loginUser(this.user);
-    response.status === 200 ? this.toUserPage(this.user.login) : this.stayHere(response as string);
+    const user = response.data.user;
+    response.status === 200 ? this.toUserPage(user) : this.stayHere(response as string);
   }
 
-  toUserPage(name: string) {
-    this.$router.push({ path: `/user:${name}` });
+  toUserPage(user: AuthUser) {
+    if (user.isAdmin) {
+      this.$router.push({ name: 'admin' });
+      return;
+    }
+
+    this.$router.push({ path: `/user:${user.login}` });
   }
 
   stayHere(message: string) {

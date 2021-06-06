@@ -30,9 +30,9 @@
 
     <q-form greedy>
       <q-input label="Логин" v-model="user.login" readonly />
-      <q-input label="Регион" v-model="user.region" readonly />
-      <q-input label="Телефон" v-model="user.phone" readonly />
-      <q-input label="Почта" v-model="user.email" readonly />
+      <q-input label="Регион" v-model="user.region" />
+      <q-input label="Телефон" v-model="user.phone" />
+      <q-input label="Почта" v-model="user.email" />
       <q-input label="Баллы" v-model="user.score" />
 
       <div class="row">
@@ -90,7 +90,7 @@ export default class UserControl extends Vue {
     fullName: '',
   };
 
-  get userId() {
+  get userLogin() {
     return String(this.$route.query);
   }
 
@@ -98,25 +98,10 @@ export default class UserControl extends Vue {
     this.fetchUser();
   }
 
-  toParent() {
-    if (this.parentId && this.parentId !== '-') {
-      this.fetchUser();
-      this.$router.replace({ name: 'user-control', query: this.parentId });
-    }
-  }
-
   async fetchUser() {
     try {
-      if (this.userId) {
-        const user = await getUser(this.userId);
-
-        if (user.parent && user.parent !== '-') {
-          this.parentId = user.parent;
-          const userParent = await getUser(user.parent);
-          this.user = { ...user, parent: userParent.login };
-
-          return;
-        }
+      if (this.userLogin) {
+        this.user = await getUser(this.userLogin);
       }
     } catch (e) {
       console.log(e);
@@ -141,6 +126,13 @@ export default class UserControl extends Vue {
       }
     } catch (e) {
       throw new Error(e);
+    }
+  }
+
+  async toParent() {
+    if (this.user.parent) {
+      this.$router.replace({ name: 'user-control', query: this.user.parent });
+      this.user = await getUser(this.user.parent);
     }
   }
 

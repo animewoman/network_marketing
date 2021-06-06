@@ -1,19 +1,20 @@
 import { User, AuthUser } from '@/types/user';
 import { api } from '@/http';
+import { formatUserList, formatUser } from '@/service/Formatters/UserFormatter';
 
 export let LOGINNED_USER: AuthUser | null = null;
 
 export async function getUsers(): Promise<User[] | []> {
   const response = await api().get(`/users`);
 
-  return response.data.users;
+  return formatUserList(response.data.users);
 }
 
-export async function getUser(id: string): Promise<User> {
-  const data = `_id=${id}`;
+export async function getUser(login: string): Promise<User> {
+  const data = `login=${login}`;
   const response = await api().get(`/user/get?${data}`);
 
-  return response.data;
+  return formatUser(response.data);
 }
 
 export async function saveUser(user: User): Promise<string> {

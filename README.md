@@ -9,7 +9,7 @@ PORT: 7777
     method: "get",
     url: "/api/user/get",
     url params: {
-        _id: string
+        login: string
     }
 
 * ```sh
@@ -75,5 +75,16 @@ PORT: 7777
     url: "/api/auth/refresh-token",
     header params: {
         refresh-token: ("Bearer ${samtoken}")
+    }
+
+* ```sh
+    method: "post",
+    url: "/api/user/send-money",
+    header params: {
+        access-token: ("Bearer ${samtoken}")
+    },
+    body params: {
+        login: String,
+        score: Number
     }
 

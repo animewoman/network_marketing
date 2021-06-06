@@ -2,7 +2,7 @@
   <div class="q-pt-xl q-px-lg" style="max-width: 400px">
     <q-toolbar-title class="q-pb-md">Регистрация пользователя</q-toolbar-title>
 
-    <q-form ref="form">
+    <q-form ref="form" @submit="submit">
       <q-input label="Логин" v-model="user.login" :rules="[requiredField]" />
 
       <q-input label="ФИО пользователя" v-model="user.fullName" :rules="[requiredField]" />
@@ -11,7 +11,7 @@
 
       <q-input label="Регион" v-model="user.region" :rules="[requiredField]" />
 
-      <q-input label="Почта" v-model="user.email" :rules="[requiredField, validateMail]" />
+      <!--      <q-input label="Почта" v-model="user.email" :rules="[requiredField, validateMail]" />-->
 
       <q-input
         label="Телефон"
@@ -22,22 +22,22 @@
       />
 
       <q-input
-        ref="pass"
         label="Пароль"
-        type="password"
         v-model="user.password"
+        ref="pass"
+        type="password"
         :rules="[validatePassword, requiredField]"
       />
 
       <q-input
-        ref="pass2"
         label="Пароль (повторно)"
-        type="password"
         v-model="repeatPassword"
+        ref="pass2"
+        type="password"
         :rules="[validatePassword]"
       />
 
-      <q-btn class="q-mt-lg" label="Зарегистрировать" color="primary" no-caps @click="submit" />
+      <q-btn class="q-mt-lg" label="Зарегистрировать" color="primary" no-caps type="submit" />
     </q-form>
   </div>
 </template>
@@ -140,9 +140,22 @@ export default class Registration extends Vue {
   }
 
   clearFields() {
-    this.user = { _id: '', login: '', password: '', phone: '', email: '', parent: '', fullName: '' };
+    this.user = {
+      _id: '',
+      login: '',
+      fullName: '',
+      password: '',
+      phone: '',
+      email: '',
+      parent: '',
+      region: '',
+      score: 0,
+    };
+
     this.repeatPassword = '';
+
     this.$refs.form.resetValidation();
+    this.$refs.form.reset();
   }
 
   validate() {

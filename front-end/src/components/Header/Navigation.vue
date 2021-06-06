@@ -1,7 +1,7 @@
 <template>
   <q-layout view="hHh Lpr lff" class="shadow-2 rounded-borders">
-    <div v-if="!authPage">
-      <div v-if="showHeader">
+    <div v-if="!isAuthPage">
+      <div>
         <q-header class="bg-grey-4">
           <q-toolbar class="row">
             <q-space />
@@ -11,7 +11,7 @@
           </q-toolbar>
         </q-header>
 
-        <q-drawer show-if-above :width="230" :breakpoint="500" bordered content-class="bg-grey-3">
+        <q-drawer v-if="showNavigation" show-if-above :width="230" :breakpoint="500" bordered content-class="bg-grey-3">
           <q-scroll-area class="fit">
             <q-list>
               <template v-for="(item, index) in menuList">
@@ -31,15 +31,6 @@
           </q-scroll-area>
         </q-drawer>
       </div>
-
-      <q-header v-else class="bg-grey-4">
-        <q-toolbar class="row">
-          <q-space />
-
-          <p><span class="bold-text" style="color: #1d1d1d">Логин: </span></p>
-          <q-btn class="q-mx-md" label="Выйти" color="negative" @click="logout" />
-        </q-toolbar>
-      </q-header>
     </div>
 
     <q-page-container>
@@ -87,11 +78,11 @@ export default class Navigation extends Vue {
     },
   ];
 
-  get showHeader(): boolean {
+  get showNavigation(): boolean {
     return this.$route.name !== 'user-control' && this.$route.name !== 'admin';
   }
 
-  get authPage(): boolean {
+  get isAuthPage(): boolean {
     return this.$route.name === 'auth';
   }
 

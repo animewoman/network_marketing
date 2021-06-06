@@ -82,6 +82,12 @@
             func: "updateUser",
             authenticated: true,
             isAdmin: true
+        },
+        {
+            method: "post",
+            url: "/api/user/send-money",
+            func: "sendMoney",
+            authenticated: true
         }
     ]
 }

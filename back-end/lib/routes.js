@@ -11,7 +11,10 @@ const jwt = require('jsonwebtoken');
 exports.getUserId = async function (req, res) {
     try {
         console.log(req.query);
-        const user = await findById(users, req.query._id);
+        // const user = await findById(users, req.query._id);
+        const user = await users.findOne({ login: req.query.login }, {
+            projection: excludeUnnessary()
+        });
         res.status(200).send(user);
     } catch (err) {
         console.log(err);
@@ -42,7 +45,7 @@ exports.createUser = async function (req, res) {
         if (newUser.parent) {
             let itBe = await newUser.getParent(users);
             if (itBe === null) return res.status(400).send({ message: "Такого спонсора нет" });
-            newUser.parent = itBe._id;
+            newUser.parent = itBe;
         }
 
         const user = await users.insertOne(newUser);
@@ -67,8 +70,14 @@ exports.login = async function (req, res) {
         const newTokens = isValidUser.isAdmin ? createTokens(isValidUser.login, 1) : createTokens(isValidUser.login);
         await tokens.insertOne({ refreshToken: newTokens.refreshToken });
 
-        res.status(200).send({ newTokens });
-        // res.sendStatus(200);
+        const resp = {
+            user: {
+                login: isValidUser.login,
+                isAdmin: isValidUser.isAdmin
+            },
+            tokens: newTokens
+        };
+        res.status(200).send(resp);
     } catch (err) {
         console.log(err);
         res.sendStatus(500);
@@ -125,6 +134,7 @@ exports.getUsers = async function (req, res) {
             projection: excludeUnnessary()
         }).toArray();
 
+        console.log(allUsers);
         res.status(200).send({ users: allUsers });
     } catch (err) {
         console.log(err);
@@ -151,6 +161,22 @@ exports.updateUser = async function (req, res) {
         console.log(err);
         return res.sendStatus(500);
     }
+}
+
+exports.sendMoney = async function (req, res) {
+    try {
+        await users.update({
+            login: req.body.login
+        }, {
+            $inc: {
+                score: req.body.score
+            }
+        });
+    } catch (err) {
+        console.log(err);
+        res.sendStatus(500);
+    }
+    res.sendStatus(200);
 }
 
 const findById = async (collection, id) => {

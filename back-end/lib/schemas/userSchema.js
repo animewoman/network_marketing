@@ -12,7 +12,11 @@ class User {
 
     async getParent(collection) {
         try {
-            return await collection.findOne({ login: this.parent });
+            return await collection.findOne({ login: this.parent }, {
+                projection: {
+                    password: 0
+                }
+            });
         } catch (err) {
             throw new Error(err);
         }

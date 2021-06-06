@@ -165,6 +165,23 @@ exports.updateUser = async function (req, res) {
 
 exports.sendMoney = async function (req, res) {
     try {
+        let resp = await users.update({
+            login: req.user.login,
+            score: {
+                $gt: req.body.score
+            }
+        }, {
+            $inc: {
+                score: -(req.body.score)
+            }
+        });
+
+        if (!resp.result.nModified) {
+            return res.status(400).send({
+                message: "Недостаточно средств"
+            });
+        }
+
         await users.update({
             login: req.body.login
         }, {

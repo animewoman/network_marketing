@@ -43,6 +43,7 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
+import { logoutUser } from '@/http';
 
 @Component({
   name: 'Navigation',
@@ -52,13 +53,13 @@ export default class Navigation extends Vue {
     {
       icon: 'portrait',
       label: 'Личный Кабинет',
-      routeName: '',
+      routeName: 'user',
       separator: true,
     },
     {
       icon: 'groups',
       label: 'Мои партнеры',
-      routeName: 'auth',
+      routeName: 'test',
     },
     {
       icon: 'sync_alt',
@@ -68,12 +69,12 @@ export default class Navigation extends Vue {
     {
       icon: 'payments',
       label: 'Вывод средств',
-      routeName: 'auth',
+      routeName: 'test',
     },
     {
       icon: 'equalizer',
       label: 'Отчеты',
-      routeName: 'auth',
+      routeName: 'test',
       separator: true,
     },
   ];
@@ -86,8 +87,13 @@ export default class Navigation extends Vue {
     return this.$route.name === 'auth';
   }
 
-  logout() {
-    this.$router.replace({ name: 'auth' });
+  async logout() {
+    localStorage.removeItem('user');
+    localStorage.removeItem('accessToken');
+    localStorage.removeItem('refreshToken');
+
+    await logoutUser();
+    await this.$router.replace({ name: 'auth' });
   }
 
   changeRoute(name: string) {

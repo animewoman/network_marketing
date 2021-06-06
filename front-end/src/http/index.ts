@@ -24,6 +24,11 @@ export async function loginUser(user: AuthUser) {
   return response;
 }
 
+export async function logoutUser() {
+  const response = await api().post('/auth/logout');
+  console.log(response);
+}
+
 export default function http(root = '') {
   const accessToken = localStorage.getItem('accessToken');
 

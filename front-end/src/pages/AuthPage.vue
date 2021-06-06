@@ -27,7 +27,7 @@ export default class AuthPage extends Vue {
 
   async authorize() {
     const response = await loginUser(this.user);
-    const user = response.data.user;
+    const user = response.data?.user;
     response.status === 200 ? this.toUserPage(user) : this.stayHere(response as string);
   }
 

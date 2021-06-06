@@ -34,10 +34,12 @@ export default class AuthPage extends Vue {
   toUserPage(user: AuthUser) {
     if (user.isAdmin) {
       this.$router.push({ name: 'admin' });
+
       return;
     }
 
-    this.$router.push({ path: `/user:${user.login}` });
+    localStorage.setItem('user', `${user.login}`);
+    this.$router.push({ path: '/user' });
   }
 
   stayHere(message: string) {

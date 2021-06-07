@@ -1,7 +1,7 @@
 <template>
   <div class="q-pt-xl q-px-lg">
     <q-table
-      style="width: 800px; max-height: 700px"
+      style="width: 800px; max-height: 600px"
       row-key="name"
       virtual-scroll
       :data="users"

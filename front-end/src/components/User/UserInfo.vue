@@ -1,5 +1,7 @@
 <template>
-  <div v-if="user">
+  <div v-if="user" style="width: 500px" class="q-px-xl">
+    <q-toolbar-title>{{ user.fullName }}</q-toolbar-title>
+
     <q-input label="Логин" v-model="user.login" readonly />
     <q-input label="Логин спонсора" v-model="user.parent" readonly />
     <q-input label="Регион" v-model="user.region" readonly />

@@ -15,7 +15,7 @@
           <q-scroll-area class="fit">
             <q-list>
               <template v-for="(item, index) in menuList">
-                <q-item :key="index" clickable v-ripple @click="changeRoute(item.routeName)">
+                <q-item :active="item.isActive" :key="index" clickable v-ripple @click="changeRoute(item.routeName)">
                   <q-item-section avatar>
                     <q-icon :name="item.icon"></q-icon>
                   </q-item-section>
@@ -55,27 +55,26 @@ export default class Navigation extends Vue {
       label: 'Личный Кабинет',
       routeName: 'user',
       separator: true,
+      isActive: true,
     },
     {
       icon: 'groups',
       label: 'Мои партнеры',
       routeName: 'test',
+      isActive: false,
     },
     {
       icon: 'sync_alt',
       label: 'Внутренний перевод',
       routeName: 'transfer',
-    },
-    {
-      icon: 'payments',
-      label: 'Вывод средств',
-      routeName: 'test',
+      isActive: false,
     },
     {
       icon: 'equalizer',
       label: 'Отчеты',
-      routeName: 'test',
+      routeName: 'reports',
       separator: true,
+      isActive: false,
     },
   ];
 
@@ -97,6 +96,12 @@ export default class Navigation extends Vue {
   }
 
   changeRoute(name: string) {
+    const oldActive = this.menuList.find((item) => item.isActive);
+    oldActive.isActive = false;
+
+    const newActive = this.menuList.find((item) => item.routeName === name);
+    newActive.isActive = true;
+
     this.$router.push({ name });
   }
 }

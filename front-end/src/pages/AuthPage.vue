@@ -1,5 +1,5 @@
 <template>
-  <q-card class="m-auto q-mt-xl q-pa-lg" style="width: 500px">
+  <q-card class="m-auto q-pa-lg" style="width: 500px">
     <q-form @reset="clearFields" @submit="authorize">
       <q-toolbar-title class="q-py-md"> Авторизация</q-toolbar-title>
 

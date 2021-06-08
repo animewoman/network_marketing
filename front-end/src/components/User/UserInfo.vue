@@ -22,7 +22,7 @@
       />
     </div>
 
-    <div class="q-pt-sm" style="width: 500px; margin: 0 auto">
+    <q-card class="q-pa-lg m-auto" style="width: 500px">
       <q-input label="Логин спонсора" :value="parentName" readonly>
         <template #prepend>
           <q-icon name="school" />
@@ -47,12 +47,12 @@
         </template>
       </q-input>
 
-      <q-input label="Баланс" :value="user.score" readonly>
+      <q-input label="Баланс" :value="user.score" readonly borderless>
         <template #prepend>
           <q-icon name="payments" color="positive" />
         </template>
       </q-input>
-    </div>
+    </q-card>
   </div>
 </template>
 
@@ -94,17 +94,6 @@ export default class UserInfo extends Vue {
 </script>
 
 <style scoped>
-.subtitle {
-  margin: 0;
-  color: rgba(0, 0, 0, 0.6);
-  font-size: 14px;
-}
-
-.subtitle.small-text {
-  margin-top: 15px;
-  font-size: 11px;
-}
-
 .login-text {
   justify-content: center;
 }

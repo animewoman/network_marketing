@@ -64,4 +64,15 @@ export default class AdministrationPage extends Vue {
 .m-auto {
   margin: 0 auto;
 }
+
+.subtitle {
+  margin: 0;
+  color: rgba(0, 0, 0, 0.6);
+  font-size: 14px;
+}
+
+.subtitle.small-text {
+  margin-top: 15px;
+  font-size: 11px;
+}
 </style>

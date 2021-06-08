@@ -133,8 +133,6 @@ export default class Navigation extends Vue {
         item.isActive = true;
         return;
       }
-
-      item.isActive = false;
     });
   }
 }

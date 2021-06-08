@@ -117,7 +117,7 @@ export default class UserControl extends Vue {
 
   async deleteUser() {
     try {
-      const response = await deleteUser(this.user._id);
+      const response = await deleteUser(this.user);
 
       if (response === 'OK') {
         this.toAdminPage();

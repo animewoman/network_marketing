@@ -14,6 +14,7 @@
 import { Component, Vue } from 'vue-property-decorator';
 import { AuthUser } from '@/types/user';
 import { loginUser } from '@/http';
+import { showNotification } from '@/service/Notification';
 
 @Component({
   name: 'AuthPage',
@@ -42,21 +43,15 @@ export default class AuthPage extends Vue {
     this.$router.push({ path: '/user' });
   }
 
+  //TODO: заменить уведомление на обычный текст у инпута?
   stayHere(message: string) {
     this.clearFields();
-    this.showNotification(message, 'negative');
+    showNotification(message, 'negative');
   }
 
   clearFields() {
     this.user.login = '';
     this.user.password = '';
-  }
-
-  showNotification(message: string, color: string) {
-    this.$q.notify({
-      message,
-      color,
-    });
   }
 }
 </script>

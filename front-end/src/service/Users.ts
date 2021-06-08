@@ -1,8 +1,13 @@
-import { User, AuthUser } from '@/types/user';
 import { api } from '@/http';
+import { User } from '@/types/user';
 import { formatUserList, formatUser } from '@/service/Formatters/UserFormatter';
+import { showNotification } from '@/service/Notification';
 
-export let LOGINNED_USER: AuthUser | null = null;
+interface Response {
+  data: any;
+  message?: string;
+  status?: number;
+}
 
 export async function getUsers(): Promise<User[] | []> {
   const response = await api().get(`/users`);
@@ -17,21 +22,34 @@ export async function getUser(login: string): Promise<User> {
   return formatUser(response.data);
 }
 
-export async function saveUser(user: User): Promise<string> {
+export async function saveUser(user: User): Promise<Response> {
   const response = await api().post(`/user/create`, user);
+  console.log(response);
+  //проверку поменять на response.data.data
+  if (response.status === 201) {
+    showNotification(`Пользователь ${user.login} зарегестрирован`, 'positive');
+  }
 
-  return response.data;
+  return { data: response.data.data, message: response.data.messsage };
 }
 
 export async function updateUser(user: User): Promise<User> {
   const response = await api().put('/user/update', user);
 
+  if (response.status === 200) {
+    showNotification(`Данные пользователя ${user.login} изменены`, 'info');
+  }
+
   return response.data;
 }
 
-export async function deleteUser(id: string): Promise<string> {
-  const data = { _id: id };
+export async function deleteUser(user: User): Promise<string> {
+  const data = { _id: user._id };
   const response = await api().post('/user/delete', data);
+
+  if (response.status === 200) {
+    showNotification(`Пользователь ${user.login} удален!`, 'warning');
+  }
 
   return response.data;
 }

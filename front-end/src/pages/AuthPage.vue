@@ -1,5 +1,5 @@
 <template>
-  <q-card class="m-auto q-pa-lg" style="width: 500px">
+  <q-card class="m-auto q-pa-lg" style="width: 500px; margin-top: 100px">
     <q-form @reset="clearFields" @submit="authorize">
       <q-toolbar-title class="q-py-md"> Авторизация</q-toolbar-title>
 
@@ -56,3 +56,9 @@ export default class AuthPage extends Vue {
   }
 }
 </script>
+
+<style scoped>
+body {
+  background-color: #1d1d1d;
+}
+</style>

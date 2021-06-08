@@ -9,7 +9,8 @@
       <div class="row">
         <q-btn class="q-my-md" label="Отправить" color="positive" @click="transferMoney" />
 
-        <p v-if="user" class="subtitle q-pt-xl q-px-md">
+        <q-space />
+        <p v-if="user" class="subtitle q-px-md" style="padding-top: 40px">
           <q-icon name="payments" color="positive" /> Ваш балланс:<span style="font-weight: bold">
             {{ userScore }}
           </span>
@@ -53,6 +54,7 @@ export default class Transfer extends Vue {
 
   async transferMoney() {
     await transferMoney(this.transferInfo);
+    await this.fetchUser();
   }
 
   async fetchUser() {

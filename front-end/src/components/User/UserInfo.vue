@@ -1,6 +1,6 @@
 <template>
   <div v-if="user" style="width: 800px" class="q-px-xl">
-    <div class="row card-title q-py-lg">
+    <q-card class="row card-title q-my-md q-px-lg q-py-sm">
       <div class="col-sm-4">
         <p class="subtitle">Добро пожаловать:</p>
         <q-toolbar-title style="padding: 0">{{ user.fullName }}</q-toolbar-title>
@@ -20,7 +20,7 @@
         align="right"
         style="height: 30px"
       />
-    </div>
+    </q-card>
 
     <q-card class="q-pa-lg m-auto" style="width: 500px">
       <q-input label="Логин спонсора" :value="parentName" readonly>

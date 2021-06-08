@@ -1,5 +1,5 @@
 <template>
-  <div class="q-pt-xl q-px-lg" style="max-width: 400px">
+  <q-card class="q-my-md q-pa-lg" style="max-width: 400px">
     <q-toolbar-title class="q-pb-md">Регистрация пользователя</q-toolbar-title>
 
     <q-form ref="form" @submit="submit">
@@ -39,7 +39,7 @@
 
       <q-btn class="q-mt-lg" label="Зарегистрировать" color="primary" no-caps type="submit" />
     </q-form>
-  </div>
+  </q-card>
 </template>
 
 <script lang="ts">

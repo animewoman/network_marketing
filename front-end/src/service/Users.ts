@@ -30,6 +30,10 @@ export async function saveUser(user: User): Promise<Response> {
     showNotification(`Пользователь ${user.login} зарегестрирован`, 'positive');
   }
 
+  if (response.data.message) {
+    showNotification(`${response.data.message}`, 'negative');
+  }
+
   return { data: response.data.data, message: response.data.messsage };
 }
 

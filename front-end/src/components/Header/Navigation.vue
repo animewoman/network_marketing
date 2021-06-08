@@ -128,11 +128,17 @@ export default class Navigation extends Vue {
   }
 
   setActiveRoute() {
+    if (this.$route.name === 'auth') {
+      return;
+    }
+
     this.menuList.forEach((item) => {
       if (item.routeName === this.$route.name) {
         item.isActive = true;
         return;
       }
+
+      item.isActive = false;
     });
   }
 }

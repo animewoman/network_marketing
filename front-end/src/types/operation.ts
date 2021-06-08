@@ -1,4 +1,4 @@
 export interface TransferData {
-  score: number;
+  score: number | null;
   login: string;
 }

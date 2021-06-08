@@ -35,7 +35,7 @@ import { getUser } from '@/service/Users';
 export default class Transfer extends Vue {
   user: User | null = null;
   transferInfo: TransferData = {
-    score: 0,
+    score: null,
     login: '',
   };
 

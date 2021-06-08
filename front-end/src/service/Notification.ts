@@ -1,18 +1,16 @@
 import { Notify } from 'quasar';
 
-export function showNotification(message: string, color = 'info', timeout = 4000): void {
+export function showNotification(message: string, type = 'info', timeout = 4000): void {
   let textColor = 'white';
 
-  if (color === 'info') {
-    textColor = 'black';
+  if (type === 'info') {
+    textColor = 'grey';
   }
 
   Notify.create({
-    color,
+    type,
     textColor,
     message,
-    position: 'bottom',
     timeout,
-    actions: [{ label: 'OK', color: textColor }],
   });
 }

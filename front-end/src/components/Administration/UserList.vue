@@ -55,6 +55,12 @@ export default class UserList extends Vue {
       sortable: true,
     },
     {
+      name: 'fullName',
+      label: 'ФИО',
+      field: 'fullName',
+      sortable: true,
+    },
+    {
       name: 'score',
       label: 'Баллы',
       field: 'score',

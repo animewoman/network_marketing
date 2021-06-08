@@ -23,11 +23,35 @@
     </div>
 
     <div class="q-pt-sm" style="width: 500px; margin: 0 auto">
-      <q-input label="Логин спонсора" :value="parentName" readonly />
-      <q-input label="Регион" :value="user.region" readonly />
-      <q-input label="Телефон" :value="user.phone" mask="(###)##-##-##" unmasked-value readonly />
-      <q-input label="Электронная почта" :value="userMail" readonly />
-      <q-input label="Баланс" :value="user.score" readonly />
+      <q-input label="Логин спонсора" :value="parentName" readonly>
+        <template #prepend>
+          <q-icon name="school" />
+        </template>
+      </q-input>
+
+      <q-input label="Регион" :value="user.region" readonly>
+        <template #prepend>
+          <q-icon name="location_on" />
+        </template>
+      </q-input>
+
+      <q-input label="Телефон" :value="user.phone" mask="(###)##-##-##" unmasked-value readonly>
+        <template #prepend>
+          <q-icon name="call" />
+        </template>
+      </q-input>
+
+      <q-input label="Электронная почта" :value="userMail" readonly>
+        <template #prepend>
+          <q-icon name="email" />
+        </template>
+      </q-input>
+
+      <q-input label="Баланс" :value="user.score" readonly>
+        <template #prepend>
+          <q-icon name="payments" color="positive" />
+        </template>
+      </q-input>
     </div>
   </div>
 </template>
@@ -56,7 +80,7 @@ export default class UserInfo extends Vue {
   }
 
   async fetchUser() {
-    const login = localStorage.getItem('user');
+    const login = localStorage.getItem('login');
 
     if (login) {
       this.user = await getUser(login);

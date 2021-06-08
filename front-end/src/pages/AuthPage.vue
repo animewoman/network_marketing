@@ -1,13 +1,14 @@
 <template>
-  <div class="m-auto q-pt-xl" style="max-width: 600px">
+  <q-card class="m-auto q-mt-xl q-pa-lg" style="width: 500px">
     <q-form @reset="clearFields" @submit="authorize">
-      <q-toolbar-title> Авторизация</q-toolbar-title>
+      <q-toolbar-title class="q-py-md"> Авторизация</q-toolbar-title>
+
       <q-input label="Логин" v-model="user.login" />
       <q-input label="Пароль" v-model="user.password" type="password" />
 
       <q-btn label="Войти" class="q-my-md" color="primary" type="submit" />
     </q-form>
-  </div>
+  </q-card>
 </template>
 
 <script lang="ts">
@@ -39,7 +40,7 @@ export default class AuthPage extends Vue {
       return;
     }
 
-    localStorage.setItem('user', `${user.login}`);
+    localStorage.setItem('login', `${user.login}`);
     this.$router.push({ path: '/user' });
   }
 

@@ -4,6 +4,7 @@ import AuthPage from '@/pages/AuthPage.vue';
 import UserControl from '@/components/Administration/UserControl.vue';
 import Transfer from '@/components/User/Transfer.vue';
 import UserInfo from '@/components/User/UserInfo.vue';
+import Reports from '@/components/User/Reports.vue';
 import TestComponent from '@/components/TestComponent.vue';
 
 const routes: RouteConfig[] = [
@@ -28,14 +29,19 @@ const routes: RouteConfig[] = [
     component: UserInfo,
   },
   {
-    path: '/transfer',
+    path: '/user/transfer',
     name: 'transfer',
     component: Transfer,
   },
   {
-    path: '/test',
+    path: '/user/partners',
     name: 'test',
     component: TestComponent,
+  },
+  {
+    path: '/user/reports',
+    name: 'reports',
+    component: Reports,
   },
 ];
 

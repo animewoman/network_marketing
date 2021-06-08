@@ -2,19 +2,31 @@
   <q-layout view="hHh Lpr lff" class="shadow-2 rounded-borders">
     <div v-if="!isAuthPage">
       <div>
-        <q-header class="bg-grey-4">
+        <q-header class="bg-grey-10">
           <q-toolbar class="row">
             <q-space />
 
-            <p style="margin: 0"><span class="bold-text" style="color: #1d1d1d">Логин: </span></p>
+            <p style="margin: 0">
+              <span class="bold-text">Логин: {{ userLogin }}</span>
+            </p>
             <q-btn class="q-mx-md" label="Выйти" color="negative" @click="logout" />
           </q-toolbar>
         </q-header>
 
-        <q-drawer v-if="showNavigation" show-if-above :width="230" :breakpoint="500" bordered content-class="bg-grey-3">
+        <q-drawer
+          v-if="showNavigation"
+          show-if-above
+          bordered
+          content-class="bg-grey-10"
+          class="border-top"
+          :width="230"
+          :breakpoint="500"
+        >
           <q-scroll-area class="fit">
-            <q-list>
+            <q-list dark bordered>
               <template v-for="(item, index) in menuList">
+                <q-separator color="white" :key="'sep' + index - 1" v-if="item.separator" />
+
                 <q-item :active="item.isActive" :key="index" clickable v-ripple @click="changeRoute(item.routeName)">
                   <q-item-section avatar>
                     <q-icon :name="item.icon"></q-icon>
@@ -24,8 +36,6 @@
                     {{ item.label }}
                   </q-item-section>
                 </q-item>
-
-                <q-separator :key="'sep' + index" v-if="item.separator" />
               </template>
             </q-list>
           </q-scroll-area>
@@ -73,10 +83,13 @@ export default class Navigation extends Vue {
       icon: 'equalizer',
       label: 'Отчеты',
       routeName: 'reports',
-      separator: true,
       isActive: false,
     },
   ];
+
+  get userLogin() {
+    return localStorage.getItem('login');
+  }
 
   get showNavigation(): boolean {
     return this.$route.name !== 'user-control' && this.$route.name !== 'admin';
@@ -86,25 +99,49 @@ export default class Navigation extends Vue {
     return this.$route.name === 'auth';
   }
 
+  created() {
+    this.setActiveRoute();
+  }
+
   async logout() {
-    localStorage.removeItem('user');
+    await logoutUser();
+
+    localStorage.removeItem('login');
     localStorage.removeItem('accessToken');
     localStorage.removeItem('refreshToken');
 
-    await logoutUser();
     await this.$router.replace({ name: 'auth' });
   }
 
   changeRoute(name: string) {
     const oldActive = this.menuList.find((item) => item.isActive);
-    oldActive.isActive = false;
-
     const newActive = this.menuList.find((item) => item.routeName === name);
+
+    if (!oldActive || !newActive) {
+      return;
+    }
+
+    oldActive.isActive = false;
     newActive.isActive = true;
 
     this.$router.push({ name });
   }
+
+  setActiveRoute() {
+    this.menuList.forEach((item) => {
+      if (item.routeName === this.$route.name) {
+        item.isActive = true;
+        return;
+      }
+
+      item.isActive = false;
+    });
+  }
 }
 </script>
 
-<style scoped></style>
+<style scoped>
+.border-top {
+  border-top: #eeeeee 3px;
+}
+</style>

@@ -3,9 +3,10 @@
     <q-toolbar-title>{{ user.fullName }}</q-toolbar-title>
 
     <q-input label="Логин" v-model="user.login" readonly />
-    <q-input label="Логин спонсора" v-model="user.parent" readonly />
+    <q-input label="Логин спонсора" v-model="parentName" readonly />
     <q-input label="Регион" v-model="user.region" readonly />
-    <q-input label="Балланс" v-model="user.score" readonly />
+    <q-input label="Телефон" v-model="user.phone" mask="(###)##-##-##" unmasked-value readonly />
+    <q-input label="Баланс" v-model="user.score" readonly />
   </div>
 </template>
 
@@ -19,6 +20,10 @@ import { getUser } from '@/service/Users';
 })
 export default class UserInfo extends Vue {
   user: User | null = null;
+
+  get parentName() {
+    return this.user?.parent || 'Нет спонсора';
+  }
 
   created() {
     this.fetchUser();

@@ -31,7 +31,7 @@
     <q-form greedy>
       <q-input label="Логин" v-model="user.login" readonly />
       <q-input label="Регион" v-model="user.region" />
-      <q-input label="Телефон" v-model="user.phone" />
+      <q-input label="Телефон" v-model="user.phone" mask="(###)##-##-##" unmasked-value />
       <q-input label="Почта" v-model="user.email" />
       <q-input label="Баллы" v-model="user.score" />
 
@@ -90,18 +90,16 @@ export default class UserControl extends Vue {
     fullName: '',
   };
 
-  get userLogin() {
-    return String(this.$route.query);
-  }
-
   created() {
     this.fetchUser();
   }
 
   async fetchUser() {
     try {
-      if (this.userLogin) {
-        this.user = await getUser(this.userLogin);
+      const login = String(this.$route.query.login);
+
+      if (login) {
+        this.user = await getUser(login);
       }
     } catch (e) {
       console.log(e);
@@ -131,7 +129,7 @@ export default class UserControl extends Vue {
 
   async toParent() {
     if (this.user.parent) {
-      this.$router.replace({ name: 'user-control', query: this.user.parent });
+      this.$router.replace({ name: 'user-control', query: { parent: this.user.parent } });
       this.user = await getUser(this.user.parent);
     }
   }

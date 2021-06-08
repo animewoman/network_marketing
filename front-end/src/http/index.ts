@@ -25,8 +25,7 @@ export async function loginUser(user: AuthUser) {
 }
 
 export async function logoutUser() {
-  const response = await api().post('/auth/logout');
-  console.log(response);
+  await api().post('/auth/logout');
 }
 
 export default function http(root = '') {

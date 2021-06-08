@@ -9,24 +9,23 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import { LOGINNED_USER } from '@/service/Users';
 
 //TODO: Компонент не используется?
 @Component({
   name: 'HeaderComponent',
 })
 export default class HeaderComponent extends Vue {
-  get login() {
-    if (LOGINNED_USER) {
-      return LOGINNED_USER.login;
-    }
-
-    return '';
-  }
-
-  logout() {
-    this.$emit('logout');
-  }
+  // get login() {
+  //   if (LOGINNED_USER) {
+  //     return LOGINNED_USER.login;
+  //   }
+  //
+  //   return '';
+  // }
+  //
+  // logout() {
+  //   this.$emit('logout');
+  // }
 }
 </script>
 <style scoped>

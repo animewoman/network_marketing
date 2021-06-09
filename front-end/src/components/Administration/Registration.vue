@@ -47,6 +47,7 @@ import { Component, Watch, Vue, Prop } from 'vue-property-decorator';
 import { User } from '@/types/user';
 import { saveUser } from '@/service/Users';
 import { QForm, QInput } from 'quasar';
+import { showNotification } from '@/service/Notifications';
 
 @Component({
   name: 'Registration',
@@ -133,7 +134,7 @@ export default class Registration extends Vue {
   submit() {
     this.validate().then((success) => {
       if (!success) {
-        this.showNotification('Заполните все поля!', 'negative');
+        showNotification('Заполните все поля!', 'negative');
 
         return;
       }
@@ -164,13 +165,6 @@ export default class Registration extends Vue {
 
   validate() {
     return this.$refs.form.validate();
-  }
-
-  showNotification(message: string, color: string) {
-    this.$q.notify({
-      message,
-      color,
-    });
   }
 }
 </script>

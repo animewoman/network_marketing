@@ -119,9 +119,6 @@ export default class Navigation extends Vue {
 
     await logoutUser();
 
-    localStorage.removeItem('accessToken');
-    localStorage.removeItem('refreshToken');
-
     await this.$router.replace({ name: 'auth' });
   }
 

@@ -15,7 +15,7 @@ export async function getReports(login: string): Promise<any> {
   const data = { login };
   const response = await api().post('/user/transfers', data);
 
-  return response.data.data;
+  return response.data.data ?? [];
 }
 
 function scoreText(score: number) {

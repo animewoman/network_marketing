@@ -5,6 +5,7 @@
       style="height: 500px"
       :columns="columns"
       :data="reports"
+      :filter="filter"
       :pagination="pagination"
       :loading="loading"
     >
@@ -39,6 +40,7 @@ import { getReports } from '@/service/Operations';
 })
 export default class Reports extends Vue {
   loading = false;
+  filter = '';
 
   reports = [];
 

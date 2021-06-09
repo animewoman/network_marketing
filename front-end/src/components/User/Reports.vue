@@ -1,6 +1,32 @@
 <template>
   <div>
-    <q-table title="Отчеты" :columns="columns" :data="reports" :loading="loading" />
+    <q-table
+      title="Отчеты"
+      style="height: 500px"
+      :columns="columns"
+      :data="reports"
+      :pagination="pagination"
+      :loading="loading"
+    >
+      <template #top>
+        <q-toolbar-title class="table-title">История кошелька</q-toolbar-title>
+        <q-space />
+
+        <q-input v-model="filter" dense color="primary" style="margin: 0 auto" label="Поиск">
+          <template #append>
+            <q-icon name="search" />
+          </template>
+        </q-input>
+      </template>
+
+      <template #header-cell="props">
+        <q-th :props="props">
+          <span class="bold-header">
+            {{ props.col.label }}
+          </span>
+        </q-th>
+      </template>
+    </q-table>
   </div>
 </template>
 
@@ -39,6 +65,10 @@ export default class Reports extends Vue {
       sortable: true,
     },
   ];
+
+  pagination = {
+    rowsPerPage: 50,
+  };
 
   get userLogin(): string {
     const login = localStorage.getItem('login');

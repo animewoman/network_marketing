@@ -12,7 +12,8 @@ export async function transferMoney(data: TransferData): Promise<void> {
 }
 
 export async function getReports(login: string): Promise<any> {
-  const response = await api().post('/user/transfers', login);
+  const data = { login };
+  const response = await api().post('/user/transfers', data);
 
   return response.data.data;
 }

@@ -7,7 +7,7 @@
             <q-space />
 
             <p style="margin: 0">
-              <span class="bold-text">Логин: {{ userLogin }}</span>
+              <span class="bold-text">Логин: {{ login }}</span>
             </p>
             <q-btn class="q-mx-md" label="Выйти" color="negative" @click="logout" />
           </q-toolbar>
@@ -52,7 +52,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
+import { Component, Vue, Watch } from 'vue-property-decorator';
 import { logoutUser } from '@/http';
 
 @Component({
@@ -87,9 +87,7 @@ export default class Navigation extends Vue {
     },
   ];
 
-  get userLogin() {
-    return localStorage.getItem('login');
-  }
+  login: string | null = '';
 
   get showNavigation(): boolean {
     return this.$route.name !== 'user-control' && this.$route.name !== 'admin';
@@ -99,14 +97,24 @@ export default class Navigation extends Vue {
     return this.$route.name === 'auth';
   }
 
+  @Watch('isAuthPage')
+  test() {
+    this.login = localStorage.getItem('login');
+  }
+
   created() {
     this.setActiveRoute();
   }
 
   async logout() {
+    localStorage.removeItem('login');
+
+    const activeRoute = this.menuList.find((item) => item.isActive);
+    activeRoute!.isActive = false;
+    this.menuList[0].isActive = true;
+
     await logoutUser();
 
-    localStorage.removeItem('login');
     localStorage.removeItem('accessToken');
     localStorage.removeItem('refreshToken');
 

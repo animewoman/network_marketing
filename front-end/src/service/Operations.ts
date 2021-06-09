@@ -1,6 +1,6 @@
 import { api } from '@/http';
 import { TransferData } from '@/types/operation';
-import { showNotification } from '@/service/Notification';
+import { showNotification } from '@/service/Notifications';
 
 export async function transferMoney(data: TransferData): Promise<void> {
   const response = await api().post('/user/send-money', data);

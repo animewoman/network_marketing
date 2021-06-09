@@ -14,7 +14,7 @@ import UserList from '@/components/Administration/UserList.vue';
 import HeaderComponent from '@/components/Header/HeaderComponent.vue';
 import { getUsers, deleteUser, saveUser } from '@/service/Users';
 import { User } from '@/types/user';
-import { showNotification } from '@/service/Notification';
+import { showNotification } from '@/service/Notifications';
 
 @Component({
   name: 'AdministrationPage',
@@ -74,5 +74,9 @@ export default class AdministrationPage extends Vue {
 .subtitle.small-text {
   margin-top: 15px;
   font-size: 11px;
+}
+
+.bold-header {
+  font-weight: bold;
 }
 </style>

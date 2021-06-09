@@ -1,7 +1,7 @@
 import { api } from '@/http';
 import { User } from '@/types/user';
 import { formatUserList, formatUser } from '@/service/Formatters/UserFormatter';
-import { showNotification } from '@/service/Notification';
+import { showNotification } from '@/service/Notifications';
 
 interface Response {
   data: any;

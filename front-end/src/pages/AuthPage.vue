@@ -15,7 +15,7 @@
 import { Component, Vue } from 'vue-property-decorator';
 import { AuthUser } from '@/types/user';
 import { loginUser } from '@/http';
-import { showNotification } from '@/service/Notification';
+import { showNotification } from '@/service/Notifications';
 
 @Component({
   name: 'AuthPage',

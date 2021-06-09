@@ -93,9 +93,3 @@ export default class UserList extends Vue {
   }
 }
 </script>
-
-<style scoped>
-.bold-header {
-  font-weight: bold;
-}
-</style>

@@ -5,7 +5,7 @@ import UserControl from '@/components/Administration/UserControl.vue';
 import Transfer from '@/components/User/Transfer.vue';
 import UserInfo from '@/components/User/UserInfo.vue';
 import Reports from '@/components/User/Reports.vue';
-import TestComponent from '@/components/TestComponent.vue';
+import Partners from '@/components/User/Partners.vue';
 
 const routes: RouteConfig[] = [
   {
@@ -35,8 +35,8 @@ const routes: RouteConfig[] = [
   },
   {
     path: '/user/partners',
-    name: 'test',
-    component: TestComponent,
+    name: 'partners',
+    component: Partners,
   },
   {
     path: '/user/reports',

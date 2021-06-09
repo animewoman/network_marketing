@@ -70,7 +70,7 @@ export default class Navigation extends Vue {
     {
       icon: 'groups',
       label: 'Мои партнеры',
-      routeName: 'test',
+      routeName: 'partners',
       isActive: false,
     },
     {

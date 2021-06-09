@@ -14,7 +14,7 @@ export async function transferMoney(data: TransferData): Promise<void> {
 export async function getReports(login: string): Promise<any> {
   const response = await api().post('/user/transfers', login);
 
-  console.log(response);
+  return response.data.data;
 }
 
 function scoreText(score: number) {

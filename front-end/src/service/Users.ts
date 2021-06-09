@@ -12,19 +12,19 @@ interface Response {
 export async function getUsers(): Promise<User[] | []> {
   const response = await api().get(`/users`);
 
-  return formatUserList(response.data.users);
+  return formatUserList(response.data.data);
 }
 
 export async function getUser(login: string): Promise<User> {
   const data = `login=${login}`;
   const response = await api().get(`/user/get?${data}`);
 
-  return formatUser(response.data);
+  return formatUser(response.data.data);
 }
 
 export async function saveUser(user: User): Promise<Response> {
   const response = await api().post(`/user/create`, user);
-  console.log(response);
+
   //проверку поменять на response.data.data
   if (response.status === 201) {
     showNotification(`Пользователь ${user.login} зарегестрирован`, 'positive');

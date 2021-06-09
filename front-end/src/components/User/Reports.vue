@@ -52,7 +52,9 @@ export default class Reports extends Vue {
   async fetchReports() {
     try {
       this.loading = true;
-      this.reports = await getReports(this.userLogin);
+      const response = await getReports(this.userLogin);
+      console.log(response);
+      // this.reports = await getReports(this.userLogin);
     } catch (e) {
       console.log(e.message);
     } finally {

@@ -97,8 +97,12 @@ export default class Navigation extends Vue {
     return this.$route.name === 'auth';
   }
 
-  @Watch('isAuthPage')
-  test() {
+  get routeName(): string {
+    return this.$route.name!;
+  }
+
+  @Watch('routeName', { immediate: true })
+  setLogin() {
     this.login = localStorage.getItem('login');
   }
 

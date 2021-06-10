@@ -3,7 +3,7 @@
     <q-toolbar-title class="q-pb-md">Регистрация пользователя</q-toolbar-title>
 
     <q-form ref="form" @submit="submit">
-      <q-input label="Логин" v-model="user.login" :rules="[requiredField]" />
+      <q-input label="Логин" v-model="user.login" :rules="[requiredField, validateLoginOrPassword]" />
 
       <q-input label="ФИО пользователя" v-model="user.fullName" :rules="[requiredField, validateName]" />
 
@@ -26,7 +26,7 @@
         v-model="user.password"
         ref="pass"
         type="password"
-        :rules="[validatePassword, requiredField]"
+        :rules="[requiredField, validateLoginOrPassword, isPasswordsMatch]"
       />
 
       <q-input
@@ -34,7 +34,7 @@
         v-model="repeatPassword"
         ref="pass2"
         type="password"
-        :rules="[validatePassword]"
+        :rules="[isPasswordsMatch]"
       />
 
       <q-btn class="q-mt-lg" label="Зарегистрировать" color="primary" no-caps type="submit" />
@@ -99,7 +99,7 @@ export default class Registration extends Vue {
     this.$refs.pass2.validate();
   }
 
-  validatePassword(): string | boolean {
+  isPasswordsMatch(): string | boolean {
     if (this.user.password === this.repeatPassword) {
       return true;
     }
@@ -121,6 +121,10 @@ export default class Registration extends Vue {
 
   validateName(name: string): string | boolean {
     return !name.match(/[^- .а-яА-Яa-zA-ZёЁ\s]/g) || 'Разрешенные символы: -, пробел, буквы';
+  }
+
+  validateLoginOrPassword(login: string): string | boolean {
+    return !login.match(/[^.1-9 a-zA-Z\s]/g) || 'Разрешены буквы латинского алфавита и цифры';
   }
 
   requiredField(value: string): string | boolean {

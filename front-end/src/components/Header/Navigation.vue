@@ -3,7 +3,7 @@
     <div v-if="showMobileVersion && !isAuthPage">
       <q-header class="row row bg-grey-10" reveal>
         <q-space />
-        <q-btn label="Выйти" class="q-ma-sm" size="sm" color="negative" @click="logout" />
+        <q-btn label="Выйти" class="q-ma-xs" size="sm" color="negative" @click="logout" />
       </q-header>
 
       <q-footer class="row bg-grey-10" elevated style="position: fixed">
@@ -33,10 +33,20 @@
             <q-btn flat @click="drawer = !drawer" round dense icon="menu" />
             <q-space />
 
-            <p style="margin: 0">
-              <span class="bold-text">Логин: {{ login }}</span>
-            </p>
-            <q-btn class="q-mx-md" label="Выйти" color="negative" @click="logout" />
+            <q-btn-dropdown class="glossy" color="secondary" size="sm" :label="login">
+              <div class="no-wrap q-pa-md">
+                <div class="column items-center">
+                  <q-avatar>
+                    <q-icon name="person" color="secondary" size="lg" />
+                  </q-avatar>
+
+                  <div class="text-subtitle1 q-py-md">Асанов Бекназар</div>
+                  <div class="text-subtitle3 q-pb-sm">Серебрянный директор</div>
+
+                  <q-btn label="Выйти" color="negative" push size="sm" v-close-popup @click="logout" />
+                </div>
+              </div>
+            </q-btn-dropdown>
           </q-toolbar>
         </q-header>
 
@@ -87,6 +97,8 @@ import { logoutUser } from '@/http';
 export default class Navigation extends Vue {
   drawer = true;
 
+  login = 'user-login';
+
   menuList = [
     {
       icon: 'portrait',
@@ -113,8 +125,8 @@ export default class Navigation extends Vue {
       isActive: false,
     },
   ];
-
-  login: string | null = '';
+  //TODO: Для отображения инфы в менюшке выхода нужны фио и статус юзера
+  // login: string | null = '';
 
   get showNavigation(): boolean {
     return this.$route.name !== 'user-control' && this.$route.name !== 'admin';
@@ -132,10 +144,10 @@ export default class Navigation extends Vue {
     return screen.width < 500;
   }
 
-  @Watch('routeName', { immediate: true })
-  setLogin() {
-    this.login = localStorage.getItem('login');
-  }
+  // @Watch('routeName', { immediate: true })
+  // setLogin() {
+  //   this.login = localStorage.getItem('login');
+  // }
 
   created() {
     console.log(screen.width);

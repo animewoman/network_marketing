@@ -84,11 +84,7 @@ export default class UserInfo extends Vue {
 
     if (login) {
       this.user = await getUser(login);
-
-      return;
     }
-
-    console.log('invalid route');
   }
 }
 </script>

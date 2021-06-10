@@ -90,6 +90,7 @@
 <script lang="ts">
 import { Component, Vue, Watch } from 'vue-property-decorator';
 import { logoutUser } from '@/http';
+import { RouteNames } from '@/router/routes';
 
 @Component({
   name: 'Navigation',
@@ -129,11 +130,11 @@ export default class Navigation extends Vue {
   // login: string | null = '';
 
   get showNavigation(): boolean {
-    return this.$route.name !== 'user-control' && this.$route.name !== 'admin';
+    return this.routeName !== RouteNames.USER_CONTROL && this.routeName !== RouteNames.ADMIN;
   }
 
   get isAuthPage(): boolean {
-    return this.$route.name === 'auth';
+    return this.routeName === RouteNames.AUTH;
   }
 
   get routeName(): string {
@@ -150,7 +151,6 @@ export default class Navigation extends Vue {
   // }
 
   created() {
-    console.log(screen.width);
     this.setActiveRoute();
   }
 
@@ -181,12 +181,12 @@ export default class Navigation extends Vue {
   }
 
   setActiveRoute() {
-    if (this.$route.name === 'auth') {
+    if (this.routeName === RouteNames.AUTH) {
       return;
     }
 
     this.menuList.forEach((item) => {
-      if (item.routeName === this.$route.name) {
+      if (item.routeName === this.routeName) {
         item.isActive = true;
         return;
       }

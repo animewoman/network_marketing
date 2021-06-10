@@ -1,6 +1,6 @@
 <template>
   <q-layout view="hHh Lpr lff" class="shadow-2 rounded-borders">
-    <div v-if="showMobileVersion && !isAuthPage">
+    <div v-if="showMobileVersion && showNavigation">
       <q-header class="row row bg-grey-10" reveal>
         <q-space />
         <q-btn label="Выйти" class="q-ma-xs" size="sm" color="negative" @click="logout" />
@@ -26,7 +26,7 @@
       </q-footer>
     </div>
 
-    <div v-else-if="!isAuthPage">
+    <div v-if="showNavigation">
       <div>
         <q-header class="bg-grey-10">
           <q-toolbar class="row">
@@ -130,18 +130,18 @@ export default class Navigation extends Vue {
   // login: string | null = '';
 
   get showNavigation(): boolean {
-    return this.routeName !== RouteNames.USER_CONTROL && this.routeName !== RouteNames.ADMIN;
-  }
-
-  get isAuthPage(): boolean {
-    return this.routeName === RouteNames.AUTH;
+    return (
+      this.routeName !== RouteNames.USER_CONTROL &&
+      this.routeName !== RouteNames.ADMIN &&
+      this.routeName !== RouteNames.AUTH
+    );
   }
 
   get routeName(): string {
     return this.$route.name!;
   }
 
-  get showMobileVersion() {
+  get showMobileVersion(): boolean {
     return screen.width < 500;
   }
 

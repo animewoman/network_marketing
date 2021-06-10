@@ -11,14 +11,13 @@
 import { Component, Vue } from 'vue-property-decorator';
 import Registration from '@/components/Administration/Registration.vue';
 import UserList from '@/components/Administration/UserList.vue';
-import HeaderComponent from '@/components/Header/HeaderComponent.vue';
-import { getUsers, deleteUser, saveUser } from '@/service/Users';
+import { getUsers, saveUser } from '@/service/Users';
 import { User } from '@/types/user';
 import { showNotification } from '@/service/Notifications';
 
 @Component({
   name: 'AdministrationPage',
-  components: { UserList, Registration, HeaderComponent },
+  components: { UserList, Registration },
 })
 export default class AdministrationPage extends Vue {
   users: User[] = [];

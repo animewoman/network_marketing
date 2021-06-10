@@ -2,7 +2,8 @@
   <div>
     <q-table
       title="Отчеты"
-      style="height: 500px"
+      class="m-auto q-mt-xl"
+      style="max-height: 500px; max-width: 900px"
       :columns="columns"
       :data="reports"
       :filter="filter"

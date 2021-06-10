@@ -1,5 +1,5 @@
 <template>
-  <q-card class="q-pa-lg m-auto" style="width: 400px">
+  <q-card class="q-pa-lg q-mt-xl m-auto" style="max-width: 400px">
     <q-form>
       <q-toolbar-title style="text-align: center">Перевод средств</q-toolbar-title>
 

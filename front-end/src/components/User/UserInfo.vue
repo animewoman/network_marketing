@@ -1,5 +1,5 @@
 <template>
-  <div v-if="user" style="width: 800px" class="q-px-xl">
+  <div v-if="user" style="max-width: 800px" class="q-px-xl">
     <q-card class="row card-title q-my-md q-px-lg q-py-sm">
       <div class="col-sm-4">
         <p class="subtitle">Добро пожаловать:</p>
@@ -18,11 +18,11 @@
         color="grey"
         class="q-mt-md"
         align="right"
-        style="height: 30px"
+        style="max-height: 30px"
       />
     </q-card>
 
-    <q-card class="q-pa-lg m-auto" style="width: 500px">
+    <q-card class="q-pa-lg m-auto" style="max-width: 500px">
       <q-input label="Логин спонсора" :value="parentName" readonly>
         <template #prepend>
           <q-icon name="school" />

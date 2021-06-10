@@ -1,5 +1,5 @@
 <template>
-  <div class="m-auto q-pt-xl" style="width: 600px">
+  <div class="m-auto q-pt-xl" style="max-width: 600px">
     <div class="row q-my-lg">
       <q-btn
         label="На таблицу пользователей"

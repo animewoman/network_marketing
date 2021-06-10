@@ -1,9 +1,36 @@
 <template>
   <q-layout view="hHh Lpr lff" class="shadow-2 rounded-borders">
-    <div v-if="!isAuthPage">
+    <div v-if="showMobileVersion && !isAuthPage">
+      <q-header class="row row bg-grey-10" reveal>
+        <q-space />
+        <q-btn label="Выйти" class="q-ma-sm" size="sm" color="negative" @click="logout" />
+      </q-header>
+
+      <q-footer class="row bg-grey-10" elevated style="position: fixed">
+        <q-toolbar>
+          <template v-for="(item, index) in menuList">
+            <q-item
+              class="mobile-menu-items"
+              clickable
+              v-ripple
+              :active="item.isActive"
+              :key="index"
+              @click="changeRoute(item.routeName)"
+            >
+              <q-item-section class="q-pl-md" avatar>
+                <q-icon style="padding: 0" :name="item.icon"></q-icon>
+              </q-item-section>
+            </q-item>
+          </template>
+        </q-toolbar>
+      </q-footer>
+    </div>
+
+    <div v-else-if="!isAuthPage">
       <div>
         <q-header class="bg-grey-10">
           <q-toolbar class="row">
+            <q-btn flat @click="drawer = !drawer" round dense icon="menu" />
             <q-space />
 
             <p style="margin: 0">
@@ -15,6 +42,7 @@
 
         <q-drawer
           v-if="showNavigation"
+          v-model="drawer"
           show-if-above
           bordered
           content-class="bg-grey-10"
@@ -25,8 +53,6 @@
           <q-scroll-area class="fit">
             <q-list dark bordered>
               <template v-for="(item, index) in menuList">
-                <q-separator color="white" :key="'sep' + index - 1" v-if="item.separator" />
-
                 <q-item :active="item.isActive" :key="index" clickable v-ripple @click="changeRoute(item.routeName)">
                   <q-item-section avatar>
                     <q-icon :name="item.icon"></q-icon>
@@ -59,12 +85,13 @@ import { logoutUser } from '@/http';
   name: 'Navigation',
 })
 export default class Navigation extends Vue {
+  drawer = true;
+
   menuList = [
     {
       icon: 'portrait',
       label: 'Личный Кабинет',
       routeName: 'user',
-      separator: true,
       isActive: true,
     },
     {
@@ -101,12 +128,17 @@ export default class Navigation extends Vue {
     return this.$route.name!;
   }
 
+  get showMobileVersion() {
+    return screen.width < 500;
+  }
+
   @Watch('routeName', { immediate: true })
   setLogin() {
     this.login = localStorage.getItem('login');
   }
 
   created() {
+    console.log(screen.width);
     this.setActiveRoute();
   }
 
@@ -156,5 +188,10 @@ export default class Navigation extends Vue {
 <style scoped>
 .border-top {
   border-top: #eeeeee 3px;
+}
+
+.mobile-menu-items {
+  margin: 0 auto;
+  padding: 5px;
 }
 </style>

@@ -79,7 +79,7 @@
       </div>
     </div>
 
-    <q-page-container>
+    <q-page-container :class="backgroundAuthImage">
       <q-page padding>
         <router-view />
       </q-page>
@@ -145,13 +145,37 @@ export default class Navigation extends Vue {
     return screen.width < 500;
   }
 
-  // @Watch('routeName', { immediate: true })
-  // setLogin() {
-  //   this.login = localStorage.getItem('login');
-  // }
+  get backgroundAuthImage() {
+    if (this.routeName === RouteNames.SHOWCASE) {
+      return 'showcase-background';
+    }
+
+    return this.routeName === RouteNames.AUTH ? 'auth-background' : '';
+  }
+
+  @Watch('routeName', { immediate: true })
+  setLogin(routeName) {
+    const currentRoute = this.menuList.find((item) => item.routeName === routeName);
+    currentRoute.isActive = true;
+  }
 
   created() {
     this.setActiveRoute();
+  }
+
+  setActiveRoute() {
+    if (this.routeName === RouteNames.AUTH) {
+      return;
+    }
+
+    this.menuList.forEach((item) => {
+      if (item.routeName === this.routeName) {
+        item.isActive = true;
+        return;
+      }
+
+      item.isActive = false;
+    });
   }
 
   async logout() {
@@ -171,28 +195,13 @@ export default class Navigation extends Vue {
     const newActive = this.menuList.find((item) => item.routeName === name);
 
     if (!oldActive || !newActive) {
-      return;
+      return this.$router.replace({ name: name });
     }
 
     oldActive.isActive = false;
     newActive.isActive = true;
 
-    this.$router.push({ name });
-  }
-
-  setActiveRoute() {
-    if (this.routeName === RouteNames.AUTH) {
-      return;
-    }
-
-    this.menuList.forEach((item) => {
-      if (item.routeName === this.routeName) {
-        item.isActive = true;
-        return;
-      }
-
-      item.isActive = false;
-    });
+    this.$router.replace({ name: name });
   }
 }
 </script>
@@ -205,5 +214,14 @@ export default class Navigation extends Vue {
 .mobile-menu-items {
   margin: 0 auto;
   padding: 5px;
+}
+
+.auth-background {
+  background-image: url('https://images.pexels.com/photos/2559941/pexels-photo-2559941.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940');
+}
+
+.showcase-background {
+  background-image: url('https://images.pexels.com/photos/2387793/pexels-photo-2387793.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940');
+  opacity: 0.9;
 }
 </style>

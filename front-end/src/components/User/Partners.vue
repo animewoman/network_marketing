@@ -1,7 +1,7 @@
 <template>
   <div>
     <q-expansion-item
-      class="shadow-1 overflow-hidden q-my-sm"
+      class="shadow-1 overflow-hidden q-my-sm background-card"
       style="border-radius: 30px"
       header-class="bg-primary text-white"
       expand-icon-class="text-white"
@@ -35,7 +35,7 @@
     </q-expansion-item>
 
     <q-expansion-item
-      class="shadow-1 overflow-hidden q-my-sm"
+      class="shadow-1 overflow-hidden q-my-sm background-card"
       style="border-radius: 30px"
       header-class="bg-primary text-white"
       expand-icon-class="text-white"
@@ -146,5 +146,9 @@ export default class Partners extends Vue {
   text-align: center;
   background-color: rgba(82, 81, 81, 0.82);
   border-radius: 15px;
+}
+
+.background-card {
+  background-color: #d9d9d9;
 }
 </style>

@@ -1,14 +1,19 @@
 <template>
-  <q-card class="m-auto q-pa-lg" style="max-width: 500px; margin-top: 100px">
-    <q-form @reset="clearFields" @submit="authorize">
-      <q-toolbar-title class="q-py-md"> Авторизация</q-toolbar-title>
+  <div class="background">
+    <q-card
+      class="m-auto q-pa-lg"
+      style="max-width: 500px; margin-top: 100px; background-color: rgba(238, 238, 238, 0.68)"
+    >
+      <q-form @reset="clearFields" @submit="authorize">
+        <q-toolbar-title class="q-py-md"> Авторизация</q-toolbar-title>
 
-      <q-input label="Логин" v-model="user.login" />
-      <q-input label="Пароль" v-model="user.password" type="password" />
+        <q-input label="Логин" v-model="user.login" />
+        <q-input label="Пароль" v-model="user.password" type="password" />
 
-      <q-btn label="Войти" class="q-my-md" color="primary" type="submit" />
-    </q-form>
-  </q-card>
+        <q-btn label="Войти" class="q-my-md" color="primary" type="submit" />
+      </q-form>
+    </q-card>
+  </div>
 </template>
 
 <script lang="ts">
@@ -62,8 +67,4 @@ export default class AuthPage extends Vue {
 }
 </script>
 
-<style scoped>
-body {
-  background-color: #1d1d1d;
-}
-</style>
+<style scoped></style>

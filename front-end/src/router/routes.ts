@@ -6,6 +6,7 @@ import Transfer from '@/components/User/Transfer.vue';
 import UserInfo from '@/components/User/UserInfo.vue';
 import Reports from '@/components/User/Reports.vue';
 import Partners from '@/components/User/Partners.vue';
+import Showcase from '@/components/Showcase.vue';
 
 export enum RouteNames {
   AUTH = 'auth',
@@ -15,6 +16,7 @@ export enum RouteNames {
   TRANSFER = 'transfer',
   PARTNERS = 'partners',
   REPORTS = 'reports',
+  SHOWCASE = 'showcase',
 }
 
 const routes: RouteConfig[] = [
@@ -29,7 +31,7 @@ const routes: RouteConfig[] = [
     component: UserControl,
   },
   {
-    path: '/',
+    path: '/auth',
     name: 'auth',
     component: AuthPage,
   },
@@ -52,6 +54,11 @@ const routes: RouteConfig[] = [
     path: '/user/reports',
     name: 'reports',
     component: Reports,
+  },
+  {
+    path: '/',
+    name: 'showcase',
+    component: Showcase,
   },
 ];
 

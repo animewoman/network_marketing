@@ -37,7 +37,7 @@ import { Component, Vue } from 'vue-property-decorator';
 export default class Showcase extends Vue {
   items = [1, 2, 3, 4];
 
-  backgroundImage(val) {
+  backgroundImage(val: number) {
     return `background-image-${val}`;
   }
 }

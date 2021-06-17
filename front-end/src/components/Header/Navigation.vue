@@ -27,56 +27,54 @@
     </div>
 
     <div v-if="showNavigation">
-      <div>
-        <q-header class="bg-grey-10">
-          <q-toolbar class="row">
-            <q-btn flat @click="drawer = !drawer" round dense icon="menu" />
-            <q-space />
+      <q-header class="bg-grey-10">
+        <q-toolbar class="row">
+          <q-btn v-if="!showMobileVersion" flat @click="drawer = !drawer" round dense icon="menu" />
+          <q-space />
 
-            <q-btn-dropdown class="glossy" color="secondary" size="sm" :label="login">
-              <div class="no-wrap q-pa-md">
-                <div class="column items-center">
-                  <q-avatar>
-                    <q-icon name="person" color="secondary" size="lg" />
-                  </q-avatar>
+          <q-btn-dropdown class="glossy" color="secondary" size="sm" :label="login">
+            <div class="no-wrap q-pa-md">
+              <div class="column items-center">
+                <q-avatar>
+                  <q-icon name="person" color="secondary" size="lg" />
+                </q-avatar>
 
-                  <div class="text-subtitle1 q-py-md">Асанов Бекназар</div>
-                  <div class="text-subtitle3 q-pb-sm">Серебрянный директор</div>
+                <div class="text-subtitle1 q-py-md">Асанов Бекназар</div>
+                <div class="text-subtitle3 q-pb-sm">Серебрянный директор</div>
 
-                  <q-btn label="Выйти" color="negative" push size="sm" v-close-popup @click="logout" />
-                </div>
+                <q-btn label="Выйти" color="negative" push size="sm" v-close-popup @click="logout" />
               </div>
-            </q-btn-dropdown>
-          </q-toolbar>
-        </q-header>
+            </div>
+          </q-btn-dropdown>
+        </q-toolbar>
+      </q-header>
 
-        <q-drawer
-          v-if="showNavigation"
-          v-model="drawer"
-          show-if-above
-          bordered
-          content-class="bg-grey-10"
-          class="border-top"
-          :width="230"
-          :breakpoint="500"
-        >
-          <q-scroll-area class="fit">
-            <q-list dark bordered>
-              <template v-for="(item, index) in menuList">
-                <q-item :active="item.isActive" :key="index" clickable v-ripple @click="changeRoute(item.routeName)">
-                  <q-item-section avatar>
-                    <q-icon :name="item.icon"></q-icon>
-                  </q-item-section>
+      <q-drawer
+        v-if="!showMobileVersion && showNavigation"
+        v-model="drawer"
+        show-if-above
+        bordered
+        content-class="bg-grey-10"
+        class="border-top"
+        :width="230"
+        :breakpoint="500"
+      >
+        <q-scroll-area class="fit">
+          <q-list dark bordered>
+            <template v-for="(item, index) in menuList">
+              <q-item :active="item.isActive" :key="index" clickable v-ripple @click="changeRoute(item.routeName)">
+                <q-item-section avatar>
+                  <q-icon :name="item.icon"></q-icon>
+                </q-item-section>
 
-                  <q-item-section>
-                    {{ item.label }}
-                  </q-item-section>
-                </q-item>
-              </template>
-            </q-list>
-          </q-scroll-area>
-        </q-drawer>
-      </div>
+                <q-item-section>
+                  {{ item.label }}
+                </q-item-section>
+              </q-item>
+            </template>
+          </q-list>
+        </q-scroll-area>
+      </q-drawer>
     </div>
 
     <q-page-container :class="backgroundAuthImage">
@@ -154,9 +152,12 @@ export default class Navigation extends Vue {
   }
 
   @Watch('routeName', { immediate: true })
-  setLogin(routeName) {
+  setLogin(routeName: string) {
     const currentRoute = this.menuList.find((item) => item.routeName === routeName);
-    currentRoute.isActive = true;
+
+    if (currentRoute) {
+      currentRoute.isActive = true;
+    }
   }
 
   created() {

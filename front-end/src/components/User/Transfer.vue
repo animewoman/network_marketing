@@ -12,7 +12,7 @@
         <q-space />
         <p v-if="user" class="subtitle q-px-md" style="padding-top: 40px">
           <q-icon name="payments" color="positive" /> Ваш балланс:<span style="font-weight: bold">
-            {{ userScore }}
+            {{ userScore }}$
           </span>
         </p>
       </div>

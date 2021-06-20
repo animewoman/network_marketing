@@ -1,15 +1,11 @@
 <template>
   <div v-if="user" style="max-width: 800px" class="q-px-xl">
     <q-card class="row card-title q-my-md q-px-lg q-py-sm">
-      <div class="col-sm-4">
-        <p class="subtitle">Добро пожаловать:</p>
+      <div>
+        <p class="subtitle">Добро пожаловать</p>
         <q-toolbar-title style="padding: 0">{{ user.fullName }}</q-toolbar-title>
       </div>
-
-      <div class="row col-sm-4 login-text q-pt-md">
-        <p class="subtitle small-text">Ваш логин:</p>
-        <q-toolbar-title>{{ user.login }}</q-toolbar-title>
-      </div>
+      <q-space />
 
       <q-btn
         label="Редактировать профиль"
@@ -23,6 +19,12 @@
     </q-card>
 
     <q-card class="q-pa-lg m-auto" style="max-width: 500px">
+      <q-input label="Ваш Логин" :value="user.login" readonly>
+        <template #prepend>
+          <q-icon name="person" />
+        </template>
+      </q-input>
+
       <q-input label="Логин спонсора" :value="parentName" readonly>
         <template #prepend>
           <q-icon name="school" />
@@ -47,7 +49,7 @@
         </template>
       </q-input>
 
-      <q-input label="Баланс" :value="user.score" readonly borderless>
+      <q-input label="Баланс $" :value="user.score" readonly borderless>
         <template #prepend>
           <q-icon name="payments" color="positive" />
         </template>
@@ -68,11 +70,11 @@ export default class UserInfo extends Vue {
   user: User | null = null;
 
   get parentName() {
-    return this.user?.parent || 'Нет спонсора';
+    return this.user?.parent || '-';
   }
 
   get userMail() {
-    return this.user?.email || 'Не указана';
+    return this.user?.email || '-';
   }
 
   created() {

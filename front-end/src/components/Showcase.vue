@@ -1,27 +1,13 @@
 <template>
   <div class="row">
-    <q-card
-      v-for="item in items"
-      class="col-sm-4 q-ma-xl q-pa-lg"
-      style="
-        max-width: 600px;
-        height: 200px;
-        background-repeat: no-repeat;
-        background-size: cover;
-        background-position: center center;
-      "
-      :key="item"
-      :class="backgroundImage(item)"
-    >
-      <div class="self-center full-width no-outline" tabindex="0">
-        <div>
-          <q-toolbar-title class="card-title">Эликсир {{ item }} этапа</q-toolbar-title>
-          <p class="card-text q-mt-lg q-pa-sm">Купив этот эликсир вы сразу начнете с {{ item }} этапа</p>
-        </div>
+    <q-card v-for="(item, i) in items" :key="i" :class="backgroundImage(item.stage)">
+      <div class="self-center full-width no-outline">
+        <q-toolbar-title class="card-title">Эликсир {{ item.stage }} этапа</q-toolbar-title>
+        <p class="card-text q-mt-lg q-pa-sm">Купив этот эликсир вы сразу начнете с {{ item.stage }} этапа</p>
 
         <div class="row">
           <q-space />
-          <q-btn label="Подробнее" icon="info" size="sm" color="primary" flat />
+          <p class="price-text q-px-sm" style="color: #027be3; font-weight: bold">Цена: {{ item.price }}$</p>
         </div>
       </div>
     </q-card>
@@ -35,10 +21,27 @@ import { Component, Vue } from 'vue-property-decorator';
   name: 'Showcase',
 })
 export default class Showcase extends Vue {
-  items = [1, 2, 3, 4];
+  items = [
+    {
+      stage: 1,
+      price: 18,
+    },
+    {
+      stage: 2,
+      price: 54,
+    },
+    {
+      stage: 3,
+      price: 150,
+    },
+    {
+      stage: 4,
+      price: 500,
+    },
+  ];
 
   backgroundImage(val: number) {
-    return `background-image-${val}`;
+    return `col-sm-4 q-ma-xl q-pa-lg bg-card-img background-image-${val}`;
   }
 }
 </script>
@@ -56,6 +59,20 @@ export default class Showcase extends Vue {
   text-align: center;
   border-radius: 20px;
   background-color: rgba(238, 238, 238, 0.35);
+}
+
+.price-text {
+  font-family: 'Noto Sans JP', sans-serif;
+  background-color: rgb(43, 43, 43);
+  border-radius: 20px;
+}
+
+.bg-card-img {
+  max-width: 600px;
+  height: 200px;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center center;
 }
 
 .background-image-1 {

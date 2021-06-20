@@ -30,6 +30,14 @@
       <q-header class="bg-grey-10">
         <q-toolbar class="row">
           <q-btn v-if="!showMobileVersion" flat @click="drawer = !drawer" round dense icon="menu" />
+          <q-btn
+            label="Brilliant Life"
+            icon="trending_up"
+            :color="titleColor"
+            flat
+            no-caps
+            @click="changeRoute('showcase')"
+          />
           <q-space />
 
           <q-btn-dropdown class="glossy" color="secondary" size="sm" :label="login">
@@ -147,6 +155,14 @@ export default class Navigation extends Vue {
     return screen.width < 500;
   }
 
+  get titleColor() {
+    if (this.routeName === RouteNames.SHOWCASE) {
+      return 'primary';
+    }
+
+    return 'white';
+  }
+
   get backgroundAuthImage() {
     if (this.routeName === RouteNames.SHOWCASE) {
       return 'showcase-background';
@@ -157,8 +173,13 @@ export default class Navigation extends Vue {
 
   @Watch('routeName', { immediate: true })
   setLogin(routeName: string) {
-    const currentRoute = this.menuList.find((item) => item.routeName === routeName);
+    if (routeName === RouteNames.SHOWCASE) {
+      this.menuList.forEach((item) => {
+        item.isActive = false;
+      });
+    }
 
+    const currentRoute = this.menuList.find((item) => item.routeName === routeName);
     if (currentRoute) {
       currentRoute.isActive = true;
     }
@@ -169,7 +190,7 @@ export default class Navigation extends Vue {
   }
 
   setActiveRoute() {
-    if (this.routeName === RouteNames.AUTH) {
+    if (this.routeName === RouteNames.AUTH || this.routeName === RouteNames.SHOWCASE) {
       return;
     }
 

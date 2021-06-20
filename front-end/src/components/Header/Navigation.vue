@@ -1,12 +1,12 @@
 <template>
   <q-layout view="hHh Lpr lff" class="shadow-2 rounded-borders">
     <div v-if="showMobileVersion && showNavigation">
-      <q-header class="row row bg-grey-10" reveal>
+      <q-header class="row row bg-grey-10">
         <q-space />
         <q-btn label="Выйти" class="q-ma-xs" size="sm" color="negative" @click="logout" />
       </q-header>
 
-      <q-footer class="row bg-grey-10" elevated style="position: fixed">
+      <q-footer class="row bg-grey-10" style="position: fixed">
         <q-toolbar>
           <template v-for="(item, index) in menuList">
             <q-item
@@ -96,14 +96,12 @@ import { RouteNames } from '@/router/routes';
 export default class Navigation extends Vue {
   drawer = true;
 
-  login = 'user-login';
-
   menuList = [
     {
       icon: 'portrait',
       label: 'Личный Кабинет',
       routeName: 'user',
-      isActive: true,
+      isActive: false,
     },
     {
       icon: 'groups',
@@ -126,6 +124,12 @@ export default class Navigation extends Vue {
   ];
   //TODO: Для отображения инфы в менюшке выхода нужны фио и статус юзера
   // login: string | null = '';
+
+  get login(): string {
+    const login = localStorage.getItem('login');
+
+    return login ?? '';
+  }
 
   get showNavigation(): boolean {
     return (
@@ -183,8 +187,9 @@ export default class Navigation extends Vue {
     localStorage.removeItem('login');
 
     const activeRoute = this.menuList.find((item) => item.isActive);
-    activeRoute!.isActive = false;
-    this.menuList[0].isActive = true;
+    if (activeRoute) {
+      activeRoute.isActive = false;
+    }
 
     await logoutUser();
 

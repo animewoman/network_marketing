@@ -1,5 +1,12 @@
 <template>
   <q-layout view="hHh Lpr lff" class="shadow-2 rounded-borders">
+    <div v-if="isAdminPage">
+      <q-header class="row row bg-grey-10">
+        <q-space />
+        <q-btn label="Выйти" class="q-ma-xs" size="sm" color="negative" @click="logout" />
+      </q-header>
+    </div>
+
     <div v-if="showMobileVersion && showNavigation">
       <q-header class="row row bg-grey-10">
         <q-space />
@@ -149,6 +156,10 @@ export default class Navigation extends Vue {
 
   get routeName(): string {
     return this.$route.name!;
+  }
+
+  get isAdminPage() {
+    return this.routeName === RouteNames.ADMIN;
   }
 
   get showMobileVersion(): boolean {

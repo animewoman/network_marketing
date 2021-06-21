@@ -28,6 +28,14 @@
           </span>
         </q-th>
       </template>
+
+      <template #body-cell-type="props">
+        <q-td :props="props">
+          <q-chip dense text-color="white" :color="props.row.status.color">
+            {{ props.row.status.title }}
+          </q-chip>
+        </q-td>
+      </template>
     </q-table>
   </div>
 </template>
@@ -35,6 +43,7 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 import { getReports } from '@/service/Operations';
+import { Report } from '@/types/operation';
 
 @Component({
   name: 'Reports',
@@ -43,7 +52,7 @@ export default class Reports extends Vue {
   loading = false;
   filter = '';
 
-  reports = [];
+  reports: Report[] = [];
 
   columns = [
     {

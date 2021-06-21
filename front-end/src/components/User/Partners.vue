@@ -1,17 +1,19 @@
 <template>
   <div>
     <q-expansion-item
+      v-for="(partner, index) in partners"
+      :key="index"
       class="shadow-1 overflow-hidden q-my-sm background-card"
       style="border-radius: 30px"
       header-class="bg-primary text-white"
       expand-icon-class="text-white"
     >
       <template #header>
-        <q-toolbar-title> Первый этап </q-toolbar-title>
+        <q-toolbar-title> Этап #{{ index + 1 }} </q-toolbar-title>
       </template>
 
       <div class="row q-pa-sm">
-        <q-card v-for="item in firstLine" :key="item" class="col-sm-3 q-ma-sm q-px-md">
+        <q-card v-for="item in partner" :key="item" class="col-sm-3 q-ma-sm q-px-md">
           <div class="self-center full-width no-outline" tabindex="0">
             <div class="row">
               <div class="q-pt-sm">
@@ -20,88 +22,57 @@
               </div>
 
               <div class="q-ml-lg">
-                <p>jhon234</p>
-                <p>boris</p>
+                <p>{{ item.login }}</p>
+                <p>{{ item.parent.login }}</p>
               </div>
             </div>
 
             <div class="row">
               <q-space />
-              <q-btn label="Подробнее" icon="info" size="sm" color="primary" flat @click="showDetail = true" />
+              <q-btn label="Подробнее" icon="info" size="sm" color="primary" flat @click="showUserDetail(item)" />
             </div>
           </div>
         </q-card>
       </div>
     </q-expansion-item>
 
-    <q-expansion-item
-      class="shadow-1 overflow-hidden q-my-sm background-card"
-      style="border-radius: 30px"
-      header-class="bg-primary text-white"
-      expand-icon-class="text-white"
-      default-opened
-    >
-      <template #header>
-        <q-toolbar-title>
-          Второй этап <span style="font-size: 11px" class="q-ml-xl">{{ subtitle }}</span>
-        </q-toolbar-title>
-      </template>
-
-      <div class="row q-pa-sm">
-        <q-card v-for="item in secondLine" :key="item" class="col-sm-3 q-ma-sm q-px-md">
-          <div class="self-center full-width no-outline" tabindex="0">
-            <div class="row">
-              <div class="q-pt-sm">
-                <p class="small-text">Логин</p>
-                <p class="small-text">Спонсор</p>
-              </div>
-
-              <div class="q-ml-lg">
-                <p>jhon234</p>
-                <p>boris</p>
-              </div>
-            </div>
-
-            <div class="row">
-              <q-space />
-              <q-btn label="Подробнее" icon="info" size="sm" color="primary" flat @click="showDetail = true" />
-            </div>
-          </div>
-        </q-card>
-      </div>
-    </q-expansion-item>
-
-    <q-dialog v-model="showDetail">
+    <q-dialog v-if="selectedUser" v-model="showDetail">
       <q-card class="q-pa-lg">
         <q-card-section class="q-pt-none">
-          <q-toolbar-title class="background-title"> Джон Дое </q-toolbar-title>
+          <q-toolbar-title class="background-title"> {{ selectedUser.fullName }} </q-toolbar-title>
 
           <div class="row q-pt-md">
-            <q-input class="col-sm-5 q-mx-sm" label="Логин" value="jhon">
+            <q-input class="col-sm-5 q-mx-sm" label="Логин" :value="selectedUser.login">
               <template #prepend>
                 <q-icon name="person" />
               </template>
             </q-input>
 
-            <q-input class="col-sm-5 q-mx-sm" label="Спонсор" value="dalores">
+            <q-input class="col-sm-5 q-mx-sm" label="Спонсор" :value="selectedUser.parent.login">
               <template #prepend>
                 <q-icon name="school" />
               </template>
             </q-input>
 
-            <q-input class="col-sm-5 q-mx-sm" label="Телефон" value="555642354" mask="(###)##-##-##" unmasked-value>
+            <q-input
+              class="col-sm-5 q-mx-sm"
+              label="Телефон"
+              :value="selectedUser.phone"
+              mask="(###)##-##-##"
+              unmasked-value
+            >
               <template #prepend>
                 <q-icon name="call" />
               </template>
             </q-input>
 
-            <q-input class="col-sm-5 q-mx-sm" label="Почта" value="jhon@mail.su">
+            <q-input class="col-sm-5 q-mx-sm" label="Почта" :value="selectedUser.email">
               <template #prepend>
                 <q-icon name="email" />
               </template>
             </q-input>
 
-            <q-input class="col-sm-5 q-mx-sm" label="Регион" value="Нарын">
+            <q-input class="col-sm-5 q-mx-sm" label="Регион" :value="selectedUser.region">
               <template #prepend>
                 <q-icon name="location_on" />
               </template>
@@ -118,21 +89,42 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
+import { Component, Vue, Watch } from 'vue-property-decorator';
+import { getPartners } from '@/service/Operations';
+import { User } from '@/types/user';
 
 @Component({
   name: 'Partners',
 })
 export default class Partners extends Vue {
-  firstLine = [1, 2];
+  partners = null;
 
-  secondLine = [1, 2, 3, 4];
+  selectedUser: User | null = null;
 
   showDetail = false;
 
-  get subtitle() {
-    // только для активного этапа или отображать в другом месте
-    return `Партнеров до перехода в следующий этап  ${this.secondLine[2]} / ${this.secondLine[3]}`;
+  @Watch('showDetail')
+  onShowDetail(showDetail: boolean) {
+    if (!showDetail) {
+      this.selectedUser = null;
+    }
+  }
+
+  created() {
+    this.fetchPartners();
+  }
+
+  async fetchPartners() {
+    const userLogin = localStorage.getItem('login');
+    if (userLogin) {
+      this.partners = await getPartners(userLogin);
+      console.log(this.partners);
+    }
+  }
+
+  showUserDetail(user: User) {
+    this.showDetail = true;
+    this.selectedUser = { ...user };
   }
 }
 </script>

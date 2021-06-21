@@ -3,6 +3,7 @@
     dbName: "net_market",
     collections: [
         "users",
-        "tokens"
+        "tokens",
+        "transfers",
     ]
 }

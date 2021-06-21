@@ -1,12 +1,15 @@
 class User {
-    constructor({ login, password, email, phone, region, parent, isAdmin }) {
+    constructor({ fullName, login, password, email, phone, region, parent, isAdmin }) {
+        this.fullName = fullName;
         this.login = login;
         this.password = password;
         this.email = email;
         this.phone = phone;
         this.parent = parent ? parent : false;
         this.score = 0;
+        this.status = 'Потребитель BL';
         this.region = region ? region : '';
+        this.date = new Date();
         this.isAdmin = isAdmin ? true : false; //testing
     }
 
@@ -17,6 +20,14 @@ class User {
                     password: 0
                 }
             });
+        } catch (err) {
+            throw new Error(err);
+        }
+    }
+
+    async countPoints(collection) {
+        try {
+
         } catch (err) {
             throw new Error(err);
         }

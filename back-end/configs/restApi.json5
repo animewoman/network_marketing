@@ -88,6 +88,17 @@
             url: "/api/user/send-money",
             func: "sendMoney",
             authenticated: true
+        },
+        {
+            method: "post",
+            url: "/api/user/transfers",
+            func: "getTransfers",
+            authenticated: true
+        },
+        {
+            method: "post",
+            url: "/api/user/partners",
+            func: "getPartners"
         }
     ]
 }

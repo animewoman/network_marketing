@@ -44,3 +44,15 @@ export function getPrefixByScore(score: number): string {
 
   return '';
 }
+
+export function formatPartners(partners: any): any {
+  const formattedPartners = [];
+
+  for (let i = 1; i < 9; i++) {
+    if (partners[i]) {
+      formattedPartners.push(partners[i]);
+    }
+  }
+
+  return formattedPartners;
+}

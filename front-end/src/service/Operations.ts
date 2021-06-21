@@ -1,7 +1,7 @@
 import { api } from '@/http';
 import { TransferData } from '@/types/operation';
 import { showNotification } from '@/service/Notifications';
-import { formatReports, getPrefixByScore } from '@/service/Formatters/OperationFormatter';
+import { formatPartners, formatReports, getPrefixByScore } from '@/service/Formatters/OperationFormatter';
 
 export async function transferMoney(data: TransferData): Promise<void> {
   const response = await api().post('/user/send-money', data);
@@ -17,4 +17,15 @@ export async function getReports(login: string): Promise<any> {
   const response = await api().post('/user/transfers', data);
 
   return formatReports(response.data.data) ?? [];
+}
+
+export async function getPartners(login: string): Promise<any> {
+  const data = { login };
+  const response = await api().post('/user/partners/', data);
+
+  if (!response.data) {
+    return [];
+  }
+
+  return formatPartners(response.data);
 }

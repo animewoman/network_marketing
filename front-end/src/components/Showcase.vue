@@ -1,31 +1,153 @@
 <template>
-  <div>
+  <div class="col">
     <div class="row">
-      <q-card v-for="(item, i) in items" :key="i" :class="backgroundImage(item.stage)">
-        <div class="self-center full-width no-outline">
-          <q-toolbar-title class="card-title">Эликсир {{ item.stage }} этапа</q-toolbar-title>
-          <p class="card-text q-mt-lg q-pa-sm">Купив этот эликсир вы сразу начнете с {{ item.stage }} этапа</p>
+      <div class="col-9 q-pl-xl" style="display: flex; justify-content: center">
+        <q-img :src="require('@/assets/bl-logo.png')" style="max-width: 140px; max-height: 80px" />
+      </div>
 
-          <div class="row">
-            <q-space />
-            <p class="price-text q-px-sm" style="color: #027be3; font-weight: bold">Цена: {{ item.price }}$</p>
-          </div>
-        </div>
-      </q-card>
+      <div class="row col-3">
+        <q-icon name="search" size="md" />
+        <q-icon name="person" size="md" />
+        <q-icon name="favorite" size="md" />
+        <q-icon name="home" size="md" />
+        <p class="q-pl-md" style="font-size: 20px">0 ₸</p>
+      </div>
     </div>
-    <q-toolbar-title style="text-align: center; color: #e30249">Brilliant Life</q-toolbar-title>
-    <p class="text-bold">О компании:</p>
-    <p>
-      Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin
-      literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney
-      College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and
-      going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes
-      from sections 1.10.32 and 1.10.33 of "de Finibus Bonorum et Malorum" (The Extremes of Good and Evil) by Cicero,
-      written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first
-      line of Lorem Ipsum, "Lorem ipsum dolor sit amet..", comes from a line in section 1.10.32. The standard chunk of
-      Lorem Ipsum used since the 1500s is reproduced below for those interested. Sections 1.10.32 and 1.10.33 from "de
-      Finibus Bonorum et Malorum" by Cicero are also reproduced in their exact original form, accompanied by Englis
-    </p>
+
+    <q-separator />
+
+    <q-list class="row" style="justify-content: center">
+      <q-item class="text-bold" clickable>Главная</q-item>
+      <q-item class="text-bold" clickable>Магазин</q-item>
+      <q-item class="text-bold" clickable> О компании</q-item>
+      <q-item class="text-bold" clickable>Новости</q-item>
+      <q-item class="text-bold" clickable>Вопросы</q-item>
+      <q-item class="text-bold" clickable>Контакты</q-item>
+      <q-item class="text-bold" clickable @click="toAuth"> Вход в Кабинет</q-item>
+    </q-list>
+
+    <q-img :src="require('@/assets/content.png')" />
+
+    <div class="row q-pt-md" style="justify-content: center">
+      <q-img class="col-8 q-mx-xs" :src="require('@/assets/banner1.jpg')" style="max-width: 660px" />
+      <q-img class="col-3 q-mx-xs" :src="require('@/assets/banner2.png')" />
+      <q-img class="col-3 q-mx-xs" :src="require('@/assets/banner3.jpg')" />
+    </div>
+
+    <q-toolbar-title class="text-center text-bold q-mt-xl">Хиты продаж</q-toolbar-title>
+
+    <q-list class="row" style="justify-content: center">
+      <q-card class="q-mx-xs" style="max-width: 200px; min-height: 380px">
+        <img :src="require('@/assets/product1.png')" />
+        <p class="text-bold q-pt-md" style="text-align: center">Мазь BL</p>
+        <p class="text-bold" style="color: #c10015; text-align: center">17$</p>
+        <q-btn color="grey" class="q-mx-md" label="В Корзину" />
+      </q-card>
+
+      <q-card class="q-mx-xs" style="max-width: 200px; min-height: 380px">
+        <img :src="require('@/assets/product2.png')" />
+        <p class="text-bold q-pt-md" style="text-align: center">Топинамбур</p>
+        <p class="text-bold" style="color: #c10015; text-align: center">11$</p>
+        <q-btn color="grey" class="q-mx-md" label="В Корзину" />
+      </q-card>
+
+      <q-card class="q-mx-xs" style="max-width: 200px; min-height: 380px">
+        <img :src="require('@/assets/product3.png')" />
+        <p class="text-bold q-pt-md" style="text-align: center">Глазные капли</p>
+        <p class="text-bold" style="color: #c10015; text-align: center">11$</p>
+        <q-btn color="grey" class="q-mx-md" label="В Корзину" />
+      </q-card>
+
+      <q-card class="q-mx-xs" style="max-width: 200px; min-height: 380px">
+        <img :src="require('@/assets/product4.png')" />
+        <p class="text-bold q-pt-md" style="text-align: center">Effect со вкусом лайма и лимона</p>
+        <p class="text-bold" style="color: #c10015; text-align: center">11$</p>
+        <q-btn color="grey" class="q-mx-md" label="В Корзину" />
+      </q-card>
+
+      <q-card class="q-mx-xs" style="max-width: 200px; min-height: 380px">
+        <img :src="require('@/assets/product5.png')" />
+        <p class="text-bold q-pt-md" style="text-align: center">Immuno со вкусом клубники</p>
+        <p class="text-bold" style="color: #c10015; text-align: center">11$</p>
+        <q-btn color="grey" class="q-mx-md" label="В Корзину" />
+      </q-card>
+
+      <q-card class="q-mx-xs" style="max-width: 200px; min-height: 380px">
+        <img :src="require('@/assets/product6.png')" />
+        <p class="text-bold q-pt-md" style="text-align: center">Vita Life со вкусом Граната</p>
+        <p class="text-bold" style="color: #c10015; text-align: center">11$</p>
+        <q-btn color="grey" class="q-mx-md" label="В Корзину" />
+      </q-card>
+
+      <q-card class="q-mx-xs" style="max-width: 200px; min-height: 380px">
+        <img :src="require('@/assets/product7.png')" />
+        <p class="text-bold q-pt-md" style="text-align: center">Блокнот твоего успеха</p>
+        <p class="text-bold" style="color: #c10015; text-align: center">11$</p>
+        <q-btn color="grey" class="q-mx-md" label="В Корзину" />
+      </q-card>
+    </q-list>
+
+    <q-img class="q-mt-xl" :src="require('@/assets/content2.png')" />
+
+    <div class="q-pt-xl">
+      <q-toolbar-title class="text-bold" style="color: #21ba45; text-align: center">
+        Почему выбирают нас?
+      </q-toolbar-title>
+      <q-toolbar-title class="text-bold q-pt-md" style="text-align: center">Что нас отличает</q-toolbar-title>
+
+      <div class="row q-pt-lg" style="justify-content: center">
+        <div class="col-4 q-mx-lg" style="max-width: 300px">
+          <p class="text-bold">Только натуральные ингредиенты</p>
+          <p style="color: rgba(33, 32, 32, 0.8)">
+            Мы используем только свежие фрукты и овощи. Используем процесс холодного отжима, чтобы извлечь все до
+            последней капли полезности.
+          </p>
+        </div>
+
+        <div class="col-4 q-mx-lg" style="max-width: 300px">
+          <p class="text-bold">Большая Польза для Здоровья</p>
+          <p style="color: rgba(33, 32, 32, 0.8)">
+            Следи за своим здоровьем получая все нужные витамины и минералы используя нашу продукцию, а так же
+            возможность заработать и сделать карьеру.
+          </p>
+        </div>
+
+        <div class="col-4 q-mx-lg" style="max-width: 300px">
+          <p class="text-bold">Вкус натуральных продуктов</p>
+          <p style="color: rgba(33, 32, 32, 0.8)">
+            Выжимаем сок из наших ингредиентов, чтобы добиться превосходного вкуса и максимального количества
+            питательных веществ, витаминов и антиоксидантов.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!--    <div class="row">-->
+    <!--      <q-card v-for="(item, i) in items" :key="i" :class="backgroundImage(item.stage)">-->
+    <!--        <div class="self-center full-width no-outline">-->
+    <!--          <q-toolbar-title class="card-title">Эликсир {{ item.stage }} этапа</q-toolbar-title>-->
+    <!--          <p class="card-text q-mt-lg q-pa-sm">Купив этот эликсир вы сразу начнете с {{ item.stage }} этапа</p>-->
+
+    <!--          <div class="row">-->
+    <!--            <q-space />-->
+    <!--            <p class="price-text q-px-sm" style="color: #027be3; font-weight: bold">Цена: {{ item.price }}$</p>-->
+    <!--          </div>-->
+    <!--        </div>-->
+    <!--      </q-card>-->
+    <!--    </div>-->
+    <!--    <q-toolbar-title style="text-align: center; color: #e30249">Brilliant Life</q-toolbar-title>-->
+    <!--    <p class="text-bold">О компании:</p>-->
+    <!--    <p>-->
+    <!--      Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin-->
+    <!--      literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney-->
+    <!--      College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and-->
+    <!--      going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes-->
+    <!--      from sections 1.10.32 and 1.10.33 of "de Finibus Bonorum et Malorum" (The Extremes of Good and Evil) by Cicero,-->
+    <!--      written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first-->
+    <!--      line of Lorem Ipsum, "Lorem ipsum dolor sit amet..", comes from a line in section 1.10.32. The standard chunk of-->
+    <!--      Lorem Ipsum used since the 1500s is reproduced below for those interested. Sections 1.10.32 and 1.10.33 from "de-->
+    <!--      Finibus Bonorum et Malorum" by Cicero are also reproduced in their exact original form, accompanied by Englis-->
+    <!--    </p>-->
   </div>
 </template>
 
@@ -55,8 +177,8 @@ export default class Showcase extends Vue {
     },
   ];
 
-  backgroundImage(val: number) {
-    return `col-sm-4 q-ma-xl q-pa-lg bg-card-img background-image-${val}`;
+  toAuth() {
+    this.$router.push({ name: 'auth' });
   }
 }
 </script>

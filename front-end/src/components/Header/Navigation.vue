@@ -47,20 +47,20 @@
           />
           <q-space />
 
-          <q-btn-dropdown class="glossy" color="secondary" size="sm" :label="login">
-            <div class="no-wrap q-pa-md">
-              <div class="column items-center">
-                <q-avatar>
-                  <q-icon name="person" color="secondary" size="lg" />
-                </q-avatar>
+          <!--          <q-btn-dropdown class="glossy" color="secondary" size="sm" :label="login">-->
+          <!--            <div class="no-wrap q-pa-md">-->
+          <!--              <div class="column items-center">-->
+          <!--                <q-avatar>-->
+          <!--                  <q-icon name="person" color="secondary" size="lg" />-->
+          <!--                </q-avatar>-->
 
-                <div class="text-subtitle1 q-py-md">Асанов Бекназар</div>
-                <div class="text-subtitle3 q-pb-sm">Серебрянный директор</div>
+          <!--                <div class="text-subtitle1 q-py-md">Асанов Бекназар</div>-->
+          <!--                <div class="text-subtitle3 q-pb-sm">Серебрянный директор</div>-->
 
-                <q-btn label="Выйти" color="negative" push size="sm" v-close-popup @click="logout" />
-              </div>
-            </div>
-          </q-btn-dropdown>
+          <!--                <q-btn label="Выйти" color="negative" push size="sm" v-close-popup @click="logout" />-->
+          <!--              </div>-->
+          <!--            </div>-->
+          <!--          </q-btn-dropdown>-->
         </q-toolbar>
       </q-header>
 
@@ -76,10 +76,14 @@
       >
         <q-scroll-area class="fit">
           <q-list dark bordered>
+            <div style="display: flex; flex-direction: row; justify-content: center">
+              <q-img :src="require('@/assets/bl-logo-auth.png')" style="max-width: 80px; max-height: 60px" />
+            </div>
+
             <template v-for="(item, index) in menuList">
               <q-item :active="item.isActive" :key="index" clickable v-ripple @click="changeRoute(item.routeName)">
                 <q-item-section avatar>
-                  <q-icon :name="item.icon"></q-icon>
+                  <q-icon :name="item.icon" />
                 </q-item-section>
 
                 <q-item-section>
@@ -87,6 +91,28 @@
                 </q-item-section>
               </q-item>
             </template>
+
+            <q-separator color="white" />
+
+            <q-item clickable v-ripple @click="logout">
+              <q-item-section avatar>
+                <q-icon name="edit" />
+              </q-item-section>
+
+              <q-item-section> Редактировать профиль </q-item-section>
+            </q-item>
+
+            <q-item clickable v-ripple @click="logout">
+              <q-item-section avatar>
+                <q-icon name="logout" />
+              </q-item-section>
+
+              <q-item-section> Выйти </q-item-section>
+            </q-item>
+
+            <!--            <div style="display: flex; flex-direction: row; justify-content: center">-->
+            <!--              <q-btn label="Выйти" dense @click="logout" />-->
+            <!--            </div>-->
           </q-list>
         </q-scroll-area>
       </q-drawer>
@@ -150,7 +176,8 @@ export default class Navigation extends Vue {
     return (
       this.routeName !== RouteNames.USER_CONTROL &&
       this.routeName !== RouteNames.ADMIN &&
-      this.routeName !== RouteNames.AUTH
+      this.routeName !== RouteNames.AUTH &&
+      this.routeName !== RouteNames.SHOWCASE
     );
   }
 
@@ -256,10 +283,5 @@ export default class Navigation extends Vue {
 
 .auth-background {
   background-image: url('https://images.pexels.com/photos/2559941/pexels-photo-2559941.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940');
-}
-
-.showcase-background {
-  background-image: url('https://images.pexels.com/photos/2387793/pexels-photo-2387793.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940');
-  opacity: 0.9;
 }
 </style>

@@ -12,27 +12,208 @@
         <q-toolbar-title> Этап #{{ index + 1 }} </q-toolbar-title>
       </template>
 
-      <div class="row q-pa-sm">
-        <q-card v-for="item in partner" :key="item" class="col-sm-3 q-ma-sm q-px-md">
-          <div class="self-center full-width no-outline" tabindex="0">
-            <div class="row">
-              <div class="q-pt-sm">
-                <p class="small-text">Логин</p>
-                <p class="small-text">Спонсор</p>
+      <div class="col q-pa-sm">
+        <div class="row" style="justify-content: center">
+          <q-card v-if="partner[0]" class="col-2 q-ma-sm q-px-md">
+            <div class="self-center full-width no-outline" tabindex="0">
+              <div class="row">
+                <div class="q-pt-sm">
+                  <p class="small-text">Логин</p>
+                  <p class="small-text">Спонсор</p>
+                </div>
+
+                <div class="q-ml-lg">
+                  <p>{{ partner[0].login }}</p>
+                  <p>{{ partner[0].parent }}</p>
+                </div>
               </div>
 
-              <div class="q-ml-lg">
-                <p>{{ item.login }}</p>
-                <p>{{ item.parent }}</p>
+              <div class="row">
+                <q-space />
+                <q-btn
+                  label="Подробнее"
+                  icon="info"
+                  size="sm"
+                  color="primary"
+                  flat
+                  @click="showUserDetail(partner[0])"
+                />
               </div>
             </div>
+          </q-card>
+        </div>
 
-            <div class="row">
-              <q-space />
-              <q-btn label="Подробнее" icon="info" size="sm" color="primary" flat @click="showUserDetail(item)" />
+        <div class="row" style="justify-content: center">
+          <q-card v-if="partner[1]" class="col-2 q-ma-sm q-px-md">
+            <div class="self-center full-width no-outline" tabindex="0">
+              <div class="row">
+                <div class="q-pt-sm">
+                  <p class="small-text">Логин</p>
+                  <p class="small-text">Спонсор</p>
+                </div>
+
+                <div class="q-ml-lg">
+                  <p>{{ partner[1].login }}</p>
+                  <p>{{ partner[1].parent }}</p>
+                </div>
+              </div>
+
+              <div class="row">
+                <q-space />
+                <q-btn
+                  label="Подробнее"
+                  icon="info"
+                  size="sm"
+                  color="primary"
+                  flat
+                  @click="showUserDetail(partner[1])"
+                />
+              </div>
             </div>
-          </div>
-        </q-card>
+          </q-card>
+
+          <q-card v-if="partner[2]" class="col-2 q-ma-sm q-px-md">
+            <div class="self-center full-width no-outline" tabindex="0">
+              <div class="row">
+                <div class="q-pt-sm">
+                  <p class="small-text">Логин</p>
+                  <p class="small-text">Спонсор</p>
+                </div>
+
+                <div class="q-ml-lg">
+                  <p>{{ partner[2].login }}</p>
+                  <p>{{ partner[2].parent }}</p>
+                </div>
+              </div>
+
+              <div class="row">
+                <q-space />
+                <q-btn
+                  label="Подробнее"
+                  icon="info"
+                  size="sm"
+                  color="primary"
+                  flat
+                  @click="showUserDetail(partner[2])"
+                />
+              </div>
+            </div>
+          </q-card>
+        </div>
+
+        <div class="row" style="justify-content: center">
+          <q-card v-if="partner[3]" class="col-2 q-ma-sm q-px-md">
+            <div class="self-center full-width no-outline" tabindex="0">
+              <div class="row">
+                <div class="q-pt-sm">
+                  <p class="small-text">Логин</p>
+                  <p class="small-text">Спонсор</p>
+                </div>
+
+                <div class="q-ml-lg">
+                  <p>{{ partner[3].login }}</p>
+                  <p>{{ partner[3].parent }}</p>
+                </div>
+              </div>
+
+              <div class="row">
+                <q-space />
+                <q-btn
+                  label="Подробнее"
+                  icon="info"
+                  size="sm"
+                  color="primary"
+                  flat
+                  @click="showUserDetail(partner[3])"
+                />
+              </div>
+            </div>
+          </q-card>
+
+          <q-card v-if="partner[4]" class="col-2 q-ma-sm q-px-md">
+            <div class="self-center full-width no-outline" tabindex="0">
+              <div class="row">
+                <div class="q-pt-sm">
+                  <p class="small-text">Логин</p>
+                  <p class="small-text">Спонсор</p>
+                </div>
+
+                <div class="q-ml-lg">
+                  <p>{{ partner[4].login }}</p>
+                  <p>{{ partner[4].parent }}</p>
+                </div>
+              </div>
+
+              <div class="row">
+                <q-space />
+                <q-btn
+                  label="Подробнее"
+                  icon="info"
+                  size="sm"
+                  color="primary"
+                  flat
+                  @click="showUserDetail(partner[4])"
+                />
+              </div>
+            </div>
+          </q-card>
+
+          <q-card v-if="partner[5]" class="col-2 q-ma-sm q-px-md">
+            <div class="self-center full-width no-outline" tabindex="0">
+              <div class="row">
+                <div class="q-pt-sm">
+                  <p class="small-text">Логин</p>
+                  <p class="small-text">Спонсор</p>
+                </div>
+
+                <div class="q-ml-lg">
+                  <p>{{ partner[5].login }}</p>
+                  <p>{{ partner[5].parent }}</p>
+                </div>
+              </div>
+
+              <div class="row">
+                <q-space />
+                <q-btn
+                  label="Подробнее"
+                  icon="info"
+                  size="sm"
+                  color="primary"
+                  flat
+                  @click="showUserDetail(partner[5])"
+                />
+              </div>
+            </div>
+          </q-card>
+
+          <q-card v-if="partner[6]" class="col-2 q-ma-sm q-px-md">
+            <div class="self-center full-width no-outline" tabindex="0">
+              <div class="row">
+                <div class="q-pt-sm">
+                  <p class="small-text">Логин</p>
+                  <p class="small-text">Спонсор</p>
+                </div>
+
+                <div class="q-ml-lg">
+                  <p>{{ partner[6].login }}</p>
+                  <p>{{ partner[6].parent }}</p>
+                </div>
+              </div>
+
+              <div class="row">
+                <q-space />
+                <q-btn
+                  label="Подробнее"
+                  icon="info"
+                  size="sm"
+                  color="primary"
+                  flat
+                  @click="showUserDetail(partner[6])"
+                />
+              </div>
+            </div>
+          </q-card>
+        </div>
       </div>
     </q-expansion-item>
 
@@ -42,20 +223,20 @@
           <q-toolbar-title class="background-title"> {{ selectedUser.fullName }} </q-toolbar-title>
 
           <div class="row q-pt-md">
-            <q-input class="col-sm-5 q-mx-sm" label="Логин" :value="selectedUser.login">
+            <q-input class="col-5 q-mx-sm" label="Логин" :value="selectedUser.login">
               <template #prepend>
                 <q-icon name="person" />
               </template>
             </q-input>
 
-            <q-input class="col-sm-5 q-mx-sm" label="Спонсор" :value="selectedUser.parent">
+            <q-input class="col-5 q-mx-sm" label="Спонсор" :value="selectedUser.parent">
               <template #prepend>
                 <q-icon name="school" />
               </template>
             </q-input>
 
             <q-input
-              class="col-sm-5 q-mx-sm"
+              class="col-5 q-mx-sm"
               label="Телефон"
               :value="selectedUser.phone"
               mask="(###)##-##-##"
@@ -66,13 +247,13 @@
               </template>
             </q-input>
 
-            <q-input class="col-sm-5 q-mx-sm" label="Почта" :value="selectedUser.email">
+            <q-input class="col-5 q-mx-sm" label="Почта" :value="selectedUser.email">
               <template #prepend>
                 <q-icon name="email" />
               </template>
             </q-input>
 
-            <q-input class="col-sm-5 q-mx-sm" label="Регион" :value="selectedUser.region">
+            <q-input class="col-5 q-mx-sm" label="Регион" :value="selectedUser.region">
               <template #prepend>
                 <q-icon name="location_on" />
               </template>

@@ -8,6 +8,7 @@ export interface User {
   parent: string;
   score?: number;
   region?: string;
+  status?: string;
 }
 
 export interface UserDTO {
@@ -20,6 +21,7 @@ export interface UserDTO {
   parent: User;
   score?: number;
   region?: string;
+  status?: string;
 }
 
 export interface AuthUser {

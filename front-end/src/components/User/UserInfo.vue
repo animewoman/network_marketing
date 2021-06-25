@@ -25,6 +25,12 @@
         </template>
       </q-input>
 
+      <q-input label="Статус" :value="user.status" readonly>
+        <template #prepend>
+          <q-icon name="emoji_events" />
+        </template>
+      </q-input>
+
       <q-input label="Логин спонсора" :value="parentName" readonly>
         <template #prepend>
           <q-icon name="school" />

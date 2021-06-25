@@ -1,7 +1,7 @@
 <template>
   <div>
     <q-expansion-item
-      v-for="(partner, index) in partners"
+      v-for="(partner, index) in stages"
       :key="index"
       class="shadow-1 overflow-hidden q-my-sm background-card"
       style="border-radius: 30px"
@@ -97,7 +97,7 @@ import { User } from '@/types/user';
   name: 'Partners',
 })
 export default class Partners extends Vue {
-  partners = null;
+  stages = [];
 
   selectedUser: User | null = null;
 
@@ -117,8 +117,7 @@ export default class Partners extends Vue {
   async fetchPartners() {
     const userLogin = localStorage.getItem('login');
     if (userLogin) {
-      this.partners = await getPartners(userLogin);
-      console.log(this.partners);
+      this.stages = await getPartners(userLogin);
     }
   }
 

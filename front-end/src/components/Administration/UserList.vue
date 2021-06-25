@@ -12,7 +12,7 @@
       @row-click="toUser"
     >
       <template #top>
-        <q-toolbar-title class="table-title">Таблица пользователей</q-toolbar-title>
+        <q-toolbar-title class="table-title">Пользователи</q-toolbar-title>
         <q-space />
 
         <q-input v-model="filter" dense color="primary" style="margin: 0 auto" label="Поиск">

@@ -23,7 +23,7 @@
 
               <div class="q-ml-lg">
                 <p>{{ item.login }}</p>
-                <p>{{ item.parent.login }}</p>
+                <p>{{ item.parent }}</p>
               </div>
             </div>
 
@@ -48,7 +48,7 @@
               </template>
             </q-input>
 
-            <q-input class="col-sm-5 q-mx-sm" label="Спонсор" :value="selectedUser.parent.login">
+            <q-input class="col-sm-5 q-mx-sm" label="Спонсор" :value="selectedUser.parent">
               <template #prepend>
                 <q-icon name="school" />
               </template>

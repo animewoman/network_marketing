@@ -51,7 +51,7 @@ export default class AuthPage extends Vue {
       return;
     }
 
-    this.$router.push({ name: 'showcase' });
+    this.$router.push({ name: 'user' });
   }
 
   //TODO: заменить уведомление на обычный текст у инпута?

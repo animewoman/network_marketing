@@ -7,15 +7,15 @@
       </div>
       <q-space />
 
-      <q-btn
-        label="Редактировать профиль"
-        icon="edit"
-        size="sm"
-        color="grey"
-        class="q-mt-md"
-        align="right"
-        style="max-height: 30px"
-      />
+      <!--      <q-btn-->
+      <!--        label="Редактировать профиль"-->
+      <!--        icon="edit"-->
+      <!--        size="sm"-->
+      <!--        color="grey"-->
+      <!--        class="q-mt-md"-->
+      <!--        align="right"-->
+      <!--        style="max-height: 30px"-->
+      <!--      />-->
     </q-card>
 
     <q-card class="q-pa-lg m-auto" style="max-width: 500px">

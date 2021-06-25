@@ -94,7 +94,7 @@
 
             <q-separator color="white" />
 
-            <q-item clickable v-ripple @click="logout">
+            <q-item clickable v-ripple @click="showEditUser = true">
               <q-item-section avatar>
                 <q-icon name="edit" />
               </q-item-section>
@@ -109,6 +109,48 @@
 
               <q-item-section> Выйти </q-item-section>
             </q-item>
+
+            <q-dialog v-if="user" v-model="showEditUser">
+              <q-card class="q-pa-lg">
+                <q-card-section class="q-pt-none">
+                  <div class="row q-pt-md">
+                    <q-input class="col-5 q-mx-sm" label="ФИО" :value="user.fullName">
+                      <template #prepend>
+                        <q-icon name="person" />
+                      </template>
+                    </q-input>
+
+                    <q-input
+                      class="col-5 q-mx-sm"
+                      label="Телефон"
+                      :value="user.phone"
+                      mask="(###)##-##-##"
+                      unmasked-value
+                    >
+                      <template #prepend>
+                        <q-icon name="call" />
+                      </template>
+                    </q-input>
+
+                    <q-input class="col-5 q-mx-sm" label="Почта" :value="user.email">
+                      <template #prepend>
+                        <q-icon name="email" />
+                      </template>
+                    </q-input>
+
+                    <q-input class="col-5 q-mx-sm" label="Регион" :value="user.region">
+                      <template #prepend>
+                        <q-icon name="location_on" />
+                      </template>
+                    </q-input>
+                  </div>
+                </q-card-section>
+
+                <q-card-actions align="right">
+                  <q-btn flat label="Редактировать" color="primary" v-close-popup @click="editUser" />
+                </q-card-actions>
+              </q-card>
+            </q-dialog>
 
             <!--            <div style="display: flex; flex-direction: row; justify-content: center">-->
             <!--              <q-btn label="Выйти" dense @click="logout" />-->
@@ -130,12 +172,17 @@
 import { Component, Vue, Watch } from 'vue-property-decorator';
 import { logoutUser } from '@/http';
 import { RouteNames } from '@/router/routes';
+import { User } from '@/types/user';
+import { getUser, updateUser } from '@/service/Users';
 
 @Component({
   name: 'Navigation',
 })
 export default class Navigation extends Vue {
   drawer = true;
+  showEditUser = false;
+
+  user: User | null = null;
 
   menuList = [
     {
@@ -223,9 +270,22 @@ export default class Navigation extends Vue {
     }
   }
 
-  created() {
+  // @Watch('showEditUser')
+  // onShowEditUser() {
+  //   if (this.login) {
+  //     this.fetchUser(this.login);
+  //   }
+  // }
+
+  async created() {
+    const login = this.login;
+    this.user = await getUser(login);
     this.setActiveRoute();
   }
+
+  // async fetchUser() {
+  //   this.showEditUser = true;
+  // }
 
   setActiveRoute() {
     if (this.routeName === RouteNames.AUTH || this.routeName === RouteNames.SHOWCASE) {
@@ -240,6 +300,13 @@ export default class Navigation extends Vue {
 
       item.isActive = false;
     });
+  }
+
+  async editUser() {
+    if (this.user) {
+      const response = await updateUser(this.user);
+      console.log(response);
+    }
   }
 
   async logout() {

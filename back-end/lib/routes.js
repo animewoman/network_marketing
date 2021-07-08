@@ -1,6 +1,6 @@
-const { users, tokens, transfers } = require('./connect-db');
+const { users, tokens, transfers, stages } = require('./connect-db');
 const { isNull, getToken, isAdmin } = require('./helper');
-const { auth } = require('./std/conf');
+const { auth, gameInfo } = require('./std/conf');
 const User = require('./schemas/userSchema');
 
 
@@ -10,8 +10,6 @@ const jwt = require('jsonwebtoken');
 
 exports.getUserId = async function (req, res) {
     try {
-        console.log(req.query);
-        // const user = await findById(users, req.query._id);
         const user = await users.findOne({ login: req.query.login }, {
             projection: excludeUnnessary()
         });
@@ -37,34 +35,188 @@ exports.deleteUser = async function (req, res) {
 exports.createUser = async function (req, res) {
     req.body.login = req.body.login.toLowerCase();
     try {
-        console.log('has requested: ', req.body);
         const userExists = await users.findOne({
             login: req.body.login
         });
 
         if (!isNull(userExists)) return res.status(400).send({ message: 'Пользователь с таким логином уже существует' });
         let newUser = new User(req.body);
-
+        let user, itBe, temp;
         if (newUser.parent) {
-            let itBe = await newUser.getParent(users);
+            itBe = await newUser.getParent(users);
             if (itBe === null) return res.status(400).send({ message: "Такого спонсора нет" });
 
-            const cntP = await users.find({ "parent._id": ObjectID(itBe._id) }).toArray();
-            if (cntP.length > 1) return res.status(400).send({ message: "Спонсор занят" });
-
-            newUser.parent = itBe;
-            delete newUser.parent.parent;
+            temp = await stages.findOne({
+                userId: ObjectID(itBe._id),
+                stage: 1
+            });
+            if (temp.left && temp.right) return res.status(400).send({ message: "Спонсор занят" });
         }
 
-        const user = await users.insertOne(newUser);
 
-        res.status(201).send({ data: user.ops[0] });
+        user = await users.insertOne(newUser);
+        user = user.ops[0];
+
+        if (temp) {
+            temp.left ? temp.right = user._id : temp.left = user._id;
+
+            await stages.updateOne({
+                _id: ObjectID(temp._id)
+            }, {
+                $set: temp
+            });
+            await incStage(temp.userId, temp.stage);
+
+            if (temp.parent) {
+                await incStage(temp.parent, temp.stage);
+                await actualizeCounter(temp.parent, temp.stage);
+            }
+        }
+
+
+        if (newUser.parent) await createStageWithParent(user._id, 1, temp);
+        else await createStageWithoutParent(user._id, 1);
+
+
+        res.status(201).send({ data: user });
     } catch (err) {
         console.error(err);
         res.sendStatus(500);
     }
 }
 
+async function createStageWithoutParent(userId, stage) {
+    try {
+
+        const data = await users.findOne({
+            _id: ObjectID(userId)
+        });
+        await stages.insertOne({
+            parent: null,
+            userId,
+            fullName: data.fullName,
+            login: data.login,
+            phone: data.phone,
+            email: data.email,
+            region: data.region,
+            left: null,
+            right: null,
+            stage,
+            counter: 0,
+            order: 0
+        })
+    } catch (err) {
+        throw new Error(err);
+    }
+}
+
+async function createStageWithParent(userId, stage, parent) {
+    try {
+        const data = await users.findOne({
+            _id: ObjectID(userId)
+        });
+        await stages.insertOne({
+            parent: parent.userId,
+            userId,
+            fullName: data.fullName,
+            login: data.login,
+            phone: data.phone,
+            email: data.email,
+            region: data.region,
+            left: null,
+            right: null,
+            stage,
+            counter: 0,
+            order: parent.left == userId ? parent.order * 2 + 1 : parent.order * 2 + 2
+        });
+    } catch (err) {
+        throw new Error(err);
+    }
+}
+
+
+async function incStage(id, stage) {
+    try {
+        await stages.updateOne({
+            userId: ObjectID(id),
+            stage: stage
+        }, {
+            $inc: {
+                counter: 1
+            }
+        });
+
+        await users.updateOne({
+            _id: ObjectID(id)
+        }, {
+            $inc: {
+                score: gameInfo.statuses[stage - 1].price
+            }
+        });
+
+    } catch (err) {
+        throw new Error(err);
+    }
+}
+
+
+async function actualizeCounter(parentId, stage) {
+    try {
+        const updateParent = await stages.findOne({
+            userId: ObjectID(parentId),
+            stage: stage
+        });
+        if (updateParent.counter == gameInfo.statuses[updateParent.stage - 1].goal) {
+            await users.updateOne({
+                _id: ObjectID(parentId)
+            }, {
+                $set: {
+                    status: gameInfo.statuses[updateParent.stage].name
+                }
+            });
+            await levelUp(updateParent);
+        }
+    } catch (err) {
+        throw new Error(err);
+    }
+}
+
+async function levelUp(me) {
+    try {
+        let newFather = await stages.find({
+            counter: {
+                $lt: 2
+            },
+            stage: me.stage + 1
+        }).sort({ order: 1 }).limit(1).toArray();
+
+        if (!newFather.length) {
+            return await createStageWithoutParent(me.userId, me.stage + 1);
+        }
+        newFather = newFather[0];
+
+        if (newFather.left) {
+            newFather.right = me._id
+        } else {
+            newFather.left = me._id;
+        }
+
+        await incStage(newFather.userId, newFather.stage);
+        await stages.updateOne({
+            _id: ObjectID(newFather._id)
+        }, {
+            $set: newFather
+        });
+        if (newFather.parent) {
+            await incStage(newFather.parent, newFather.stage);
+            await actualizeCounter(newFather.parent, newFather.stage);
+        }
+        await createStageWithParent(me.userId, me.stage + 1, newFather);
+
+    } catch (err) {
+        throw new Error(err);
+    }
+}
 exports.login = async function (req, res) {
     req.body.login = req.body.login.toLowerCase();
     try {
@@ -156,7 +308,6 @@ exports.updateUser = async function (req, res) {
     let data = Object.assign({}, req.body);
     data.score ? data.score = parseInt(data.score) : null;
     delete data._id;
-    let checkSize = data.length == 1 && data.score
     try {
         users.updateOne({ _id: ObjectID(req.body._id) }, {
             $set: data
@@ -246,36 +397,55 @@ exports.getPartners = async function (req, res) {
     req.body.login = req.body.login.toLowerCase();
 
     try {
-        const me = await users.findOne({ login: req.body.login }, {
-            projection: excludeUnnessary()
-        });
-        if (isNull(me)) return res.status(400).send({ message: "Пользователь не найден" });
-        let resp = Array();
-        resp.push(me);
+        const user = await users.findOne({ login: req.body.login });
+        if (isNull(user)) return res.status(400).send({ message: "asdf" });
+        let ans = {};
+        for (let curStage = 1; curStage < 9; curStage++) {
+            let toPush = await stages.findOne({
+                userId: ObjectID(user._id),
+                stage: curStage
+            });
+            ans[curStage] = [];
+            if (isNull(toPush)) continue;
 
-        let temp = await users.find({ "parent._id": ObjectID(me._id) }).toArray();
-        resp.push(...temp);
-        for (let el in temp) {
-            let lastC = await users.find({ "partners._id": ObjectID(el._id) }).toArray();
-            resp.push(...lastC);
+            let orders = [parseInt(toPush.order)];
+            for (let i = 0; i < 3; i++) {
+                orders.push(orders[i] * 2 + 1);
+                orders.push(orders[i] * 2 + 2);
+            }
+            for (let ind = 0; ind < orders.length; ind++) {
+                elem = orders[ind];
+
+                let needStage = await stages.findOne({
+                    order: parseInt(elem),
+                    stage: curStage
+                }, {
+                    projection: {
+                        fullName: 1,
+                        login: 1,
+                        parent: 1,
+                        phone: 1,
+                        email: 1,
+                        region: 1
+                    }
+                });
+                if (!isNull(needStage)) {
+                    const parLogin = await users.findOne({
+                        _id: ObjectID(needStage.parent)
+                    });
+
+                    if (!isNull(parLogin)) needStage.parent = parLogin.login;
+
+                    ans[curStage].push(needStage);
+                }
+            }
         }
-
-        res.status(200).send(resp);
+        res.status(200).send(ans);
     } catch (err) {
         console.log(err);
         res.sendStatus(500);
     }
 
-}
-
-const findById = async (collection, id) => {
-    try {
-        return await collection.findOne({ _id: ObjectID(id) }, {
-            projection: excludeUnnessary()
-        });
-    } catch (err) {
-        throw new Error(err);
-    }
 }
 
 const createTokens = (login, isAdmin = false) => {

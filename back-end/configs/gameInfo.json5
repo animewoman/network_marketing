@@ -1,0 +1,45 @@
+{
+	statuses: [
+		{
+			name: "Пользователь BL",
+			goal: 6,
+			price: 1.25,
+		},
+		{
+			name: "Партнер BL",
+			goal: 6,
+			price: 2.25,
+		},
+		{
+			name: "Консультант BL",
+			goal: 2,
+			price: 25,
+		},
+		{
+			name: "Директор BL",
+			goal: 6,
+			price: 12.5,
+
+		},
+		{
+			name: "Бронзовый директор BL",
+			goal: 6,
+			price: 37.5,
+		},
+		{
+			name: "Серебряный директор BL",
+			goal: 6,
+			price: 75,
+		},
+		{
+			name: "Золотой директор BL",
+			goal: 6,
+			price: 100,
+		},
+		{
+			name: "BRILLIANT BL",
+			goal: 6,
+			price: 3750,
+		},
+	]
+}

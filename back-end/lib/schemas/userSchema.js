@@ -5,10 +5,12 @@ class User {
         this.password = password;
         this.email = email;
         this.phone = phone;
-        this.parent = parent ? parent : false;
+        this.parent = parent ?? false;
         this.score = 0;
         this.status = 'Потребитель BL';
-        this.region = region ? region : '';
+        this.activeStage = 1;
+        this.goal = 0;
+        this.region = region ?? '';
         this.date = new Date();
         this.isAdmin = isAdmin ? true : false; //testing
     }

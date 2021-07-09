@@ -1,65 +1,57 @@
 <template>
-  <div v-if="user" style="max-width: 800px" class="q-px-xl">
-    <q-card class="row card-title q-my-md q-px-lg q-py-sm">
-      <div>
-        <p class="subtitle">Добро пожаловать</p>
-        <q-toolbar-title style="padding: 0">{{ user.fullName }}</q-toolbar-title>
+  <div v-if="user" style="max-width: 800px">
+    <q-card class="card-title">
+      <div class="row bg-green-5 q-px-lg q-pb-sm">
+        <p class="subtitle q-mt-xs">
+          Добро пожаловать!
+          <q-toolbar-title style="padding: 0; color: #000">{{ user.fullName }}</q-toolbar-title>
+        </p>
       </div>
       <q-space />
 
-      <!--      <q-btn-->
-      <!--        label="Редактировать профиль"-->
-      <!--        icon="edit"-->
-      <!--        size="sm"-->
-      <!--        color="grey"-->
-      <!--        class="q-mt-md"-->
-      <!--        align="right"-->
-      <!--        style="max-height: 30px"-->
-      <!--      />-->
-    </q-card>
+      <div class="q-px-lg bg-red-5">
+        <q-input label="Ваш Логин" :value="user.login" readonly>
+          <template #prepend>
+            <q-icon name="person" />
+          </template>
+        </q-input>
 
-    <q-card class="q-pa-lg m-auto" style="max-width: 500px">
-      <q-input label="Ваш Логин" :value="user.login" readonly>
-        <template #prepend>
-          <q-icon name="person" />
-        </template>
-      </q-input>
+        <q-input label="Статус" :value="user.status" readonly>
+          <template #prepend>
+            <q-icon name="emoji_events" />
+          </template>
+        </q-input>
 
-      <q-input label="Статус" :value="user.status" readonly>
-        <template #prepend>
-          <q-icon name="emoji_events" />
-        </template>
-      </q-input>
+        <q-input label="Логин спонсора" :value="parentName" readonly>
+          <template #prepend>
+            <q-icon name="school" />
+          </template>
+        </q-input>
 
-      <q-input label="Логин спонсора" :value="parentName" readonly>
-        <template #prepend>
-          <q-icon name="school" />
-        </template>
-      </q-input>
+        <q-input label="Регион" :value="user.region" readonly>
+          <template #prepend>
+            <q-icon name="location_on" />
+          </template>
+        </q-input>
 
-      <q-input label="Регион" :value="user.region" readonly>
-        <template #prepend>
-          <q-icon name="location_on" />
-        </template>
-      </q-input>
+        <q-input label="Телефон" :value="user.phone" mask="(###)##-##-##" unmasked-value readonly>
+          <template #prepend>
+            <q-icon name="call" />
+          </template>
+        </q-input>
 
-      <q-input label="Телефон" :value="user.phone" mask="(###)##-##-##" unmasked-value readonly>
-        <template #prepend>
-          <q-icon name="call" />
-        </template>
-      </q-input>
+        <q-input label="Электронная почта" :value="userMail" readonly>
+          <template #prepend>
+            <q-icon name="email" />
+          </template>
+        </q-input>
 
-      <q-input label="Электронная почта" :value="userMail" readonly>
-        <template #prepend>
-          <q-icon name="email" />
-        </template>
-      </q-input>
-
-      <q-input label="Баланс $" :value="user.score" readonly borderless>
-        <template #prepend>
-          <q-icon name="payments" color="positive" />
-        </template>
-      </q-input>
+        <q-input label="Баланс $" :value="user.score" readonly borderless>
+          <template #prepend>
+            <q-icon name="payments" color="positive" />
+          </template>
+        </q-input>
+      </div>
     </q-card>
   </div>
 </template>

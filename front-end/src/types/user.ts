@@ -11,19 +11,6 @@ export interface User {
   status?: string;
 }
 
-export interface UserDTO {
-  _id: string;
-  login: string;
-  fullName: string;
-  password: string;
-  phone: string;
-  email: string;
-  parent: User;
-  score?: number;
-  region?: string;
-  status?: string;
-}
-
 export interface AuthUser {
   login: string;
   isAdmin: boolean;

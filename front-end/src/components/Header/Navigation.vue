@@ -151,10 +151,6 @@
                 </q-card-actions>
               </q-card>
             </q-dialog>
-
-            <!--            <div style="display: flex; flex-direction: row; justify-content: center">-->
-            <!--              <q-btn label="Выйти" dense @click="logout" />-->
-            <!--            </div>-->
           </q-list>
         </q-scroll-area>
       </q-drawer>

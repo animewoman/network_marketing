@@ -210,13 +210,11 @@ export default class Navigation extends Vue {
       isActive: false,
     },
   ];
-  //TODO: Для отображения инфы в менюшке выхода нужны фио и статус юзера
-  // login: string | null = '';
 
-  get login(): string {
+  get login(): string | null {
     const login = localStorage.getItem('login');
 
-    return login ?? '';
+    return login ?? null;
   }
 
   get showNavigation(): boolean {
@@ -249,10 +247,6 @@ export default class Navigation extends Vue {
   }
 
   get backgroundAuthImage() {
-    if (this.routeName === RouteNames.SHOWCASE) {
-      return 'showcase-background';
-    }
-
     return this.routeName === RouteNames.AUTH ? 'auth-background' : '';
   }
 
@@ -270,22 +264,14 @@ export default class Navigation extends Vue {
     }
   }
 
-  // @Watch('showEditUser')
-  // onShowEditUser() {
-  //   if (this.login) {
-  //     this.fetchUser(this.login);
-  //   }
-  // }
-
   async created() {
     const login = this.login;
-    this.user = await getUser(login);
+    if (login) {
+      this.user = await getUser(login);
+    }
+
     this.setActiveRoute();
   }
-
-  // async fetchUser() {
-  //   this.showEditUser = true;
-  // }
 
   setActiveRoute() {
     if (this.routeName === RouteNames.AUTH || this.routeName === RouteNames.SHOWCASE) {
@@ -304,8 +290,7 @@ export default class Navigation extends Vue {
 
   async editUser() {
     if (this.user) {
-      const response = await updateUser(this.user);
-      console.log(response);
+      await updateUser(this.user);
     }
   }
 

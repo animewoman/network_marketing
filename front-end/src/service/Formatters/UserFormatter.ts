@@ -1,15 +1,16 @@
-import { User, UserDTO } from '@/types/user';
+import { User } from '@/types/user';
 
-export function formatUser(user: UserDTO): User {
-  const parent = user.parent.login;
+export function formatUser(user: User): User {
+  const parent = user.parent;
+  if (!parent) {
+    return { ...user, parent: '-' };
+  }
 
-  return { ...user, parent };
+  return user;
 }
 
-export function formatUserList(users: UserDTO[]): User[] {
+export function formatUserList(users: User[]): User[] {
   return users.map((user) => {
-    const foundParent = users.find((usr) => usr.login === user.parent.login);
-
-    return { ...user, parent: foundParent?.login ?? '-' };
+    return { ...user, parent: user.parent ?? '-' };
   });
 }

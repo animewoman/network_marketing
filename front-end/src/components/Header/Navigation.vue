@@ -46,21 +46,6 @@
             @click="changeRoute('showcase')"
           />
           <q-space />
-
-          <!--          <q-btn-dropdown class="glossy" color="secondary" size="sm" :label="login">-->
-          <!--            <div class="no-wrap q-pa-md">-->
-          <!--              <div class="column items-center">-->
-          <!--                <q-avatar>-->
-          <!--                  <q-icon name="person" color="secondary" size="lg" />-->
-          <!--                </q-avatar>-->
-
-          <!--                <div class="text-subtitle1 q-py-md">Асанов Бекназар</div>-->
-          <!--                <div class="text-subtitle3 q-pb-sm">Серебрянный директор</div>-->
-
-          <!--                <q-btn label="Выйти" color="negative" push size="sm" v-close-popup @click="logout" />-->
-          <!--              </div>-->
-          <!--            </div>-->
-          <!--          </q-btn-dropdown>-->
         </q-toolbar>
       </q-header>
 

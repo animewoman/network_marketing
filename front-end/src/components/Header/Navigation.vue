@@ -105,46 +105,7 @@
             </q-item>
 
             <q-dialog v-if="user" v-model="showEditUser">
-              <q-card class="q-pa-lg">
-                <q-toolbar-title>Профиль</q-toolbar-title>
-                <q-card-section class="q-pt-none">
-                  <div class="row q-pt-md">
-                    <q-input class="col-5 q-mx-sm" label="ФИО" :value="user.fullName">
-                      <template #prepend>
-                        <q-icon name="person" />
-                      </template>
-                    </q-input>
-
-                    <q-input
-                      class="col-5 q-mx-sm"
-                      label="Телефон"
-                      :value="user.phone"
-                      mask="(###)##-##-##"
-                      unmasked-value
-                    >
-                      <template #prepend>
-                        <q-icon name="call" />
-                      </template>
-                    </q-input>
-
-                    <q-input class="col-5 q-mx-sm" label="Почта" :value="user.email">
-                      <template #prepend>
-                        <q-icon name="email" />
-                      </template>
-                    </q-input>
-
-                    <q-input class="col-5 q-mx-sm" label="Регион" :value="user.region">
-                      <template #prepend>
-                        <q-icon name="location_on" />
-                      </template>
-                    </q-input>
-                  </div>
-                </q-card-section>
-
-                <q-card-actions align="right">
-                  <q-btn dense label="Редактировать" color="primary" v-close-popup @click="editUser" />
-                </q-card-actions>
-              </q-card>
+              <UserEdit :user="user" />
             </q-dialog>
           </q-list>
         </q-scroll-area>
@@ -162,14 +123,15 @@
 <script lang="ts">
 import { Component, Vue, Watch } from 'vue-property-decorator';
 import PartnerStages from '@/components/Header/PartnerStages.vue';
-import { getUser, updateUser } from '@/service/Users';
+import { getUser } from '@/service/Users';
 import { User } from '@/types/user';
 import { logoutUser } from '@/http';
 import { RouteNames } from '@/router/routes';
+import UserEdit from '@/components/User/UserEdit.vue';
 
 @Component({
   name: 'Navigation',
-  components: { PartnerStages },
+  components: { UserEdit, PartnerStages },
 })
 export default class Navigation extends Vue {
   drawer = true;
@@ -281,12 +243,6 @@ export default class Navigation extends Vue {
 
       item.isActive = false;
     });
-  }
-
-  async editUser() {
-    if (this.user) {
-      await updateUser(this.user);
-    }
   }
 
   async logout() {

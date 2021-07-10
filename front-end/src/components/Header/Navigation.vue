@@ -66,7 +66,20 @@
             </div>
 
             <template v-for="(item, index) in menuList">
-              <q-item :active="item.isActive" :key="index" clickable v-ripple @click="changeRoute(item.routeName)">
+              <q-item v-if="item.routeName === 'partners'" class="q-pa-none" :key="index">
+                <q-expansion-item class="q-ma-none" expand-separator :icon="item.icon" :label="item.label">
+                  <PartnerStages />
+                </q-expansion-item>
+              </q-item>
+
+              <q-item
+                v-else
+                :active="item.isActive"
+                :key="index"
+                clickable
+                v-ripple
+                @click="changeRoute(item.routeName)"
+              >
                 <q-item-section avatar>
                   <q-icon :name="item.icon" />
                 </q-item-section>
@@ -159,6 +172,7 @@ import { getUser, updateUser } from '@/service/Users';
 
 @Component({
   name: 'Navigation',
+  components: { PartnerStages },
 })
 export default class Navigation extends Vue {
   drawer = true;

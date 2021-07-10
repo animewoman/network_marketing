@@ -28,7 +28,7 @@
         </q-input>
 
         <q-input
-          label="Пароль"
+          label="Новый пароль"
           v-model="user.password"
           ref="pass"
           class="col-5 q-mx-sm"

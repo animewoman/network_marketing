@@ -97,6 +97,7 @@
 
             <q-dialog v-if="user" v-model="showEditUser">
               <q-card class="q-pa-lg">
+                <q-toolbar-title>Профиль</q-toolbar-title>
                 <q-card-section class="q-pt-none">
                   <div class="row q-pt-md">
                     <q-input class="col-5 q-mx-sm" label="ФИО" :value="user.fullName">
@@ -132,7 +133,7 @@
                 </q-card-section>
 
                 <q-card-actions align="right">
-                  <q-btn flat label="Редактировать" color="primary" v-close-popup @click="editUser" />
+                  <q-btn dense label="Редактировать" color="primary" v-close-popup @click="editUser" />
                 </q-card-actions>
               </q-card>
             </q-dialog>

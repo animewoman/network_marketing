@@ -61,12 +61,8 @@
       >
         <q-scroll-area class="fit">
           <q-list dark bordered>
-            <div style="display: flex; flex-direction: row; justify-content: center">
-              <q-img :src="require('@/assets/bl-logo-auth.png')" style="max-width: 80px; max-height: 60px" />
-            </div>
-
             <template v-for="(item, index) in menuList">
-              <q-item v-if="item.routeName === 'partners'" class="q-pa-none" :key="index">
+              <q-item v-if="item.routeName === 'partners'" class="q-pa-none" :active="item.isActive" :key="index">
                 <q-expansion-item class="q-ma-none" expand-separator :icon="item.icon" :label="item.label">
                   <PartnerStages />
                 </q-expansion-item>
@@ -247,12 +243,14 @@ export default class Navigation extends Vue {
     return this.routeName === RouteNames.AUTH ? 'auth-background' : '';
   }
 
-  @Watch('routeName', { immediate: true })
+  @Watch('$route.name', { immediate: true })
   setLogin(routeName: string) {
-    if (routeName === RouteNames.SHOWCASE) {
+    if (routeName === RouteNames.SHOWCASE || routeName === RouteNames.PARTNERS) {
       this.menuList.forEach((item) => {
         item.isActive = false;
       });
+
+      return;
     }
 
     const currentRoute = this.menuList.find((item) => item.routeName === routeName);

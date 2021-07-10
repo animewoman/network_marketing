@@ -65,6 +65,7 @@
 import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
 import { User } from '@/types/user';
 import { updateUser } from '@/service/Users';
+import { QInput } from 'quasar';
 
 @Component({
   name: 'UserEdit',
@@ -73,6 +74,11 @@ export default class UserEdit extends Vue {
   @Prop({ type: Object, default: null }) readonly user!: User;
 
   repeatPassword = '';
+
+  $refs!: {
+    pass: QInput;
+    pass2: QInput;
+  };
 
   @Watch('user.password')
   onPasswordChange() {

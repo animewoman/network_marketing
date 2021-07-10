@@ -165,10 +165,11 @@
 
 <script lang="ts">
 import { Component, Vue, Watch } from 'vue-property-decorator';
+import PartnerStages from '@/components/Header/PartnerStages.vue';
+import { getUser, updateUser } from '@/service/Users';
+import { User } from '@/types/user';
 import { logoutUser } from '@/http';
 import { RouteNames } from '@/router/routes';
-import { User } from '@/types/user';
-import { getUser, updateUser } from '@/service/Users';
 
 @Component({
   name: 'Navigation',

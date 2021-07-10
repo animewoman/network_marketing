@@ -1,4 +1,6 @@
-export function formatReports(reports: Array<any>): Array<any> {
+import { Report, ReportDTO } from '@/types/operation';
+
+export function formatReports(reports: ReportDTO[]): Report[] {
   const statuses = [
     {
       name: 'Отправил',
@@ -10,11 +12,15 @@ export function formatReports(reports: Array<any>): Array<any> {
     },
   ];
 
-  const result: Array<any> = [];
+  const result: Report[] = [];
 
   reports.forEach((report) => {
     const statusReport = statuses.find((status) => status.name === report.type);
-    const formatterReport = { ...report, status: { title: statusReport?.name, color: statusReport?.color } };
+    const formatterReport = {
+      ...report,
+      status: { title: statusReport?.name ?? '', color: statusReport?.color ?? '' },
+    };
+
     result.push(formatterReport);
   });
 

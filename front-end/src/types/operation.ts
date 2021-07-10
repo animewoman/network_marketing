@@ -3,6 +3,12 @@ export interface TransferData {
   login: string;
 }
 
+export interface ReportDTO {
+  from: string;
+  score: number;
+  type: string;
+}
+
 export interface Report {
   from: string;
   score: number;

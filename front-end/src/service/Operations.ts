@@ -1,5 +1,5 @@
 import { api } from '@/http';
-import { TransferData } from '@/types/operation';
+import { Report, TransferData } from '@/types/operation';
 import { showNotification } from '@/service/Notifications';
 import { formatPartners, formatReports, getPrefixByScore } from '@/service/Formatters/OperationFormatter';
 
@@ -12,7 +12,7 @@ export async function transferMoney(data: TransferData): Promise<void> {
   }
 }
 
-export async function getReports(login: string): Promise<any> {
+export async function getReports(login: string): Promise<Report[]> {
   const data = { login };
   const response = await api().post('/user/transfers', data);
 

@@ -31,9 +31,9 @@
 
       <template #body-cell-type="props">
         <q-td :props="props">
-          <q-chip dense text-color="white" :color="props.row.status.color">
+          <q-badge :color="props.row.status.color">
             {{ props.row.status.title }}
-          </q-chip>
+          </q-badge>
         </q-td>
       </template>
     </q-table>

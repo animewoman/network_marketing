@@ -11,7 +11,7 @@
 
       <q-input label="Регион" v-model="user.region" :rules="[requiredField]" />
 
-      <q-input label="Почта" v-model="user.email" />
+      <q-input label="Почта" v-model="user.email" :rules="[validateMail]" />
 
       <q-input
         label="Телефон"

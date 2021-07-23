@@ -50,7 +50,11 @@ exports.createUser = async function (req, res) {
                 userId: ObjectID(itBe._id),
                 stage: 1
             });
-            if (temp.left && temp.right) return res.status(400).send({ message: "Спонсор занят" });
+
+            if (temp.left && temp.right) // return res.status(400).send({ message: "Спонсор занят" });
+            {
+                temp = await findNewParent(temp);
+            }
         }
 
 
@@ -73,7 +77,7 @@ exports.createUser = async function (req, res) {
             }
         }
 
-
+        console.log(user, temp);
         if (newUser.parent) await createStageWithParent(user._id, 1, temp);
         else await createStageWithoutParent(user._id, 1);
 
@@ -82,6 +86,29 @@ exports.createUser = async function (req, res) {
     } catch (err) {
         console.error(err);
         res.sendStatus(500);
+    }
+}
+
+async function findNewParent(stage) {
+    try {
+        let arr = [stage];
+        let size = arr.length;
+        for (let i = 0; i < size; i++) {
+            console.log(arr[i]);
+            for (let j = 1; j < 3; j++) {
+                const check = await stages.findOne({
+                    order: parseInt(arr[i].order) * 2 + j,
+                    stage: arr[i].stage
+                });
+                console.log(check);
+                if (isNull(check)) return arr[i];
+
+                arr.push(check);
+                size += 1;
+            }
+        }
+    } catch (err) {
+        throw new Error(err);
     }
 }
 
@@ -398,7 +425,7 @@ exports.getPartners = async function (req, res) {
 
     try {
         const user = await users.findOne({ login: req.body.login });
-        if (isNull(user)) return res.status(400).send({ message: "asdf" });
+        if (isNull(user)) return res.status(400).send({ message: "Такой пользователь не найден" });
         let ans = {};
         for (let curStage = 1; curStage < 9; curStage++) {
             let toPush = await stages.findOne({

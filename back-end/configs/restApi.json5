@@ -81,7 +81,7 @@
             url: "/api/user/update",
             func: "updateUser",
             authenticated: true,
-            isAdmin: true
+            // isAdmin: true
         },
         {
             method: "post",

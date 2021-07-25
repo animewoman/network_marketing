@@ -51,6 +51,9 @@
         :breakpoint="500"
       >
         <q-scroll-area class="fit">
+          <div class="row justify-center">
+            <img :src="require('@/assets/logo.png')" style="width: 100px" alt="Brilliant Life" />
+          </div>
           <q-list dark bordered>
             <template v-for="(item, index) in menuList">
               <q-item v-if="item.routeName === 'partners'" class="q-pa-none" :active="item.isActive" :key="index">

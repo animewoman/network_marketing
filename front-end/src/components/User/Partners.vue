@@ -1,154 +1,194 @@
 <template>
   <div>
-    <div v-if="currentStage && currentStage.length" class="col q-pa-sm">
-      <q-toolbar-title class="q-pb-lg q-pa-none">Структура</q-toolbar-title>
-      <q-toolbar-title class="text-center q-mb-lg bg-grey-4 text-accent">Этап {{ stageNumber }}</q-toolbar-title>
+    <q-toolbar-title class="q-pb-lg q-pa-none">Структура</q-toolbar-title>
+    <div class="col bg-red justify-center">
+      <div v-if="stageNumber < 5" class="row justify-center q-mb-sm">
+        <q-btn v-if="currentStage" label="Вы купили эликсир" color="green-7" text-color="black" no-caps />
 
-      <div class="row" style="justify-content: center">
-        <q-card v-if="currentStage[0]" class="col-2 q-ma-sm q-px-md">
-          <div class="self-center full-width no-outline" tabindex="0">
-            <div class="row justify-center">
-              <p>{{ currentStage[0].login }}</p>
-            </div>
-
-            <div>
-              <q-btn
-                label="Подробнее"
-                icon="info"
-                size="sm"
-                color="primary"
-                flat
-                @click="showUserDetail(currentStage[0])"
-              />
-            </div>
-          </div>
-        </q-card>
+        <q-btn v-else label="Купить эликсир" color="yellow" text-color="black" no-caps />
       </div>
 
-      <q-separator />
-
-      <div class="row q-pt-sm" style="justify-content: center">
-        <q-card v-if="currentStage[1]" class="col-2 q-ma-sm q-px-md">
-          <div class="self-center full-width no-outline" tabindex="0">
-            <div class="row justify-center">
-              <p>{{ currentStage[1].login }}</p>
-            </div>
-
-            <div>
-              <q-btn
-                label="Подробнее"
-                icon="info"
-                size="sm"
-                color="primary"
-                flat
-                @click="showUserDetail(currentStage[1])"
-              />
-            </div>
+      <div class="row justify-center">
+        <div>
+          <div class="row">
+            <q-input
+              label="Поиск партнера"
+              label-color="white"
+              value=""
+              dense
+              outline
+              class="q-pr-sm"
+              style="width: 140px"
+            />
+            <q-btn
+              label="Найти"
+              no-caps
+              color="yellow"
+              dense
+              text-color="black"
+              style="height: 30px"
+              class="q-mt-sm q-px-sm"
+            />
           </div>
-        </q-card>
 
-        <q-card v-if="currentStage[2]" class="col-2 q-ma-sm q-px-md">
-          <div class="self-center full-width no-outline" tabindex="0">
-            <div class="row justify-center">
-              <p>{{ currentStage[2].login }}</p>
-            </div>
-
-            <div>
-              <q-btn
-                label="Подробнее"
-                icon="info"
-                size="sm"
-                color="primary"
-                flat
-                @click="showUserDetail(currentStage[2])"
-              />
-            </div>
+          <div class="row justify-center">
+            <q-badge class="q-mt-md q-mb-sm" color="positive"> Этап {{ stageNumber }} </q-badge>
           </div>
-        </q-card>
+        </div>
       </div>
 
-      <q-separator />
-
-      <div class="row q-pt-sm" style="justify-content: center">
-        <q-card v-if="currentStage[3]" class="col-2 q-ma-sm q-px-md">
-          <div class="self-center full-width no-outline" tabindex="0">
-            <div class="row justify-center">
-              <p>{{ currentStage[3].login }}</p>
-            </div>
-
+      <div v-if="currentStage && currentStage.length">
+        <div class="row justify-center">
+          <q-card v-if="currentStage[0]" class="col-2 q-ma-sm q-px-md bg-green-5">
             <div>
-              <q-btn
-                label="Подробнее"
-                icon="info"
-                size="sm"
-                color="primary"
-                flat
-                @click="showUserDetail(currentStage[3])"
-              />
-            </div>
-          </div>
-        </q-card>
+              <div class="row justify-center">
+                <p>{{ currentStage[0].login }}</p>
+              </div>
 
-        <q-card v-if="currentStage[4]" class="col-2 q-ma-sm q-px-md">
-          <div class="self-center full-width no-outline" tabindex="0">
-            <div class="row justify-center">
-              <p>{{ currentStage[4].login }}</p>
+              <div>
+                <q-btn
+                  label="Подробнее"
+                  icon="info"
+                  size="sm"
+                  color="primary"
+                  no-caps
+                  flat
+                  @click="showUserDetail(currentStage[0])"
+                />
+              </div>
             </div>
+          </q-card>
+        </div>
 
-            <div>
-              <q-btn
-                label="Подробнее"
-                icon="info"
-                size="sm"
-                color="primary"
-                flat
-                @click="showUserDetail(currentStage[4])"
-              />
-            </div>
-          </div>
-        </q-card>
+        <q-separator />
 
-        <q-card v-if="currentStage[5]" class="col-2 q-ma-sm q-px-md">
-          <div class="self-center full-width no-outline" tabindex="0">
-            <div class="row justify-center">
-              <p>{{ currentStage[5].login }}</p>
-            </div>
+        <div class="row q-pt-sm" style="justify-content: center">
+          <q-card v-if="currentStage[1]" class="col-2 q-ma-sm q-px-md bg-green-5">
+            <div class="self-center full-width no-outline" tabindex="0">
+              <div class="row justify-center">
+                <p>{{ currentStage[1].login }}</p>
+              </div>
 
-            <div>
-              <q-btn
-                label="Подробнее"
-                icon="info"
-                size="sm"
-                color="primary"
-                flat
-                @click="showUserDetail(currentStage[5])"
-              />
+              <div>
+                <q-btn
+                  label="Подробнее"
+                  icon="info"
+                  size="sm"
+                  color="primary"
+                  flat
+                  no-caps
+                  @click="showUserDetail(currentStage[1])"
+                />
+              </div>
             </div>
-          </div>
-        </q-card>
+          </q-card>
 
-        <q-card v-if="currentStage[6]" class="col-2 q-ma-sm q-px-md">
-          <div class="self-center full-width no-outline" tabindex="0">
-            <div class="row justify-center">
-              <p>{{ currentStage[6].login }}</p>
-            </div>
+          <q-card v-if="currentStage[2]" class="col-2 q-ma-sm q-px-md bg-green-5">
+            <div class="self-center full-width no-outline" tabindex="0">
+              <div class="row justify-center">
+                <p>{{ currentStage[2].login }}</p>
+              </div>
 
-            <div>
-              <q-btn
-                label="Подробнее"
-                icon="info"
-                size="sm"
-                color="primary"
-                flat
-                @click="showUserDetail(currentStage[6])"
-              />
+              <div>
+                <q-btn
+                  label="Подробнее"
+                  icon="info"
+                  size="sm"
+                  color="primary"
+                  flat
+                  no-caps
+                  @click="showUserDetail(currentStage[2])"
+                />
+              </div>
             </div>
-          </div>
-        </q-card>
+          </q-card>
+        </div>
+
+        <q-separator />
+
+        <div class="row q-pt-sm" style="justify-content: center">
+          <q-card v-if="currentStage[3]" class="col-2 q-ma-sm q-px-md bg-green-5">
+            <div class="self-center full-width no-outline" tabindex="0">
+              <div class="row justify-center">
+                <p>{{ currentStage[3].login }}</p>
+              </div>
+
+              <div>
+                <q-btn
+                  label="Подробнее"
+                  icon="info"
+                  size="sm"
+                  color="primary"
+                  flat
+                  no-caps
+                  @click="showUserDetail(currentStage[3])"
+                />
+              </div>
+            </div>
+          </q-card>
+
+          <q-card v-if="currentStage[4]" class="col-2 q-ma-sm q-px-md bg-green-5">
+            <div class="self-center full-width no-outline" tabindex="0">
+              <div class="row justify-center">
+                <p>{{ currentStage[4].login }}</p>
+              </div>
+
+              <div>
+                <q-btn
+                  label="Подробнее"
+                  icon="info"
+                  size="sm"
+                  color="primary"
+                  flat
+                  no-caps
+                  @click="showUserDetail(currentStage[4])"
+                />
+              </div>
+            </div>
+          </q-card>
+
+          <q-card v-if="currentStage[5]" class="col-2 q-ma-sm q-px-md bg-green-5">
+            <div class="self-center full-width no-outline" tabindex="0">
+              <div class="row justify-center">
+                <p>{{ currentStage[5].login }}</p>
+              </div>
+
+              <div>
+                <q-btn
+                  label="Подробнее"
+                  icon="info"
+                  size="sm"
+                  color="primary"
+                  flat
+                  no-caps
+                  @click="showUserDetail(currentStage[5])"
+                />
+              </div>
+            </div>
+          </q-card>
+
+          <q-card v-if="currentStage[6]" class="col-2 q-ma-sm q-px-md bg-green-5">
+            <div class="self-center full-width no-outline" tabindex="0">
+              <div class="row justify-center">
+                <p>{{ currentStage[6].login }}</p>
+              </div>
+
+              <div>
+                <q-btn
+                  label="Подробнее"
+                  icon="info"
+                  size="sm"
+                  color="primary"
+                  flat
+                  no-caps
+                  @click="showUserDetail(currentStage[6])"
+                />
+              </div>
+            </div>
+          </q-card>
+        </div>
       </div>
     </div>
-
-    <q-toolbar-title v-else class="text-negative">Вы не достигли этапа {{ stageNumber }}</q-toolbar-title>
 
     <q-dialog v-if="selectedUser" v-model="showDetail">
       <q-card class="q-pa-lg">

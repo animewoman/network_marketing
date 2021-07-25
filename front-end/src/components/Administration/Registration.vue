@@ -116,6 +116,10 @@ export default class Registration extends Vue {
   }
 
   validateMail(mail: string): string | boolean {
+    if (!mail) {
+      return true;
+    }
+
     return !!mail.match(/\S+?@\S+?\.\S+$/) || 'Неверный формат электронной почты';
   }
 

@@ -16,7 +16,14 @@
       <q-footer class="row bg-grey-10" style="position: fixed">
         <q-toolbar>
           <template v-for="(item, index) in menuList">
+            <q-item v-if="item.routeName === 'partners'" class="q-pa-none" :active="item.isActive" :key="index">
+              <q-expansion-item v-model="showMobileExpansion" class="q-ma-none" expand-separator :icon="item.icon">
+                <PartnerStages @stage-selected="showMobileExpansion = false" />
+              </q-expansion-item>
+            </q-item>
+
             <q-item
+              v-else
               class="mobile-menu-items"
               clickable
               v-ripple
@@ -130,6 +137,8 @@ import UserEdit from '@/components/User/UserEdit.vue';
 export default class Navigation extends Vue {
   drawer = true;
   showEditUser = false;
+
+  showMobileExpansion = false;
 
   user: User | null = null;
 

@@ -27,6 +27,7 @@ export default class PartnerStages extends Vue {
   changeRoute(stageNum: number) {
     const stage = String(stageNum);
     this.$router.push({ name: 'partners', query: { stage } });
+    this.$emit('stage-selected');
   }
 }
 </script>

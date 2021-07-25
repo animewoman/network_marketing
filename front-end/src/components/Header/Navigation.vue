@@ -37,15 +37,6 @@
       <q-header class="bg-grey-10">
         <q-toolbar class="row">
           <q-btn v-if="!showMobileVersion" flat @click="drawer = !drawer" round dense icon="menu" />
-          <q-btn
-            label="Brilliant Life"
-            icon="trending_up"
-            :color="titleColor"
-            flat
-            no-caps
-            @click="changeRoute('showcase')"
-          />
-          <q-space />
         </q-toolbar>
       </q-header>
 

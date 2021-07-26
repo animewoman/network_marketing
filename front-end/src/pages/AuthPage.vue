@@ -1,18 +1,22 @@
 <template>
   <div class="background">
-    <q-card
-      class="m-auto q-pa-lg"
-      style="max-width: 500px; margin-top: 100px; background-color: rgba(238, 238, 238, 0.68)"
-    >
-      <q-form @reset="clearFields" @submit="authorize">
-        <q-toolbar-title class="q-py-md"> Авторизация</q-toolbar-title>
+    <div class="col justify-center q-pt-xl">
+      <div class="row justify-center">
+        <img :src="require('@/assets/logo.png')" style="width: 100px" alt="Brilliant Life" />
+      </div>
 
-        <q-input label="Логин" v-model="user.login" />
-        <q-input label="Пароль" v-model="user.password" type="password" />
+      <q-card class="m-auto q-pa-lg bg-white" style="max-width: 500px">
+        <q-form @reset="clearFields" @submit="authorize">
+          <q-toolbar-title class="text-grey">ЛОГИН</q-toolbar-title>
+          <q-input label="Логин" v-model="user.login" />
 
-        <q-btn label="Войти" class="q-my-md" color="primary" type="submit" />
-      </q-form>
-    </q-card>
+          <q-toolbar-title class="text-grey q-px-none q-pt-lg">ПАРОЛЬ</q-toolbar-title>
+          <q-input label="Пароль" v-model="user.password" type="password" />
+
+          <q-btn label="Войти" class="q-my-md" color="negative" type="submit" style="width: 100%" />
+        </q-form>
+      </q-card>
+    </div>
   </div>
 </template>
 

@@ -288,6 +288,6 @@ export default class Navigation extends Vue {
 }
 
 .auth-background {
-  background-image: url('https://images.pexels.com/photos/2559941/pexels-photo-2559941.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940');
+  background-color: #000;
 }
 </style>

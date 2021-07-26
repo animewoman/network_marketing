@@ -37,52 +37,31 @@
     <q-toolbar-title class="text-center text-bold q-mt-xl">Хиты продаж</q-toolbar-title>
 
     <q-list class="row" style="justify-content: center">
-      <q-card class="q-mx-xs" style="max-width: 200px; min-height: 380px">
-        <img :src="require('@/assets/product1.png')" />
-        <p class="text-bold q-pt-md" style="text-align: center">Мазь BL</p>
-        <p class="text-bold" style="color: #c10015; text-align: center">17$</p>
-        <q-btn color="grey" class="q-mx-md" label="В Корзину" />
-      </q-card>
-
-      <q-card class="q-mx-xs" style="max-width: 200px; min-height: 380px">
-        <img :src="require('@/assets/product2.png')" />
-        <p class="text-bold q-pt-md" style="text-align: center">Топинамбур</p>
-        <p class="text-bold" style="color: #c10015; text-align: center">11$</p>
-        <q-btn color="grey" class="q-mx-md" label="В Корзину" />
-      </q-card>
-
-      <q-card class="q-mx-xs" style="max-width: 200px; min-height: 380px">
+      <q-card class="q-mx-md" style="max-width: 200px; min-height: 380px">
         <img :src="require('@/assets/product3.png')" />
         <p class="text-bold q-pt-md" style="text-align: center">Глазные капли</p>
-        <p class="text-bold" style="color: #c10015; text-align: center">11$</p>
+        <p class="text-bold" style="color: #c10015; text-align: center">54$</p>
         <q-btn color="grey" class="q-mx-md" label="В Корзину" />
       </q-card>
 
-      <q-card class="q-mx-xs" style="max-width: 200px; min-height: 380px">
+      <q-card class="q-mx-md" style="max-width: 200px; min-height: 380px">
         <img :src="require('@/assets/product4.png')" />
         <p class="text-bold q-pt-md" style="text-align: center">Effect со вкусом лайма и лимона</p>
-        <p class="text-bold" style="color: #c10015; text-align: center">11$</p>
+        <p class="text-bold" style="color: #c10015; text-align: center">18$</p>
         <q-btn color="grey" class="q-mx-md" label="В Корзину" />
       </q-card>
 
-      <q-card class="q-mx-xs" style="max-width: 200px; min-height: 380px">
+      <q-card class="q-mx-md" style="max-width: 200px; min-height: 380px">
         <img :src="require('@/assets/product5.png')" />
         <p class="text-bold q-pt-md" style="text-align: center">Immuno со вкусом клубники</p>
-        <p class="text-bold" style="color: #c10015; text-align: center">11$</p>
+        <p class="text-bold" style="color: #c10015; text-align: center">18$</p>
         <q-btn color="grey" class="q-mx-md" label="В Корзину" />
       </q-card>
 
-      <q-card class="q-mx-xs" style="max-width: 200px; min-height: 380px">
+      <q-card class="q-mx-md" style="max-width: 200px; min-height: 380px">
         <img :src="require('@/assets/product6.png')" />
         <p class="text-bold q-pt-md" style="text-align: center">Vita Life со вкусом Граната</p>
-        <p class="text-bold" style="color: #c10015; text-align: center">11$</p>
-        <q-btn color="grey" class="q-mx-md" label="В Корзину" />
-      </q-card>
-
-      <q-card class="q-mx-xs" style="max-width: 200px; min-height: 380px">
-        <img :src="require('@/assets/product7.png')" />
-        <p class="text-bold q-pt-md" style="text-align: center">Блокнот твоего успеха</p>
-        <p class="text-bold" style="color: #c10015; text-align: center">11$</p>
+        <p class="text-bold" style="color: #c10015; text-align: center">18$</p>
         <q-btn color="grey" class="q-mx-md" label="В Корзину" />
       </q-card>
     </q-list>

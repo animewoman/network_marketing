@@ -3,7 +3,7 @@
     <q-toolbar-title class="q-pb-lg q-pa-none">Структура</q-toolbar-title>
     <div class="col bg-red justify-center">
       <div v-if="stageNumber < 5" class="row justify-center q-mb-sm">
-        <q-btn v-if="currentStage" label="Вы купили эликсир" color="green-7" text-color="black" no-caps />
+        <q-btn v-if="currentStage" label="Вы купили эликсир" color="green-5" text-color="black" no-caps />
 
         <q-btn v-else label="Купить эликсир" color="yellow" text-color="black" no-caps />
       </div>

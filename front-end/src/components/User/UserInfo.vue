@@ -1,6 +1,6 @@
 <template>
-  <div v-if="user" class="row">
-    <div class="col-8">
+  <div v-if="user" class="row justify-between">
+    <div class="col-8" style="max-width: 500px">
       <q-card class="card-title">
         <div class="row bg-green-5 q-px-lg q-pb-sm">
           <p class="subtitle q-mt-xs">

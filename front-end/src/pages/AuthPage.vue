@@ -13,6 +13,7 @@
         <q-input label="Пароль" v-model="user.password" type="password" />
 
         <q-btn label="Войти" class="q-my-md" color="negative" type="submit" style="width: 100%" />
+
         <p class="text-grey text-center">
           Нет аккаунта?
           <span>
@@ -21,6 +22,12 @@
             </router-link>
           </span>
         </p>
+
+        <div class="row justify-center">
+          <q-item clickable>
+            <img :src="require('@/assets/instagram-icon.png')" alt="Instagram аккаунт" />
+          </q-item>
+        </div>
       </q-form>
     </q-card>
   </div>

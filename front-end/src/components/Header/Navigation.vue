@@ -180,7 +180,8 @@ export default class Navigation extends Vue {
       this.routeName !== RouteNames.USER_CONTROL &&
       this.routeName !== RouteNames.ADMIN &&
       this.routeName !== RouteNames.AUTH &&
-      this.routeName !== RouteNames.SHOWCASE
+      this.routeName !== RouteNames.SHOWCASE &&
+      this.routeName !== RouteNames.REGISTRATION
     );
   }
 
@@ -205,7 +206,10 @@ export default class Navigation extends Vue {
   }
 
   get backgroundAuthImage() {
-    return this.routeName === RouteNames.AUTH ? 'auth-background' : '';
+    if (this.routeName === RouteNames.AUTH || this.routeName === RouteNames.REGISTRATION) {
+      return 'auth-background';
+    }
+    return '';
   }
 
   @Watch('$route.name', { immediate: true })
@@ -234,11 +238,7 @@ export default class Navigation extends Vue {
   }
 
   setActiveRoute() {
-    if (
-      this.routeName === RouteNames.AUTH ||
-      this.routeName === RouteNames.SHOWCASE ||
-      this.routeName === RouteNames.PARTNERS
-    ) {
+    if (!this.showNavigation || this.routeName === RouteNames.PARTNERS) {
       return;
     }
 

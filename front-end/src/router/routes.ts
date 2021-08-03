@@ -7,6 +7,8 @@ import UserInfo from '@/components/User/UserInfo.vue';
 import Reports from '@/components/User/Reports.vue';
 import Showcase from '@/pages/ShowcasePage.vue';
 import Partners from '@/components/User/Partners.vue';
+import Registration from '@/pages/RegistrationPage.vue';
+
 export enum RouteNames {
   AUTH = 'auth',
   ADMIN = 'admin',
@@ -16,6 +18,7 @@ export enum RouteNames {
   PARTNERS = 'partners',
   REPORTS = 'reports',
   SHOWCASE = 'showcase',
+  REGISTRATION = 'registration',
 }
 
 const routes: RouteConfig[] = [
@@ -33,6 +36,11 @@ const routes: RouteConfig[] = [
     path: '/auth',
     name: 'auth',
     component: AuthPage,
+  },
+  {
+    path: '/registration',
+    name: 'registration',
+    component: Registration,
   },
   {
     path: '/user',

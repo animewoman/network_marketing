@@ -3,7 +3,8 @@
     <div class="col-8" style="max-width: 500px">
       <q-card class="card-title">
         <div class="row bg-green-5 q-px-lg q-pb-sm">
-          <p class="subtitle q-mt-xs">
+          <img :src="require('@/assets/user_avatar.png')" style="width: 100px; height: 100px" />
+          <p class="subtitle q-mt-xs q-ml-sm">
             Добро пожаловать!
             <q-toolbar-title style="padding: 0; color: #000">{{ user.fullName }}</q-toolbar-title>
           </p>

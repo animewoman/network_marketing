@@ -11,6 +11,6 @@ export function formatUser(user: User): User {
 
 export function formatUserList(users: User[]): User[] {
   return users.map((user) => {
-    return { ...user, parent: user.parent ?? '-' };
+    return { ...user, parent: user.parent ? user.parent : '-' };
   });
 }

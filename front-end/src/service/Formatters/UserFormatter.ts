@@ -6,7 +6,7 @@ export function formatUser(user: User): User {
   const date = moment(user.date).format('DD.MM.YYYY');
 
   if (!parent) {
-    return { ...user, parent: '-' };
+    return { ...user, date, parent: '-' };
   }
 
   return { ...user, date };

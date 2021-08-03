@@ -1,12 +1,15 @@
 import { User } from '@/types/user';
+import moment from 'moment';
 
 export function formatUser(user: User): User {
   const parent = user.parent;
+  const date = moment(user.date).format('DD.MM.YYYY');
+
   if (!parent) {
     return { ...user, parent: '-' };
   }
 
-  return user;
+  return { ...user, date };
 }
 
 export function formatUserList(users: User[]): User[] {

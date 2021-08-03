@@ -9,6 +9,7 @@ export interface User {
   score?: number;
   region?: string;
   status?: string;
+  date: string;
 }
 
 export interface AuthUser {

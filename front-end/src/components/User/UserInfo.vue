@@ -10,10 +10,16 @@
         </div>
         <q-space />
 
-        <div class="q-px-lg bg-red-5">
+        <div class="q-px-lg bg-red-7">
           <q-input label="Ваш Логин" :value="user.login" readonly>
             <template #prepend>
               <q-icon name="person" />
+            </template>
+          </q-input>
+
+          <q-input label="Дата регистрации" :value="user.date" readonly borderless>
+            <template #prepend>
+              <q-icon name="done" />
             </template>
           </q-input>
 

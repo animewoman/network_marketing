@@ -55,8 +55,9 @@
           <q-toolbar-title>Вы уверены что хотите удалить пользователя?</q-toolbar-title>
         </q-card-section>
 
-        <q-card-action class="row">
-          <q-space />
+        <q-card-action class="row justify-between">
+          <q-btn class="q-pa-sm" dense flat label="Отмена" color="grey" v-close-popup />
+
           <q-btn class="q-pa-sm" dense flat label="Удалить" color="negative" v-close-popup @click="deleteUser" />
         </q-card-action>
       </q-card>
@@ -129,7 +130,7 @@ export default class UserControl extends Vue {
 
   async toParent() {
     if (this.user.parent) {
-      this.$router.replace({ name: 'user-control', query: { parent: this.user.parent } });
+      await this.$router.replace({ name: 'user-control', query: { parent: this.user.parent } });
       this.user = await getUser(this.user.parent);
     }
   }

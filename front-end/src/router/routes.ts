@@ -5,9 +5,8 @@ import UserControl from '@/components/Administration/UserControl.vue';
 import Transfer from '@/components/User/Transfer.vue';
 import UserInfo from '@/components/User/UserInfo.vue';
 import Reports from '@/components/User/Reports.vue';
+import Showcase from '@/pages/ShowcasePage.vue';
 import Partners from '@/components/User/Partners.vue';
-import Showcase from '@/components/Showcase.vue';
-
 export enum RouteNames {
   AUTH = 'auth',
   ADMIN = 'admin',

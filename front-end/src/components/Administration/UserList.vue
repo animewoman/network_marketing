@@ -78,6 +78,11 @@ export default class UserList extends Vue {
       field: 'phone',
       sortable: true,
     },
+    {
+      name: 'password',
+      label: 'Пароль',
+      field: 'password',
+    },
   ];
 
   pagination = {

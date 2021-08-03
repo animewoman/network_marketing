@@ -76,6 +76,9 @@ export default class Registration extends Vue {
     phone: '',
     email: '',
     region: '',
+    _id: '',
+    score: 0,
+    status: '',
   };
 
   $refs!: {

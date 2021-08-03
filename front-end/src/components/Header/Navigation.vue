@@ -234,7 +234,11 @@ export default class Navigation extends Vue {
   }
 
   setActiveRoute() {
-    if (this.routeName === RouteNames.AUTH || this.routeName === RouteNames.SHOWCASE) {
+    if (
+      this.routeName === RouteNames.AUTH ||
+      this.routeName === RouteNames.SHOWCASE ||
+      this.routeName === RouteNames.PARTNERS
+    ) {
       return;
     }
 

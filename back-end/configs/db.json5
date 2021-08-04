@@ -1,5 +1,10 @@
 {
-    uri: "mongodb://127.0.0.1:27017",
+    uri: "mongodb://animewoman:womananime2344@194.67.105.44:27017",
     dbName: "net_market",
-    collection: "network_marketing"
+    collections: [
+        "users",
+        "tokens",
+        "transfers",
+        "stages"
+    ]
 }

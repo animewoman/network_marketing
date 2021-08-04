@@ -23,6 +23,7 @@ exports.getUserId = async function (req, res) {
 }
 
 exports.deleteUser = async function (req, res) {
+    console.log('detelte user', req.body);
     try {
         await users.deleteOne({ _id: ObjectID(req.body._id) });
     } catch (err) {
@@ -61,6 +62,7 @@ exports.createUser = async function (req, res) {
         user = await users.insertOne(newUser);
         user = user.ops[0];
 
+
         if (temp) {
             temp.left ? temp.right = user._id : temp.left = user._id;
 
@@ -69,15 +71,14 @@ exports.createUser = async function (req, res) {
             }, {
                 $set: temp
             });
-            await incStage(temp.userId, temp.stage);
+            await incStage(temp.userId, temp.stage, user.login);
 
             if (temp.parent) {
-                await incStage(temp.parent, temp.stage);
+                await incStage(temp.parent, temp.stage, temp.login);
                 await actualizeCounter(temp.parent, temp.stage);
             }
         }
 
-        console.log(user, temp);
         if (newUser.parent) await createStageWithParent(user._id, 1, temp);
         else await createStageWithoutParent(user._id, 1);
 
@@ -94,13 +95,11 @@ async function findNewParent(stage) {
         let arr = [stage];
         let size = arr.length;
         for (let i = 0; i < size; i++) {
-            console.log(arr[i]);
             for (let j = 1; j < 3; j++) {
                 const check = await stages.findOne({
                     order: parseInt(arr[i].order) * 2 + j,
                     stage: arr[i].stage
                 });
-                console.log(check);
                 if (isNull(check)) return arr[i];
 
                 arr.push(check);
@@ -162,7 +161,8 @@ async function createStageWithParent(userId, stage, parent) {
 }
 
 
-async function incStage(id, stage) {
+async function incStage(id, stage, from) {
+
     try {
         await stages.updateOne({
             userId: ObjectID(id),
@@ -172,7 +172,6 @@ async function incStage(id, stage) {
                 counter: 1
             }
         });
-
         await users.updateOne({
             _id: ObjectID(id)
         }, {
@@ -181,6 +180,14 @@ async function incStage(id, stage) {
             }
         });
 
+        await transfers.insertOne({
+            type: 'bonus',
+            quantity: gameInfo.statuses[stage - 1].price,
+            from,
+            to,
+            stage: stage,
+            date: new Date()
+        });
     } catch (err) {
         throw new Error(err);
     }
@@ -193,12 +200,16 @@ async function actualizeCounter(parentId, stage) {
             userId: ObjectID(parentId),
             stage: stage
         });
+
         if (updateParent.counter == gameInfo.statuses[updateParent.stage - 1].goal) {
             await users.updateOne({
                 _id: ObjectID(parentId)
             }, {
                 $set: {
                     status: gameInfo.statuses[updateParent.stage].name
+                },
+                $inc: {
+                    activeStage: 1
                 }
             });
             await levelUp(updateParent);
@@ -210,32 +221,41 @@ async function actualizeCounter(parentId, stage) {
 
 async function levelUp(me) {
     try {
-        let newFather = await stages.find({
-            counter: {
-                $lt: 2
-            },
+        const stagesQty = await stages.find({
             stage: me.stage + 1
-        }).sort({ order: 1 }).limit(1).toArray();
+        }).count();
 
-        if (!newFather.length) {
+        if (!stagesQty) {
             return await createStageWithoutParent(me.userId, me.stage + 1);
         }
-        newFather = newFather[0];
 
-        if (newFather.left) {
-            newFather.right = me._id
-        } else {
-            newFather.left = me._id;
+        let newFather = await findStagePar(me);
+        if (isNull(newFather)) {
+            newFather = await stages.find({
+                counter: {
+                    $lt: 2
+                },
+                stage: me.stage + 1
+            }).sort({ order: 1 }).limit(1).toArray();
+
+            newFather = newFather[0];
         }
 
-        await incStage(newFather.userId, newFather.stage);
+
+        if (newFather.left) {
+            newFather.right = me.userId;
+        } else {
+            newFather.left = me.userId;
+        }
         await stages.updateOne({
             _id: ObjectID(newFather._id)
         }, {
             $set: newFather
         });
+
+        await incStage(newFather.userId, newFather.stage, me.login);
         if (newFather.parent) {
-            await incStage(newFather.parent, newFather.stage);
+            await incStage(newFather.parent, newFather.stage, newFather.login);
             await actualizeCounter(newFather.parent, newFather.stage);
         }
         await createStageWithParent(me.userId, me.stage + 1, newFather);
@@ -243,7 +263,26 @@ async function levelUp(me) {
     } catch (err) {
         throw new Error(err);
     }
+
+    async function findStagePar(stage) {
+        try {
+            const meAsUser = await users.findOne({
+                _id: ObjectID(stage.userId)
+            });
+
+            const dad = await stages.findOne({
+                stage: stage.stage + 1,
+                login: meAsUser.parent
+            });
+
+            if (isNull(dad) || (dad.right && dad.left)) return null;
+            return dad;
+        } catch (err) {
+            throw new Error(err);
+        }
+    }
 }
+
 exports.login = async function (req, res) {
     req.body.login = req.body.login.toLowerCase();
     try {
@@ -336,6 +375,14 @@ exports.updateUser = async function (req, res) {
     data.score ? data.score = parseInt(data.score) : null;
     delete data._id;
     try {
+        if (data.parent) {
+            const parExists = await users.findOne({
+                login: data.parent
+            });
+
+            if (isNull(parExists)) return res.status(400).send({ message: "Спонсор не найден" });
+        }
+
         users.updateOne({ _id: ObjectID(req.body._id) }, {
             $set: data
         }).then((obj) => {
@@ -351,7 +398,7 @@ exports.updateUser = async function (req, res) {
 
 exports.sendMoney = async function (req, res) {
     if (req.body.login === req.user.login) return res.status(400).send({ message: "Сам себе отправляешь деньги" });
-    req.body.score = parseInt(req.body.score);
+    req.body.score = parseFloat(req.body.score);
 
     try {
         let resp = await users.updateOne({
@@ -380,8 +427,9 @@ exports.sendMoney = async function (req, res) {
         });
 
         await transfers.insertOne({
+            type: "sent",
             from: req.user.login,
-            price: req.body.score,
+            quantity: req.body.score,
             to: req.body.login,
             date: new Date()
         });
@@ -394,6 +442,7 @@ exports.sendMoney = async function (req, res) {
 
 exports.getTransfers = async function (req, res) {
     try {
+        const bonus = await transfers.find({ type: 'bonus', })
         const from = await transfers.find({ from: req.body.login }).toArray();
         const to = await transfers.find({ to: req.body.login }).toArray();
         let resp = [];
@@ -488,7 +537,6 @@ const createTokens = (login, isAdmin = false) => {
 const excludeUnnessary = () => {
     return {
         // _id: 0,
-        password: 0,
         isAdmin: 0,
 
     }
